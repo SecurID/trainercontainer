@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Player;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PlayerController extends Controller
 {
@@ -15,7 +16,8 @@ class PlayerController extends Controller
      */
     public function index()
     {
-        $players = Player::all()->sortBy('name');
+        $user = Auth::user();
+        $players = $user->players()->orderBy('players.name')->get();
 
         return response()->view('players/players', ['players' => $players]);
     }
@@ -41,6 +43,7 @@ class PlayerController extends Controller
         $player = new Player();
         $player->name = $request->name;
         $player->prename = $request->prename;
+        $player->user_id = Auth::id();
         $player->save();
 
         return redirect()->route('players.index');

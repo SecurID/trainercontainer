@@ -30,29 +30,25 @@
                             {{ $player->prename }} {{$player->name}}
                         </div>
                         <div class="col">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="rating{{$player->id}}" id="inlineRadio1" value="1">
-                                <label class="form-check-label" for="inlineRadio1">--</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="rating{{$player->id}}" id="inlineRadio2" value="2">
-                                <label class="form-check-label" for="inlineRadio2">-</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="rating{{$player->id}}" id="inlineRadio3" value="3" checked="checked">
-                                <label class="form-check-label" for="inlineRadio3">o</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="rating{{$player->id}}" id="inlineRadio4" value="4">
-                                <label class="form-check-label" for="inlineRadio4">+</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="rating{{$player->id}}" id="inlineRadio5" value="5">
-                                <label class="form-check-label" for="inlineRadio5">++</label>
-                            </div>
-                            <div class="form-check form-check-inline ml-3 bg-warning">
-                                <input class="form-check-input" type="radio" name="rating{{$player->id}}" id="inlineRadio5" value="99">
-                                <label class="form-check-label" for="inlineRadio5">n.a.</label>
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-danger">
+                                    <input type="radio" name="rating{{$player->id}}" id="option1" autocomplete="off" value="1"> --
+                                </label>
+                                <label class="btn btn-danger">
+                                    <input type="radio" name="rating{{$player->id}}" id="option2" autocomplete="off" value="2"> -
+                                </label>
+                                <label class="btn btn-warning active">
+                                    <input type="radio" name="rating{{$player->id}}" id="option3" autocomplete="off" value="3" checked> o
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="radio" name="rating{{$player->id}}" id="option4" autocomplete="off" value="4"> +
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="radio" name="rating{{$player->id}}" id="option5" autocomplete="off" value="5"> ++
+                                </label>
+                                <label class="btn btn-secondary">
+                                    <input type="radio" name="rating{{$player->id}}" id="option6" autocomplete="off" value="0"> NA
+                                </label>
                             </div>
                         </div>
                     </div>

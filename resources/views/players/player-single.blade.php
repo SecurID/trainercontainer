@@ -73,10 +73,12 @@
                         yAxes: [{
                             ticks: {
                                 stepSize: 1,
-                                min: 1,
+                                min: 0,
                                 max: 5,
                                 callback: function(label, index, labels) {
                                     switch (label) {
+                                        case 0:
+                                            return 'NA';
                                         case 1:
                                             return 'very bad (--)';
                                         case 2:

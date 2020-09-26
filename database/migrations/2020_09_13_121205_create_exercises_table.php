@@ -23,6 +23,7 @@ class CreateExercisesTable extends Migration
             $table->float('duration')->nullable($value = true);
             $table->integer('intensity')->nullable($value = true);
             $table->text('image')->nullable($value = true);
+            $table->foreignId('user_id');
             $table->timestamps();
         });
     }

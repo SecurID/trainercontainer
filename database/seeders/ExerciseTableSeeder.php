@@ -24,6 +24,7 @@ class ExerciseTableSeeder extends Seeder
             $exercise->duration = 10;
             $exercise->intensity = 40;
             $exercise->image = "https://i2.wp.com/thefalsefullback.de/wp-content/uploads/2019/02/trainingsform-1.png?ssl=1";
+            $exercise->user_id = 1;
             $exercise->save();
         }
     }

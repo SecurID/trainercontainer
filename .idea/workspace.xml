@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="43e1f80c-645d-4741-8e67-a2e14c759087" name="Default Changelist" comment="" />
+    <list default="true" id="43e1f80c-645d-4741-8e67-a2e14c759087" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PlayerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PlayerController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_13_121205_create_exercises_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_09_13_121205_create_exercises_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_13_122714_create_practices_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_09_13_122714_create_practices_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_17_222309_create_players_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_09_17_222309_create_players_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/ExerciseTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/ExerciseTableSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/PlayerTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/PlayerTableSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeders/PracticeTableSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeders/PracticeTableSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/players/player-single.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/players/player-single.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/ratings/create-ratings.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/ratings/create-ratings.blade.php" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -71,6 +83,9 @@
         <option value="CSS File" />
       </list>
     </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="JsFlowSettings">
     <service-enabled>true</service-enabled>
@@ -214,6 +229,7 @@
     </include_path>
   </component>
   <component name="ProjectId" id="1hSADZIv1o49IIHnzLaQw5chfrS" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -281,6 +297,8 @@
       <workItem from="1600450760014" duration="16000" />
       <workItem from="1600804367819" duration="11050000" />
       <workItem from="1600852852756" duration="2466000" />
+      <workItem from="1601079921733" duration="882000" />
+      <workItem from="1601108697440" duration="1328000" />
     </task>
     <servers />
   </component>
@@ -419,10 +437,11 @@
     </state>
     <state x="-1622" y="10" width="683" height="729" key="find.popup/-2560.-334.2560.1417/-5120.-289.2560.1417/0.23.1680.969@-2560.-334.2560.1417" timestamp="1600209677814" />
     <state x="-1193" y="348" width="683" height="729" key="find.popup/-2560.23.2560.1417/2560.413.1680.1027/0.23.2560.1359@-2560.23.2560.1417" timestamp="1600297113073" />
-    <state x="-2255" y="348" width="670" height="676" key="search.everywhere.popup" timestamp="1600296399638">
-      <screen x="-2560" y="23" width="2560" height="1417" />
+    <state x="305" y="335" width="670" height="649" key="search.everywhere.popup" timestamp="1601108944696">
+      <screen x="0" y="23" width="2560" height="1360" />
     </state>
     <state x="-2255" y="-42" width="670" height="676" key="search.everywhere.popup/-2560.-367.2560.1417/0.23.1680.969@-2560.-367.2560.1417" timestamp="1600022451903" />
+    <state x="305" y="335" width="670" height="649" key="search.everywhere.popup/-2560.23.2560.1417/0.23.2560.1360/2560.413.1680.1027@0.23.2560.1360" timestamp="1601108944696" />
     <state x="-2255" y="348" width="670" height="676" key="search.everywhere.popup/-2560.23.2560.1417/2560.413.1680.1027/0.23.2560.1359@-2560.23.2560.1417" timestamp="1600296399638" />
   </component>
   <component name="XDebuggerManager">

@@ -1,0 +1,13 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+.row {
+    margin-right: 0px;
+    margin-left: 0px;
+    padding: 15px;
+}
+
+.pt-3-half {
+    padding-top: 1.4rem;
+}

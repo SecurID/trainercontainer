@@ -1,27 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="dataSourceStorageLocal">
-    <data-source name="MySQL - homestead@127.0.0.1" uuid="e68ff71a-3a77-4d6c-b269-783fabd6db25">
-      <database-info product="MySQL" version="5.7.29-0ubuntu0.18.04.1" jdbc-version="4.2" driver-name="MySQL Connector/J" driver-version="mysql-connector-java-8.0.21 (Revision: 33f65445a1bcc544eb0120491926484da168f199)" dbms="MYSQL" exact-version="5.7.29" exact-driver-version="8.0">
+  <component name="dataSourceStorageLocal" created-in="PS-231.9011.38">
+    <data-source name="@localhost" uuid="113665ce-9aad-45bb-a028-bf53f50fb8b6">
+      <database-info product="MySQL" version="8.0.33" jdbc-version="4.2" driver-name="MySQL Connector/J" driver-version="mysql-connector-java-8.0.25 (Revision: 08be9e9b4cba6aa115f9b27b215887af40b159e0)" dbms="MYSQL" exact-version="8.0.33" exact-driver-version="8.0">
         <extra-name-characters>#@</extra-name-characters>
         <identifier-quote-string>`</identifier-quote-string>
       </database-info>
-      <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
+      <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed" />
       <secret-storage>master_key</secret-storage>
-      <user-name>homestead</user-name>
+      <user-name>root</user-name>
       <schema-mapping>
         <introspection-scope>
-          <node kind="schema" qname="@" />
+          <node kind="schema">
+            <name qname="trainercontainer" />
+            <name qname="@" />
+          </node>
         </introspection-scope>
       </schema-mapping>
-      <ssh-properties>
-        <enabled>false</enabled>
-        <proxy-host>192.168.10.10</proxy-host>
-        <user>vagrant</user>
-        <use-password>false</use-password>
-        <auth-type>KEY_PAIR</auth-type>
-        <private-key-path>$USER_HOME$/.ssh/id_rsa</private-key-path>
-      </ssh-properties>
     </data-source>
   </component>
 </project>

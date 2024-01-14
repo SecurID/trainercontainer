@@ -1,4 +1,4 @@
-<x-jet-form-section submit="updateProfileInformation">
+<x-form-section submit="updateProfileInformation">
     <x-slot name="title">
         {{ __('Profile Information') }}
     </x-slot>
@@ -13,7 +13,7 @@
             <div x-data="{photoName: null, photoPreview: null}" class="col-span-6 sm:col-span-4">
                 <!-- Profile Photo File Input -->
                 <input type="file" class="hidden"
-                            wire:model="photo"
+                            wire:model.live="photo"
                             x-ref="photo"
                             x-on:change="
                                     photoName = $refs.photo.files[0].name;
@@ -24,7 +24,7 @@
                                     reader.readAsDataURL($refs.photo.files[0]);
                             " />
 
-                <x-jet-label for="photo" value="Photo" />
+                <x-label for="photo" value="Photo" />
 
                 <!-- Current Profile Photo -->
                 <div class="mt-2" x-show="! photoPreview">
@@ -38,36 +38,36 @@
                     </span>
                 </div>
 
-                <x-jet-secondary-button class="mt-2" type="button" x-on:click.prevent="$refs.photo.click()">
+                <x-secondary-button class="mt-2" type="button" x-on:click.prevent="$refs.photo.click()">
                     {{ __('Select A New Photo') }}
-                </x-jet-secondary-button>
+                </x-secondary-button>
 
-                <x-jet-input-error for="photo" class="mt-2" />
+                <x-input-error for="photo" class="mt-2" />
             </div>
         @endif
 
         <!-- Name -->
         <div class="col-span-6 sm:col-span-4">
-            <x-jet-label for="name" value="Name" />
-            <x-jet-input id="name" type="text" class="mt-1 block w-full" wire:model.defer="state.name" autocomplete="name" />
-            <x-jet-input-error for="name" class="mt-2" />
+            <x-label for="name" value="Name" />
+            <x-input id="name" type="text" class="mt-1 block w-full" wire:model="state.name" autocomplete="name" />
+            <x-input-error for="name" class="mt-2" />
         </div>
 
         <!-- Email -->
         <div class="col-span-6 sm:col-span-4">
-            <x-jet-label for="email" value="Email" />
-            <x-jet-input id="email" type="email" class="mt-1 block w-full" wire:model.defer="state.email" />
-            <x-jet-input-error for="email" class="mt-2" />
+            <x-label for="email" value="Email" />
+            <x-input id="email" type="email" class="mt-1 block w-full" wire:model="state.email" />
+            <x-input-error for="email" class="mt-2" />
         </div>
     </x-slot>
 
     <x-slot name="actions">
-        <x-jet-action-message class="mr-3" on="saved">
+        <x-action-message class="mr-3" on="saved">
             {{ __('Saved.') }}
-        </x-jet-action-message>
+        </x-action-message>
 
-        <x-jet-button>
+        <x-button>
             {{ __('Save') }}
-        </x-jet-button>
+        </x-button>
     </x-slot>
-</x-jet-form-section>
+</x-form-section>

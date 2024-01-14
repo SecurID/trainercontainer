@@ -1,4 +1,4 @@
-<x-jet-action-section>
+<x-action-section>
     <x-slot name="title">
         {{ __('Two Factor Authentication') }}
     </x-slot>
@@ -52,24 +52,24 @@
 
         <div class="mt-5">
             @if (! $this->enabled)
-                <x-jet-button type="button" wire:click="enableTwoFactorAuthentication" wire:loading.attr="disabled">
+                <x-button type="button" wire:click="enableTwoFactorAuthentication" wire:loading.attr="disabled">
                     {{ __('Enable') }}
-                </x-jet-button>
+                </x-button>
             @else
                 @if ($showingRecoveryCodes)
-                    <x-jet-secondary-button class="mr-3" wire:click="regenerateRecoveryCodes">
+                    <x-secondary-button class="mr-3" wire:click="regenerateRecoveryCodes">
                         {{ __('Regenerate Recovery Codes') }}
-                    </x-jet-secondary-button>
+                    </x-secondary-button>
                 @else
-                    <x-jet-secondary-button class="mr-3" wire:click="$toggle('showingRecoveryCodes')">
+                    <x-secondary-button class="mr-3" wire:click="$toggle('showingRecoveryCodes')">
                         {{ __('Show Recovery Codes') }}
-                    </x-jet-secondary-button>
+                    </x-secondary-button>
                 @endif
 
-                <x-jet-danger-button wire:click="disableTwoFactorAuthentication" wire:loading.attr="disabled">
+                <x-danger-button wire:click="disableTwoFactorAuthentication" wire:loading.attr="disabled">
                     {{ __('Disable') }}
-                </x-jet-danger-button>
+                </x-danger-button>
             @endif
         </div>
     </x-slot>
-</x-jet-action-section>
+</x-action-section>

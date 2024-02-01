@@ -18,6 +18,8 @@ export default {
                 green: colors.emerald,
                 yellow: colors.amber,
                 purple: colors.violet,
+                'soccer-green': '#307470',
+                'soccer-light': '#9BBAB8',
             }
         },
     },

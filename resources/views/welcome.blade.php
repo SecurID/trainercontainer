@@ -9,9 +9,9 @@
 <body class="font-sans bg-mint-100">
 
 <!-- Sticky Header -->
-<header class="bg-green-500 text-white p-4 fixed w-full top-0 z-10">
-    <a class="font-bold text-xl text-gray-800" href="#"><img src="{{ asset('images/logo_transparent.png') }}" class="block h-9 w-auto" /></a>
-    <nav class="container mx-auto flex justify-between">
+<header class="flex bg-green-500 text-white p-4 fixed w-full top-0 z-10">
+    <a class="font-bold text-xl text-gray-800" href="/"><img src="{{ asset('images/logo_trainercontainer.png') }}" class="h-16 w-auto mr-10" /></a>
+    <nav class="container mx-auto flex justify-between items-center">
         <div>
             <a href="#home" class="font-semibold hover:text-green-200">Home</a>
             <a href="#about" class="ml-4 font-semibold hover:text-green-200">About Us</a>
@@ -39,7 +39,7 @@
     <div class="text-center">
         <h1 class="text-4xl font-bold text-white">Find Your Next Match Today!</h1>
         <button id="joinNowBtn" class="mt-4 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
-            Join Now
+            Register now
         </button>
     </div>
 </section>

@@ -32,7 +32,7 @@
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
                                 <a href="/dashboard">
-                                    <img src="{{ asset('images/logo_transparent.png') }}" class="block h-9 w-auto" style="height: 10rem;" />
+                                    <img src="{{ asset('images/logo_trainercontainer.png') }}" class="block h-9 w-auto" style="height: 10rem;" />
                                 </a>
                             </div>
 

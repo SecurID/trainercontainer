@@ -17,7 +17,7 @@ class PlayerController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $players = $user->players()->orderBy('players.name')->get();
+        $players = $user->players()->orderBy('players.lastname')->get();
 
         return response()->view('players/players', ['players' => $players]);
     }

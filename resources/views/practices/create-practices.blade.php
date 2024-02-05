@@ -15,24 +15,24 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                     <div class="row">
                         <div class="col">
-                            Datum: <input type="date" class="form-control" placeholder="Datum" name="date" id="date">
+                            {{__('Datum')}}<input type="date" class="form-control" placeholder="Datum" name="date" id="date">
                         </div>
                     </div>
                     <!-- Editable table -->
                     <div class="card">
-                        <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Schedule</h3>
+                        <h3 class="card-header text-center font-weight-bold text-uppercase py-4">{{__('Schedule')}}</h3>
                         <div class="card-body">
                             <div id="table" class="table-editable">
                                 <table class="table table-bordered table-responsive-md table-striped text-center">
                                     <thead>
                                     <tr>
-                                        <th class="text-center">#</th>
-                                        <th class="text-center">Exercise</th>
-                                        <th class="text-center">Coaches</th>
-                                        <th class="text-center">Players</th>
-                                        <th class="text-center">GK</th>
-                                        <th class="text-center">Time</th>
-                                        <th class="text-center"></th>
+                                        <th class="text-center">{{__('#')}}</th>
+                                        <th class="text-center">{{__('Exercise')}}</th>
+                                        <th class="text-center">{{__('Coaches')}}</th>
+                                        <th class="text-center">{{__('Player count')}}</th>
+                                        <th class="text-center">{{__('Goalkeeper count')}}</th>
+                                        <th class="text-center">{{__('Time')}}</th>
+                                        <th class="text-center">{{__('Delete row')}}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -49,7 +49,7 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                                <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"><i class="fas fa-plus fa-2x" aria-hidden="true">X</i></a></span>
+                                <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"><i class="fas fa-plus fa-2x" aria-hidden="true">{{__('Add row')}}</i></a></span>
                             </div>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                     <div class="row">
                         <div class="col">
                             <div class="d-flex justify-content-end">
-                                <button class="btn btn-success" id="export-btn">Create Practice</button>
+                                <button class="btn btn-success" id="export-btn">{{ __('Create Practice') }}</button>
                             </div>
                         </div>
                     </div>

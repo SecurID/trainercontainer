@@ -15,13 +15,13 @@ class PlayerTableSeeder extends Seeder
     public function run()
     {
         $players = [
-            ['prename' => 'Nuno', 'name' => 'Mützel', 'notes' => 'Trainingsfaul', 'user_id' => 1],
-            ['prename' => 'Esad', 'name' => 'Akgün', 'notes' => 'Captain', 'user_id' => 1],
-            ['prename' => 'Leonard-Anton', 'name' => 'Riedel', 'notes' => 'Trainingsmeister', 'user_id' => 1],
-            ['prename' => 'Janis', 'name' => 'Brater', 'notes' => 'Maschine', 'user_id' => 1],
-            ['prename' => 'Valentin', 'name' => 'Rödl', 'notes' => 'Spielintelligent', 'user_id' => 1],
-            ['prename' => 'Julian', 'name' => 'Pabst', 'notes' => 'Ruhiger Star', 'user_id' => 1],
-            ['prename' => 'Leon', 'name' => 'Wohlfart', 'notes' => 'lul', 'user_id' => 1],
+            ['prename' => 'Player1', 'lastname' => 'Player1', 'notes' => 'Lazy in training', 'user_id' => 1],
+            ['prename' => 'Player2', 'lastname' => 'Player2', 'notes' => 'Captain', 'user_id' => 1],
+            ['prename' => 'Player3', 'lastname' => 'Player3', 'notes' => 'Dribbler', 'user_id' => 1],
+            ['prename' => 'Player4', 'lastname' => 'Player4', 'notes' => 'Passer', 'user_id' => 1],
+            ['prename' => 'Player5', 'lastname' => 'Player5', 'notes' => 'Diametral six', 'user_id' => 1],
+            ['prename' => 'Player6', 'lastname' => 'Player6', 'notes' => 'Striker', 'user_id' => 1],
+            ['prename' => 'Player7', 'lastname' => 'Player7', 'notes' => 'Worst player ever', 'user_id' => 1],
         ];
 
         Player::insert($players);

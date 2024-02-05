@@ -8,7 +8,7 @@
             </div>
             <div class="col">
                 <div class="float-right">
-                    <a href="/practices/create"><button class="btn btn-primary">Create Practice</button></a>
+                    <a href="/practices/create"><button class="btn btn-primary">{{ __('Create Practice') }}</button></a>
                 </div>
             </div>
         </div>
@@ -19,7 +19,7 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <table>
                     <thead>
-                        <th>Date</th>
+                        <th>{{__('Date')}}</th>
                     </thead>
                     @foreach($practices as $practice)
                         <tr>

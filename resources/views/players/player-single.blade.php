@@ -6,7 +6,7 @@
             </div>
             <div class="col">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ $player->prename }} {{$player->name}}
+                    {{ $player->prename }} {{$player->lastname}}
                 </h2>
             </div>
         </div>

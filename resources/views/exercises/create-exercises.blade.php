@@ -17,22 +17,22 @@
                     @csrf
                     <div class="row">
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="Name" name="name">
+                            <input type="text" class="form-control" placeholder={{__('Name')}} name="name">
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="Focus" name="focus">
+                            <input type="text" class="form-control" placeholder={{__('Focus')}} name="focus">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-8">
-                            <input type="text" class="form-control" placeholder="Material" name="material">
+                            <input type="text" class="form-control" placeholder={{__('Material')}} name="material">
                         </div>
                         <div class="col-2">
-                            <input type="text" class="form-control" placeholder="Duration" name="duration">
+                            <input type="text" class="form-control" placeholder={{__('Duration')}} name="duration">
                         </div>
                         <div class="col-2">
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" aria-describedby="basic-addon2">
+                                <input type="text" class="form-control" placeholder={{__('Intensity')}} aria-describedby="basic-addon2">
                                 <div class="input-group-append">
                                     <span class="input-group-text" id="basic-addon2">%</span>
                                 </div>
@@ -41,23 +41,23 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <textarea class="form-control" placeholder="Procedure" name="procedure"></textarea>
+                            <textarea class="form-control" placeholder={{__('Procedure')}} name="procedure"></textarea>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <textarea class="form-control" placeholder="Coaching" name="coaching"></textarea>
+                            <textarea class="form-control" placeholder={{__('Coaching')}} name="coaching"></textarea>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputGroupFileAddon01">Drawing</span>
+                                    <span class="input-group-text" id="inputGroupFileAddon01">{{__('Drawing')}}</span>
                                 </div>
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                                    <label class="custom-file-label" for="inputGroupFile01">Select File ...</label>
+                                    <label class="custom-file-label" for="inputGroupFile01">{{__('Select File...')}}</label>
                                 </div>
                             </div>
                         </div>
@@ -65,7 +65,7 @@
                     <div class="row">
                         <div class="col">
                             <div class="d-flex justify-content-end">
-                                <button type="submit" class="btn btn-success">Create Exercise</button>
+                                <button type="submit" class="btn btn-success">{{ __('Create Exercise') }}</button>
                             </div>
                         </div>
                     </div>

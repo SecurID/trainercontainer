@@ -8,7 +8,7 @@
             </div>
             <div class="col">
                 <div class="float-right">
-                    <a href="/players/create"><button class="btn btn-primary">Create Player</button></a>
+                    <a href="/players/create"><button class="btn btn-primary">{{ __('Create Player') }}</button></a>
                 </div>
             </div>
         </div>
@@ -19,7 +19,7 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="list-group">
                     @foreach($players as $player)
-                        <a href="{{ route('players.show', $player->id) }}" class="list-group-item list-group-item-action">{{$player->prename}} {{$player->name}}</a>
+                        <a href="{{ route('players.show', $player->id) }}" class="list-group-item list-group-item-action">{{$player->prename}} {{$player->lastname}}</a>
                     @endforeach
                 </div>
             </div>

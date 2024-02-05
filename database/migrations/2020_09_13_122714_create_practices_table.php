@@ -16,7 +16,7 @@ class CreatePracticesTable extends Migration
         Schema::create('practices', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }

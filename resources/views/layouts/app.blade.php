@@ -45,13 +45,13 @@
                                     {{ __('Practices') }}
                                 </x-nav-link>
                                 <x-nav-link href="/exercises" :active="request()->routeIs(['exercises.index', 'exercises.create'])">
-                                    {{ __('Excercises') }}
+                                    {{ __('Exercises') }}
                                 </x-nav-link>
                                 <x-nav-link href="/players" :active="request()->routeIs(['players.index', 'players.create'])">
                                     {{ __('Players') }}
                                 </x-nav-link>
                                 <x-nav-link href="/ratings" :active="request()->routeIs(['ratings.index', 'ratings.create'])">
-                                    {{ __('Create Ratings') }}
+                                    {{ __('Ratings') }}
                                 </x-nav-link>
                             </div>
                         </div>
@@ -150,13 +150,13 @@
                             {{ __('Practices') }}
                         </x-responsive-nav-link>
                         <x-responsive-nav-link href="/exercises" :active="request()->routeIs(['exercises.index', 'exercises.create'])">
-                            {{ __('Excercises') }}
+                            {{ __('Exercises') }}
                         </x-responsive-nav-link>
                         <x-responsive-nav-link href="/players" :active="request()->routeIs(['players.index', 'players.create'])">
                             {{ __('Players') }}
                         </x-responsive-nav-link>
                         <x-responsive-nav-link href="/ratings" :active="request()->routeIs(['ratings.index', 'ratings.create'])">
-                            {{ __('Create Ratings') }}
+                            {{ __('Ratings') }}
                         </x-responsive-nav-link>
                     </div>
 

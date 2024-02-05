@@ -15,8 +15,8 @@ class CreateExercisePracticeTable extends Migration
     {
         Schema::create('exercise_practice', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('exercise_id');
-            $table->foreignId('practice_id');
+            $table->foreignId('exercise_id')->constrained();
+            $table->foreignId('practice_id')->constrained();
             $table->timestamps();
         });
     }

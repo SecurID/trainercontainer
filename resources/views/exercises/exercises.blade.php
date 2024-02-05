@@ -3,12 +3,12 @@
         <div class="row">
             <div class="col">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Excercises') }}
+                {{ __('Exercises') }}
             </h2>
             </div>
             <div class="col">
             <div class="float-right">
-                <a href="/exercises/create"><button class="btn btn-primary">Create Exercise</button></a>
+                <a href="/exercises/create"><button class="btn btn-primary">{{ __('Create Exercise') }}</button></a>
             </div>
             </div>
         </div>
@@ -19,11 +19,11 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
                 <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-bottom: 20px;">
                     <li class="nav-item">
-                        <a class="nav-link active" id="all-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" >All</a>
+                        <a class="nav-link active" id="all-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" >{{__('All')}}</a>
                     </li>
                     @foreach($categories as $category)
                     <li class="nav-item">
-                        <a class="nav-link" id="{{$category->name}}-tab" data-toggle="tab" href="#{{$category->name}}" role="tab" aria-controls="{{$category->name}}" >{{$category->name}}</a>
+                        <a class="nav-link" id="{{$category->name}}-tab" data-toggle="tab" href="#{{$category->name}}" role="tab" aria-controls="{{$category->name}}" >{{__($category->name)}}</a>
                     </li>
                     @endforeach
                 </ul>

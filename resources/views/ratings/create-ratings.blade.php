@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Create Ratings') }}
+                    {{ __('Ratings') }}
                 </h2>
             </div>
         </div>
@@ -27,7 +27,7 @@
                     @foreach($players as $player)
                     <div class="row">
                         <div class="col">
-                            {{ $player->prename }} {{$player->name}}
+                            {{ $player->prename }} {{$player->lastname}}
                         </div>
                         <div class="col">
                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -56,7 +56,7 @@
                     <div class="row">
                         <div class="col">
                             <div class="d-flex justify-content-end">
-                                <button type="submit" class="btn btn-success">Create Ratings</button>
+                                <button type="submit" class="btn btn-success">{{__('Save')}}</button>
                             </div>
                         </div>
                     </div>

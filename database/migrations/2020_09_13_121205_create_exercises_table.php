@@ -15,14 +15,14 @@ class CreateExercisesTable extends Migration
     {
         Schema::create('exercises', function (Blueprint $table) {
             $table->id();
-            $table->char('name','100');
-            $table->text('focus')->nullable($value = true);
-            $table->text('material')->nullable($value = true);
-            $table->text('procedure')->nullable($value = true);
-            $table->text('coaching')->nullable($value = true);
-            $table->float('duration')->nullable($value = true);
-            $table->integer('intensity')->nullable($value = true);
-            $table->text('image')->nullable($value = true);
+            $table->string('name','100');
+            $table->string('focus')->nullable();
+            $table->string('material')->nullable();
+            $table->text('procedure')->nullable();
+            $table->text('coaching')->nullable();
+            $table->float('duration')->nullable();
+            $table->integer('intensity')->nullable();
+            $table->string('image')->nullable();
             $table->foreignId('user_id');
             $table->timestamps();
         });

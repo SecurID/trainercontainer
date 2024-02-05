@@ -56,7 +56,7 @@ $BTN.on('click', () => {
     $.ajax({
         type: "POST",
         dataType: 'JSON',
-        url: "http://trainercontainer.test/practices",
+        url: "https://trainercontainer.test/practices",
         data: {
             data: data,
             date: new Date($('#date').val()),

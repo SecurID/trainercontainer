@@ -15,8 +15,8 @@ class CreateCategoryExerciseTable extends Migration
     {
         Schema::create('category_exercise', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id');
-            $table->foreignId('exercise_id');
+            $table->foreignId('category_id')->constrained();
+            $table->foreignId('exercise_id')->constrained();
             $table->timestamps();
         });
     }

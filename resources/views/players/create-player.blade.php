@@ -17,16 +17,16 @@
                     @csrf
                     <div class="row">
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="Prename" name="prename">
+                            <input type="text" class="form-control" placeholder={{__('Pre name')}} name="prename">
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="Name" name="name">
+                            <input type="text" class="form-control" placeholder={{__('Last name')}} name="lastname">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
                             <div class="d-flex justify-content-end">
-                                <button type="submit" class="btn btn-success">Create Player</button>
+                                <button type="submit" class="btn btn-success">{{ __('Create Player') }}</button>
                             </div>
                         </div>
                     </div>

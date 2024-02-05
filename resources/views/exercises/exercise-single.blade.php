@@ -8,7 +8,7 @@
             </div>
             <div class="col">
                 <div class="float-right">
-                    <a href="/exercises/edit"><button class="btn btn-primary">Edit Exercise</button></a>
+                    <a href="/exercises/edit"><button class="btn btn-primary">{{__('Edit Exercise')}}</button></a>
                 </div>
             </div>
         </div>
@@ -23,9 +23,9 @@
                         <h5 class="card-title">{{$exercise->name}}</h5>
                         <hr>
                         <div class="row">
-                            <div class="col"><b>Procedure:</b> <p class="card-text">{!! $exercise->procedure!!}</p></div>
-                            <div class="col"><b>Coaching: </b><p class="card-text">{!! $exercise->coaching !!}</p></div>
-                            <div class="col"><p class="card-text"><b>Duration:</b> &nbsp;&nbsp;&nbsp;{{$exercise->duration}} min. <br> <b>Intensity:</b> &nbsp;&nbsp;&nbsp;{{$exercise->intensity}}%</p></div>
+                            <div class="col"><b>{{__('Procedure')}}:</b> <p class="card-text">{!! $exercise->procedure!!}</p></div>
+                            <div class="col"><b>{{__('Coaching')}}:</b><p class="card-text">{!! $exercise->coaching !!}</p></div>
+                            <div class="col"><p class="card-text"><b>{{__('Duration')}}:</b> &nbsp;&nbsp;&nbsp;{{$exercise->duration}} <br> <b>{{__('Intensity')}}:</b> &nbsp;&nbsp;&nbsp;{{$exercise->intensity}}%</p></div>
                         </div>
                     </div>
                 </div>

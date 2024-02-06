@@ -13,13 +13,11 @@
         <!-- Styles -->
         @vite('resources/css/app.css')
         <link rel="stylesheet" href="{{ asset('css/ui-autocomplete.css') }}">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">-->
         <link href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-
         @livewireStyles
 
         <!-- Scripts -->
-        <!--<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.6.0/dist/alpine.js" defer></script>-->
         <meta name="csrf-token" content="{{ csrf_token() }}">
     </head>
     <body class="font-sans antialiased">
@@ -82,37 +80,6 @@
                                     @endif
 
                                     <div class="border-t border-gray-100"></div>
-
-                                    <!-- Team Management -->
-                                    @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
-                                        <div class="block px-4 py-2 text-xs text-gray-400">
-                                            {{ __('Manage Team') }}
-                                        </div>
-
-                                        <!-- Team Settings -->
-                                        <x-dropdown-link href="/teams/{{ Auth::user()->currentTeam->id }}">
-                                            {{ __('Team Settings') }}
-                                        </x-dropdown-link>
-
-                                        @can('create', Laravel\Jetstream\Jetstream::newTeamModel())
-                                            <x-dropdown-link href="/teams/create">
-                                                {{ __('Create New Team') }}
-                                            </x-dropdown-link>
-                                        @endcan
-
-                                        <div class="border-t border-gray-100"></div>
-
-                                        <!-- Team Switcher -->
-                                        <div class="block px-4 py-2 text-xs text-gray-400">
-                                            {{ __('Switch Teams') }}
-                                        </div>
-
-                                        @foreach (Auth::user()->allTeams() as $team)
-                                            <x-switchable-team :team="$team" />
-                                        @endforeach
-
-                                        <div class="border-t border-gray-100"></div>
-                                    @endif
 
                                     <!-- Authentication -->
                                     <form method="POST" action="{{ route('logout') }}">
@@ -195,35 +162,6 @@
                                     {{ __('Logout') }}
                                 </x-responsive-nav-link>
                             </form>
-
-                            <!-- Team Management -->
-                            @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
-                                <div class="border-t border-gray-200"></div>
-
-                                <div class="block px-4 py-2 text-xs text-gray-400">
-                                    {{ __('Manage Team') }}
-                                </div>
-
-                                <!-- Team Settings -->
-                                <x-responsive-nav-link href="/teams/{{ Auth::user()->currentTeam->id }}" :active="request()->routeIs('teams.show')">
-                                    {{ __('Team Settings') }}
-                                </x-responsive-nav-link>
-
-                                <x-responsive-nav-link href="/teams/create" :active="request()->routeIs('teams.create')">
-                                    {{ __('Create New Team') }}
-                                </x-responsive-nav-link>
-
-                                <div class="border-t border-gray-200"></div>
-
-                                <!-- Team Switcher -->
-                                <div class="block px-4 py-2 text-xs text-gray-400">
-                                    {{ __('Switch Teams') }}
-                                </div>
-
-                                @foreach (Auth::user()->allTeams() as $team)
-                                    <x-switchable-team :team="$team" component="responsive-nav-link" />
-                                @endforeach
-                            @endif
                         </div>
                     </div>
                 </div>
@@ -250,8 +188,7 @@
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>
         <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
         @stack('jsscripts')
     </body>
 </html>

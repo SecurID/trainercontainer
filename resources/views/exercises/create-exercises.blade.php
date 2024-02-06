@@ -1,73 +1,41 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="row">
-            <div class="col">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Create Exercise') }}
-                </h2>
-            </div>
+        <div class="flex justify-between">
+            <h2 class="text-xl font-semibold text-gray-800 leading-tight">
+                {{ __('Create Exercise') }}
+            </h2>
         </div>
-
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <form method="POST" action="/exercises">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
+                <form method="POST" action="/exercises" enctype="multipart/form-data">
                     @csrf
-                    <div class="row">
-                        <div class="col">
-                            <input type="text" class="form-control" placeholder={{__('Name')}} name="name">
-                        </div>
-                        <div class="col">
-                            <input type="text" class="form-control" placeholder={{__('Focus')}} name="focus">
-                        </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <input type="text" class="form-input rounded-md shadow-sm w-full" placeholder="{{ __('Name') }}" name="name">
+                        <input type="text" class="form-input rounded-md shadow-sm w-full" placeholder="{{ __('Focus') }}" name="focus">
                     </div>
-                    <div class="row">
-                        <div class="col-8">
-                            <input type="text" class="form-control" placeholder={{__('Material')}} name="material">
-                        </div>
-                        <div class="col-2">
-                            <input type="text" class="form-control" placeholder={{__('Duration')}} name="duration">
-                        </div>
-                        <div class="col-2">
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder={{__('Intensity')}} aria-describedby="basic-addon2">
-                                <div class="input-group-append">
-                                    <span class="input-group-text" id="basic-addon2">%</span>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+                        <input type="text" class="form-input rounded-md shadow-sm w-full lg:col-span-2" placeholder="{{ __('Material') }}" name="material">
+                        <input type="text" class="form-input rounded-md shadow-sm w-full" placeholder="{{ __('Duration') }}" name="duration">
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            <textarea class="form-control" placeholder={{__('Procedure')}} name="procedure"></textarea>
-                        </div>
+                    <div class="flex mb-4">
+                        <input type="text" class="form-input rounded-md shadow-sm w-full mr-2" placeholder="{{ __('Intensity') }}" name="intensity">
+                        <span class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">%</span>
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            <textarea class="form-control" placeholder={{__('Coaching')}} name="coaching"></textarea>
-                        </div>
+                    <textarea class="form-input rounded-md shadow-sm w-full mb-4" placeholder="{{ __('Procedure') }}" name="procedure"></textarea>
+                    <textarea class="form-input rounded-md shadow-sm w-full mb-4" placeholder="{{ __('Coaching') }}" name="coaching"></textarea>
+                    <div class="flex items-center mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mr-4">
+                            {{ __('Drawing') }}
+                        </label>
+                        <input type="file" class="form-input rounded-md shadow-sm w-full" name="drawing">
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputGroupFileAddon01">{{__('Drawing')}}</span>
-                                </div>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                                    <label class="custom-file-label" for="inputGroupFile01">{{__('Select File...')}}</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="d-flex justify-content-end">
-                                <button type="submit" class="btn btn-success">{{ __('Create Exercise') }}</button>
-                            </div>
-                        </div>
+                    <div class="flex justify-end">
+                        <button type="submit" class="px-4 py-2 bg-green-500 hover:bg-green-700 text-white font-bold rounded">
+                            {{ __('Create Exercise') }}
+                        </button>
                     </div>
                 </form>
             </div>

@@ -9,6 +9,13 @@ class Player extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'prename',
+        'lastname',
+        'notes'
+    ];
+
+
     public function ratings()
     {
         return $this->hasMany('App\Models\Rating');

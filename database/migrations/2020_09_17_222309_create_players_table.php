@@ -18,6 +18,7 @@ class CreatePlayersTable extends Migration
             $table->text('prename');
             $table->text('lastname');
             $table->text('notes')->nullable();
+            $table->text('position')->nullable();
             $table->foreignId('user_id');
             $table->timestamps();
         });

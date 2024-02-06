@@ -15,12 +15,6 @@ class RatingController extends Controller
         return response()->view('ratings/create-ratings', ['players' => $players]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $data = $request->except(['_token', 'date']);

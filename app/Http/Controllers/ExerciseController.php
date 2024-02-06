@@ -17,17 +17,12 @@ class ExerciseController extends Controller
 
     public function create()
     {
-
         return response()->view('exercises/create-exercises');
     }
 
     public function store(Request $request)
     {
-        $exercise = new Exercise();
-        $exercise->name = $request->name;
-        $exercise->focus = $request->focus;
-        $exercise->save();
-
+        Exercise::create($request->all());
         return redirect()->route('exercises.index');
     }
 

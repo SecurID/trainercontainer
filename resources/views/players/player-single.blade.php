@@ -1,44 +1,41 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="row">
-            <div class="col-md-1">
-                <a href="{{ route('players.index') }}"><button>Zurück</button></a>
+        <div class="flex items-center space-x-4">
+            <div>
+                <a href="{{ route('players.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+                    </svg>
+                    Zurück
+                </a>
             </div>
-            <div class="col">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ $player->prename }} {{$player->lastname}}
-                </h2>
-            </div>
+            <h2 class="flex-grow text-xl font-semibold text-gray-800 leading-tight">
+                {{ $player->prename }} {{ $player->lastname }}
+            </h2>
         </div>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <b>Notes:</b> <p class="card-text">{!! $player->notes!!}</p>
-                            </div>
-                            <div class="col-md-8">
-                                <canvas id="myChart" style="width: 50%;"></canvas>
-                            </div>
-                        </div>
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
+                <div class="flex flex-wrap">
+                    <div class="w-full md:w-1/2 lg:w-1/3 p-4">
+                        <div class="font-bold">Notes:</div>
+                        <p class="mt-2">{{ $player->notes }}</p>
+                    </div>
+                    <div class="w-full md:w-1/2 lg:w-2/3 p-4">
+                        <canvas id="myChart"></canvas>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     @push('jsscripts')
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
         <script>
             var ctx = document.getElementById('myChart').getContext('2d');
             var chart = new Chart(ctx, {
-                // The type of chart we want to create
                 type: 'line',
-
-                // The data for our dataset
                 data: {
                     labels: @json($labels),
                     datasets: [{
@@ -58,8 +55,6 @@
                         pointStyle: 'rectRounded'
                     }]
                 },
-
-                // Configuration options go here
                 options: {
                     scales: {
                         xAxes: [{

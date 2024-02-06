@@ -36,15 +36,17 @@ class PlayerController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        $player = new Player();
-        $player->name = $request->name;
-        $player->prename = $request->prename;
-        $player->user_id = Auth::id();
-        $player->save();
+        $request->validate([
+            'prename' => 'required',
+            'lastname' => 'required',
+        ]);
+
+        $user = Auth::user();
+        $user->players()->create($request->all());
 
         return redirect()->route('players.index');
     }

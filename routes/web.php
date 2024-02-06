@@ -21,21 +21,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/phpinfo1', function () {
-    return view('phpinfo');
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    Route::resource('exercises', ExerciseController::class);
+    Route::resource('practices', PracticeController::class);
+    Route::resource('players', PlayerController::class);
+    Route::resource('ratings', RatingController::class);
 });
-
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
-
-Route::middleware(['auth:sanctum', 'verified'])->resource('exercises', ExerciseController::class)->name('get', 'exercises');
-
-Route::middleware(['auth:sanctum', 'verified'])->resource('practices', PracticeController::class)->name('get', 'practices');
-
-Route::middleware(['auth:sanctum', 'verified'])->resource('players', PlayerController::class)->name('get', 'players');
-
-Route::middleware(['auth:sanctum', 'verified'])->resource('ratings', RatingController::class)->name('get', 'ratings');
 
 Route::get('practices/api/exercises', [ExerciseController::class, 'getExerciseAutocomplete']);
 

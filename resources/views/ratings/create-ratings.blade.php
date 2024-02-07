@@ -12,6 +12,7 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
                 <form method="POST" action="/ratings">
                     @csrf
+                    <label for="date" class="block text-gray-700 text-sm font-bold mb-2">{{__('Datum')}}</label>
                     <x-datepicker name="date"></x-datepicker>
                     <hr class="my-4">
                     @foreach($players as $player)

@@ -1,6 +1,6 @@
-<div class="flex justify-between items-center space-x-1">
+<div class="flex justify-between items-center space-x-1" id="ratingContainer{{$player->id}}">
     <!-- Strongly Negative -->
-    <label class="group relative cursor-pointer">
+    <label class="group relative cursor-pointer rating-option">
         <input type="radio" name="rating{{$player->id}}" class="hidden"
                autocomplete="off" value="1" aria-label="Strongly negative">
         <span
@@ -13,11 +13,11 @@
             </svg>
         </span>
         <span
-            class="absolute bottom-full mb-2 hidden w-auto p-2 text-xs text-white bg-black rounded-md shadow-lg group-hover:block">Strongly Negative</span>
+            class="absolute bottom-full mb-2 hidden w-auto p-2 text-xs text-white bg-black rounded-md shadow-lg">Strongly Negative</span>
     </label>
 
     <!-- Negative -->
-    <label class="group relative cursor-pointer">
+    <label class="group relative cursor-pointer rating-option">
         <input type="radio" name="rating{{$player->id}}" class="hidden"
                autocomplete="off" value="2" aria-label="Negative">
         <span
@@ -39,11 +39,11 @@
             </svg>
         </span>
         <span
-            class="absolute bottom-full mb-2 hidden w-auto p-2 text-xs text-white bg-black rounded-md shadow-lg group-hover:block">Negative</span>
+            class="absolute bottom-full mb-2 hidden w-auto p-2 text-xs text-white bg-black rounded-md shadow-lg">Negative</span>
     </label>
 
     <!-- Neutral -->
-    <label class="group relative cursor-pointer">
+    <label class="group relative cursor-pointer rating-option">
         <input type="radio" name="rating{{$player->id}}" class="hidden"
                autocomplete="off" value="3" aria-label="Neutral" checked>
         <span
@@ -66,15 +66,15 @@
 
         </span>
         <span
-            class="absolute bottom-full mb-2 hidden w-auto p-2 text-xs text-white bg-black rounded-md shadow-lg group-hover:block">Neutral</span>
+            class="absolute bottom-full mb-2 hidden w-auto p-2 text-xs text-white bg-black rounded-md shadow-lg">Neutral</span>
     </label>
 
     <!-- Positive -->
-    <label class="group relative cursor-pointer">
+    <label class="group relative cursor-pointer rating-option">
         <input type="radio" name="rating{{$player->id}}" class="hidden"
-               autocomplete="off" value="4" aria-label="Positive">
+               autocomplete="off" value="4">
         <span
-            class="inline-flex items-center px-3 py-1 rounded-full bg-blue-400 text-white">
+            class="inline-flex items-center px-3 py-1 rounded-full bg-green-400 text-white">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                  xmlns="http://www.w3.org/2000/svg">
             <path
@@ -92,15 +92,15 @@
             </svg>
         </span>
         <span
-            class="absolute bottom-full mb-2 hidden w-auto p-2 text-xs text-white bg-black rounded-md shadow-lg group-hover:block">Positive</span>
+            class="absolute bottom-full mb-2 hidden w-auto p-2 text-xs text-white bg-black rounded-md shadow-lg">Positive</span>
     </label>
 
     <!-- Strongly Positive -->
-    <label class="group relative cursor-pointer">
+    <label class="group relative cursor-pointer rating-option">
         <input type="radio" name="rating{{$player->id}}" class="hidden"
                autocomplete="off" value="5" aria-label="Strongly positive">
         <span
-            class="inline-flex items-center px-3 py-1 rounded-full bg-blue-600 text-white">
+            class="inline-flex items-center px-3 py-1 rounded-full bg-green-600 text-white">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                  xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -109,10 +109,37 @@
             </svg>
         </span>
         <span
-            class="absolute bottom-full mb-2 hidden w-auto p-2 text-xs text-white bg-black rounded-md shadow-lg group-hover:block">Strongly Positive</span>
+            class="absolute bottom-full mb-2 hidden w-auto p-2 text-xs text-white bg-black rounded-md shadow-lg">Strongly Positive</span>
     </label>
 </div>
 
 @push('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/datepicker.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const containerId = 'ratingContainer{{$player->id}}';
+            const container = document.getElementById(containerId);
+            const options = container.querySelectorAll('.rating-option');
+            const highlightSelection = () => {
+                options.forEach(option => {
+                    const input = option.querySelector('input[type="radio"]');
+                    const span = option.querySelector('span');
+                    if(input.checked) {
+                        span.classList.remove('opacity-50');
+                    } else {
+                        span.classList.add('opacity-50');
+                    }
+                });
+            };
+
+            options.forEach(option => {
+                option.addEventListener('click', () => {
+                    // This ensures the visual update happens immediately after a label is clicked
+                    setTimeout(highlightSelection, 0);
+                });
+            });
+
+            // Initial highlight
+            highlightSelection();
+        });
+    </script>
 @endpush

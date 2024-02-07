@@ -6,7 +6,8 @@ export default {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
         "./resources/**/*.js",
-        "./resources/**/*.vue"
+        "./resources/**/*.vue",
+        "./node_modules/flowbite/**/*.js"
     ],
     darkMode: 'false',
     theme: {
@@ -28,5 +29,7 @@ export default {
         opacity: ['responsive', 'hover', 'focus', 'disabled'],
     },
 
-    plugins: [],
+    plugins: [
+        require('flowbite/plugin')
+    ],
 };

@@ -17,7 +17,8 @@ class ExerciseController extends Controller
 
     public function create()
     {
-        return response()->view('exercises/create-exercises');
+        $categories = Category::all();
+        return response()->view('exercises/create-exercises', ['categories' => $categories]);
     }
 
     public function store(Request $request)

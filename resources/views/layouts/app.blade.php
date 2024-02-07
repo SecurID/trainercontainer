@@ -11,10 +11,8 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
 
         <!-- Styles -->
-        @vite('resources/css/app.css')
+        @vite(['resources/css/app.css','resources/js/app.js'])
         <link rel="stylesheet" href="{{ asset('css/ui-autocomplete.css') }}">
-        <link href="{{ asset('vendor/bladewind/css/animate.min.css') }}" rel="stylesheet" />
-        <link href="{{ asset('vendor/bladewind/css/bladewind-ui.min.css') }}" rel="stylesheet" />
         <link href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
         @livewireStyles
 
@@ -182,9 +180,7 @@
         </div>
 
         @stack('modals')
-
         @livewireScripts
-        <script src="{{ asset('vendor/bladewind/js/helpers.js') }}" type="text/javascript"></script><script src="{{ asset('vendor/bladewind/js/helpers.js') }}" type="text/javascript"></script>
         @stack('jsscripts')
         @stack('scripts')
     </body>

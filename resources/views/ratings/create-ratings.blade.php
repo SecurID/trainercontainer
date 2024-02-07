@@ -12,9 +12,7 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
                 <form method="POST" action="/ratings">
                     @csrf
-                    <div class="relative max-w-sm">
-                        <x-bladewind::datepicker  placeholder="{{__('Select Date')}}"/>
-                    </div>
+                    <x-datepicker name="date"></x-datepicker>
                     <hr class="my-4">
                     @foreach($players as $player)
                         <div class="flex justify-between items-center py-2">
@@ -27,6 +25,7 @@
                                 </div>
                             </div>
                         </div>
+                        <hr class="my-4">
                     @endforeach
                     <div class="flex justify-end mt-4">
                         <button type="submit"

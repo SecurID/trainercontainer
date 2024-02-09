@@ -27,5 +27,14 @@ class ExerciseTableSeeder extends Seeder
             $exercise->user_id = 1;
             $exercise->save();
         }
+
+        //associate each practice with one or more categories from 1-7
+        for($i = 0; $i < 25; $i++){
+            $exercise = Exercise::find($i + 1);
+            $exercise->categories()->attach(rand(1,7));
+            $exercise->save();
+            $exercise->categories()->attach(rand(1,7));
+            $exercise->save();
+        }
     }
 }

@@ -13,4 +13,9 @@ class Exercise extends Model
     {
         return $this->belongsToMany('App\Roles\Practice');
     }
+
+    public function categories()
+    {
+        return $this->belongsToMany('App\Models\Category');
+    }
 }

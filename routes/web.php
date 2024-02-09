@@ -28,7 +28,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::resource('exercises', ExerciseController::class);
     Route::resource('practices', PracticeController::class);
-    Route::resource('players', PlayerController::class);
+    Route::resource('players', PlayerController::class)->name('GET', 'players');
     Route::resource('ratings', RatingController::class);
 });
 

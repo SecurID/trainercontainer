@@ -1,15 +1,24 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between">
+        <div class="lg:flex sm:space-y-2 justify-between block">
             <h2 class="text-xl font-semibold leading-tight text-gray-800">
                 {{ __('Practices') }}
             </h2>
-            <div>
-                <a href="/practices/create">
-                    <button class="px-4 py-2 text-white bg-blue-500 hover:bg-blue-700 rounded-lg">
-                        {{ __('Create Practice') }}
-                    </button>
-                </a>
+            <div class="flex space-x-2">
+                <div>
+                    <a>
+                        <button class="px-4 py-2 text-white bg-green-500 hover:bg-green-700 rounded-lg" disabled>
+                            {{ __('Generate AI Practice') }}
+                        </button>
+                    </a>
+                </div>
+                <div>
+                    <a href="{{ route('practices.create') }}">
+                        <button class="px-4 py-2 text-white bg-blue-500 hover:bg-blue-700 rounded-lg">
+                            {{ __('Create Practice') }}
+                        </button>
+                    </a>
+                </div>
             </div>
         </div>
     </x-slot>

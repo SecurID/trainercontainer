@@ -21,6 +21,10 @@
                 <div class="flex flex-wrap">
                     <div class="w-full md:w-1/2 lg:w-1/3 p-4">
                         <div class="font-bold">Notes:</div>
+                        <button data-modal-target="edit-player-modal" data-modal-toggle="edit-player-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                            {{__('Edit Notes')}}
+                        </button>
+                        <livewire:edit-player-notes :player="$player"></livewire:edit-player-notes>
                         <p class="mt-2">{{ $player->notes }}</p>
                     </div>
                     <div class="w-full md:w-1/2 lg:w-2/3 p-4">

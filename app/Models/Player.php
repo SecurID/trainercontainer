@@ -20,4 +20,9 @@ class Player extends Model
     {
         return $this->hasMany('App\Models\Rating');
     }
+
+    public function getFullname(): string
+    {
+        return $this->prename . ' ' . $this->lastname;
+    }
 }

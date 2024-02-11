@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Exercise;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ExerciseController extends Controller
 {
@@ -23,9 +24,36 @@ class ExerciseController extends Controller
 
     public function store(Request $request)
     {
-        Exercise::create($request->all());
+        // Validate request, especially for the new array of categories
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'focus' => 'required|string|max:255',
+            'material' => 'nullable|string',
+            'duration' => 'nullable|string',
+            'intensity' => 'nullable|string',
+            'procedure' => 'required|string',
+            'coaching' => 'required|string',
+            'drawing' => 'nullable|file',
+            'categories' => 'required|array',
+            'categories.*' => 'exists:categories,id' // Validate each category ID exists
+        ]);
+
+        $exerciseData = $request->except('categories');
+        if ($request->hasFile('drawing')) {
+            $path = Storage::putFile('exercises', $request->file('drawing'));
+            $exerciseData['image'] = Storage::url($path);
+        }
+
+        $exerciseData['user_id'] = auth()->user()->id;
+        $exercise = Exercise::create($exerciseData);
+
+        if (!empty($validatedData['categories'])) {
+            $exercise->categories()->attach($validatedData['categories']);
+        }
+
         return redirect()->route('exercises.index');
     }
+
 
     public function show($id)
     {
@@ -35,7 +63,8 @@ class ExerciseController extends Controller
 
     public function edit($id)
     {
-        //
+        $exercise = Exercise::find($id);
+        return response()->view('exercises/exercise-single', ['exercise' => $exercise]);
     }
 
     public function update(Request $request, $id)

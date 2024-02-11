@@ -1,14 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center space-x-4">
-            <div>
-                <a href="{{ route('players.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
-                    </svg>
-                    Zurück
-                </a>
-            </div>
+            <x-back-button></x-back-button>
             <h2 class="flex-grow text-xl font-semibold text-gray-800 leading-tight">
                 {{ $player->prename }} {{ $player->lastname }}
             </h2>
@@ -20,10 +13,12 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
                 <div class="flex flex-wrap">
                     <div class="w-full md:w-1/2 lg:w-1/3 p-4">
-                        <div class="font-bold">Notes:</div>
-                        <button data-modal-target="edit-player-modal" data-modal-toggle="edit-player-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-                            {{__('Edit Notes')}}
-                        </button>
+                        <div class="flex justify-between">
+                            <div class="font-bold">{{__('Notes')}}</div>
+                                <button data-modal-target="edit-player-modal" data-modal-toggle="edit-player-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                                    {{__('Edit Notes')}}
+                                </button>
+                            </div>
                         <livewire:edit-player-notes :player="$player"></livewire:edit-player-notes>
                         <p class="mt-2">{{ $player->notes }}</p>
                     </div>

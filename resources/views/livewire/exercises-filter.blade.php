@@ -14,14 +14,16 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         @foreach ($exercises as $exercise)
-            <div class="card rounded overflow-hidden shadow-lg">
-                <img class="w-full" src="{{ $exercise->image }}" alt="{{ $exercise->name }}">
-                <div class="px-6 py-4">
-                    <div class="font-bold text-xl mb-2">{{ $exercise->name }}</div>
-                    <p>Duration: {{ $exercise->duration }} min</p>
-                    <p>Intensity: {{ $exercise->intensity }}%</p>
+            <a href="{{ route('exercises.show', ['exercise' => $exercise]) }}">
+                <div class="card rounded overflow-hidden shadow-lg">
+                    <img class="w-full" src="{{ $exercise->image }}" alt="{{ $exercise->name }}">
+                    <div class="px-6 py-4">
+                        <div class="font-bold text-xl mb-2">{{ $exercise->name }}</div>
+                        <p>Duration: {{ $exercise->duration }} min</p>
+                        <p>Intensity: {{ $exercise->intensity }}%</p>
+                    </div>
                 </div>
-            </div>
+            </a>
         @endforeach
     </div>
 </div>

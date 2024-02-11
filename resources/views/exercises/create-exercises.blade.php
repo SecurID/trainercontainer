@@ -1,6 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between">
+        <div class="flex items-center space-x-4">
+            <x-back-button></x-back-button>
             <h2 class="text-xl font-semibold text-gray-800 leading-tight">
                 {{ __('Create Exercise') }}
             </h2>
@@ -15,13 +16,13 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <input type="text" class="form-input rounded-md shadow-sm w-full" placeholder="{{ __('Name') }}" name="name">
                         <input type="text" class="form-input rounded-md shadow-sm w-full" placeholder="{{ __('Focus') }}" name="focus">
-
                     </div>
+                    <!-- Multiple categories selection -->
                     <div class="grid grid-cols-1 mb-4 w-full">
-                        <select name="category" class="form-input rounded-md shadow-sm w-full text-gray-500">
-                            <option class="text-opacity-50" value="">{{ __('Choose Category') }}</option>
+                        <select name="categories[]" class="form-input rounded-md shadow-sm w-full text-gray-500" multiple>
+                            <option disabled>{{ __('Choose Categories') }}</option>
                             @foreach($categories as $category)
-                                <option value="{{ $category->id }}>">{{ __($category->name) }}</option>
+                                <option value="{{ $category->id }}">{{ __($category->name) }}</option>
                             @endforeach
                         </select>
                     </div>

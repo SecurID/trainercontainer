@@ -1,6 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between">
+            <x-back-button></x-back-button>
             <h2 class="text-xl font-semibold text-gray-800 leading-tight">
                 {{ $exercise->name }}
             </h2>

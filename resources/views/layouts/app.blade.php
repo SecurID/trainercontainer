@@ -13,8 +13,9 @@
         <!-- Styles -->
         @vite(['resources/css/app.css','resources/js/app.js'])
         <link rel="stylesheet" href="{{ asset('css/ui-autocomplete.css') }}">
-        <link href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
         @livewireStyles
+        @stack('styles')
 
         <!-- Scripts -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -183,5 +184,7 @@
         @livewireScripts
         @stack('jsscripts')
         @stack('scripts')
+        <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     </body>
 </html>

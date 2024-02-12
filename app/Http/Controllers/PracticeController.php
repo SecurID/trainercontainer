@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Practice;
+use App\Models\Schedule;
+use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Browsershot\Browsershot;
+use Spatie\LaravelPdf\Enums\Format;
+use function Spatie\LaravelPdf\Support\pdf;
 
 class PracticeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $practices = Practice::all();
@@ -20,70 +20,74 @@ class PracticeController extends Controller
         return response()->view('practices/practices', ['practices' => $practices]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return response()->view('practices/create-practices');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        $data = $request;
+        $data = $request->all();
 
+        $practice = new Practice();
+        $date = DateTime::createFromFormat('d.m.Y', $data['date']);
+        $practice->date = $date->format('Y-m-d');
+        $practice->topic = $data['topic'];
+        $practice->user_id = Auth::user()->id;
+        $practice->save();
+
+        foreach($data['rows'] as $row) {
+            $schedule = new Schedule([
+                'practice_id' => $practice->id,
+                'exercise_id' => $row['exerciseId'],
+                'coaches' => $row['coaches'],
+                'time' => $row['time'],
+                'playerCount' => $row['playerCount'],
+                'goalkeeperCount' => $row['goalkeeperCount'],
+            ]);
+            $schedule->save();
+        }
+
+        return response()->json([
+            'message' => 'Practice created successfully',
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
-        //
+        $practice = Practice::find($id);
+        $schedule = Schedule::where('practice_id', $id)->get();
+        return response()->view('practices/practice-single', ['practice' => $practice, 'schedules' => $schedule]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $practice = Practice::find($id);
+        $schedule = Schedule::where('practice_id', $id)->get();
+        foreach($schedule as $s) {
+            $s->delete();
+        }
+        $practice->delete();
+        return response()->json([
+            'message' => 'Practice deleted successfully',
+        ]);
+    }
+
+    public function print($id)
+    {
+        $practice = Practice::find($id);
+        $schedule = Schedule::where('practice_id', $id)->get();
+        return pdf()
+            ->view('pdf/practice', ['practice' => $practice, 'schedules' => $schedule])
+            ->format(Format::A4)
+            ->landscape()
+            ->withBrowsershot(function (Browsershot $browsershot) {
+                $browsershot
+                    ->setNodeBinary('/Users/yannickkupferschmidt/.nvm/versions/node/v18.15.0/bin/node')
+                    ->setNpmBinary('/Users/yannickkupferschmidt/.nvm/versions/node/v18.15.0/npm');
+            })
+            ->name('practice-'.$practice->date.'.pdf');
     }
 }

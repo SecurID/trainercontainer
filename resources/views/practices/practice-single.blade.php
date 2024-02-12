@@ -1,0 +1,81 @@
+<x-app-layout>
+    <x-slot name="header">
+        <div class="flex items-center justify-between">
+            <x-back-button></x-back-button>
+            <h2 class="ml-2 text-xl font-semibold text-gray-800 leading-tight">
+                {{__('Practice')}}: {{ \Carbon\Carbon::parse($practice->date)->format('d.m.Y') }} - {{ $practice->topic }}
+            </h2>
+            <a href="{{ route('print', [$practice]) }}"><button class="ml-auto px-4 py-2 text-white bg-green-500 hover:bg-green-700 rounded-lg">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17.5 12.75C18.1904 12.75 18.75 12.1904 18.75 11.5C18.75 10.8096 18.1904 10.25 17.5 10.25C16.8096 10.25 16.25 10.8096 16.25 11.5C16.25 12.1904 16.8096 12.75 17.5 12.75Z" fill="white"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M7 2C6.44772 2 6 2.44772 6 3V7H5C3.34315 7 2 8.34315 2 10V17C2 18.1046 2.89543 19 4 19H6V21C6 21.5523 6.44772 22 7 22H17C17.5523 22 18 21.5523 18 21V19H20C21.1046 19 22 18.1046 22 17V10C22 8.34315 20.6569 7 19 7H18V3C18 2.44772 17.5523 2 17 2H7ZM16 7V4H8V7H16ZM18 17H20V10C20 9.44772 19.5523 9 19 9H5C4.44772 9 4 9.44772 4 10L4 17H6V15C6 14.4477 6.44772 14 7 14H17C17.5523 14 18 14.4477 18 15V17ZM8 20V16H16V20H8Z" fill="white"/>
+                    </svg>
+
+                </button></a>
+        </div>
+    </x-slot>
+
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
+                <div class="mb-4 text-xl font-bold text-gray-800 text-center">{{__('Schedule')}}</div>
+                <table class="w-full table-auto">
+                    <thead>
+                    <tr class="text-center text-white bg-gray-800">
+                        <th class="px-4 py-2">{{__('#')}}</th>
+                        <th class="px-4 py-2">{{__('Exercise')}}</th>
+                        <th class="px-4 py-2">{{__('Coaches')}}</th>
+                        <th class="px-4 py-2">{{__('Player count')}}</th>
+                        <th class="px-4 py-2">{{__('Goalkeeper count')}}</th>
+                        <th class="px-4 py-2">{{__('Time')}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($schedules as $schedule)
+                        <tr>
+                            <td class="px-4 py-2">{{ $loop->index + 1 }}</td>
+                            <td class="px-4 py-2">{{ \App\Models\Exercise::find($schedule->exercise_id)->name }}</td>
+                            <td class="px-4 py-2">{{ $schedule->coaches }}</td>
+                            <td class="px-4 py-2">{{ $schedule->playerCount }}</td>
+                            <td class="px-4 py-2">{{ $schedule->goalkeeperCount }}</td>
+                            <td class="px-4 py-2">{{ $schedule->time }}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    @foreach($schedules as $schedule)
+        @php($exercise = \App\Models\Exercise::find($schedule->exercise_id))
+        <div class="py-2">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
+                    <div class="mb-3">
+                        <h5 class="text-lg">{{ __('Exercise') }} {{ $loop->index + 1 }}</h5>
+                        <div class="flex justify-center py-4">
+                            <img class="lg:w-1/2 sm:w-full rounded-md" src="{{$exercise->image}}" alt="{{$exercise->name}}">
+                        </div>
+                        <div class="mt-4">
+                            <h5 class="text-lg font-bold">{{$exercise->name}}</h5>
+                            <hr class="my-2">
+                            <div class="grid md:grid-cols-3 gap-4">
+                                <div><b>{{ __('Procedure') }}:</b>
+                                    <p>{!! $exercise->procedure !!}</p>
+                                </div>
+                                <div><b>{{ __('Coaching') }}:</b>
+                                    <p>{!! $exercise->coaching !!}</p>
+                                </div>
+                                <div>
+                                    <p><b>{{ __('Duration') }}:</b> {{$exercise->duration}}<br>
+                                        <b>{{ __('Intensity') }}:</b> {{$exercise->intensity}}%</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+</x-app-layout>

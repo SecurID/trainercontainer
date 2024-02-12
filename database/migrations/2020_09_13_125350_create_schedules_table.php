@@ -15,12 +15,12 @@ class CreateSchedulesTable extends Migration
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
-            $table->integer('position')->nullable();
-            $table->text('coaches')->nullable();
-            $table->integer('fieldplayers')->nullable();
-            $table->integer('goalkeeper')->nullable();
-            $table->float('duration')->nullable();
+            $table->foreignId('practice_id')->constrained();
             $table->foreignId('exercise_id')->constrained();
+            $table->text('coaches')->nullable();
+            $table->integer('playerCount')->nullable();
+            $table->integer('goalkeeperCount')->nullable();
+            $table->string('time')->nullable();
             $table->timestamps();
         });
     }

@@ -16,6 +16,7 @@ class PracticeTableSeeder extends Seeder
     {
         $practice = new Practice();
         $practice->date = date('Y-m-d');
+        $practice->topic = '1 on 1';
         $practice->user_id = 1;
         $practice->save();
     }

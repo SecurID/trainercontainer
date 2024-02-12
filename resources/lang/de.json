@@ -30,6 +30,7 @@
     "API Tokens": "API-Token",
     "API tokens allow third-party services to authenticate with our application on your behalf.": "Mit API-Token können sich Dienste von Drittanbietern in Ihrem Namen bei unserer Anwendung authentifizieren.",
     "Archive": "Archiv",
+    "Are you sure you want to delete this practice?": "Bist du sicher?",
     "Are you sure you want to delete this team? Once a team is deleted, all of its resources and data will be permanently deleted.": "Möchten Sie dieses Team wirklich löschen? Sobald ein Team gelöscht wird, werden alle Ressourcen und Daten dauerhaft gelöscht.",
     "Are you sure you want to delete your account? Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.": "Möchten Sie Ihr Konto wirklich löschen? Sobald Ihr Konto gelöscht wurde, werden alle Ressourcen und Daten dauerhaft gelöscht. Bitte geben Sie Ihr Passwort ein, um zu bestätigen, dass Sie Ihr Konto dauerhaft löschen möchten.",
     "Are you sure you would like to delete this API token?": "Möchten Sie dieses API-Token wirklich löschen?",

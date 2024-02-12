@@ -6,7 +6,7 @@
                 {{ $exercise->name }}
             </h2>
             <div>
-                <a href="/exercises/edit" class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded">
+                <a href="{{ route('exercises.edit', ['exercise' => $exercise]) }}" class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded">
                     {{ __('Edit Exercise') }}
                 </a>
             </div>

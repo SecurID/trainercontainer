@@ -1,12 +1,12 @@
 <div>
     <div class="flex flex-wrap -mx-1 lg:-mx-4 mb-5" id="myTab" role="tablist">
         <a href="#" wire:click.prevent="filterByCategory('all')"
-           class="py-2 px-4 inline-block rounded-lg text-sm font-medium leading-5 transition duration-150 ease-in-out border hover:bg-blue-100 focus:outline-none focus:shadow-outline {{ $selectedCategoryId == 'all' ? 'bg-blue-500 text-white border-blue-500 hover:bg-blue-600' : 'text-blue-700 bg-white border-gray-300 hover:text-blue-800' }}">
+           class="m-1 py-2 px-4 inline-block rounded-lg text-sm font-medium leading-5 transition duration-150 ease-in-out border hover:bg-blue-100 focus:outline-none focus:shadow-outline {{ $selectedCategoryId == 'all' ? 'bg-blue-500 text-white border-blue-500 hover:bg-blue-600' : 'text-blue-700 bg-white border-gray-300 hover:text-blue-800' }}">
             {{ __('All') }}
         </a>
     @foreach($categories as $category)
             <a href="#" wire:click.prevent="filterByCategory('{{ $category->id }}')"
-               class="py-2 px-4 inline-block rounded-lg text-sm font-medium leading-5 transition duration-150 ease-in-out border hover:bg-blue-100 focus:outline-none focus:shadow-outline {{ $selectedCategoryId == $category->id ? 'bg-blue-500 text-white border-blue-500 hover:bg-blue-600' : 'text-blue-700 bg-white border-gray-300 hover:text-blue-800' }}">
+               class="m-1 py-2 px-4 inline-block rounded-lg text-sm font-medium leading-5 transition duration-150 ease-in-out border hover:bg-blue-100 focus:outline-none focus:shadow-outline {{ $selectedCategoryId == $category->id ? 'bg-blue-500 text-white border-blue-500 hover:bg-blue-600' : 'text-blue-700 bg-white border-gray-300 hover:text-blue-800' }}">
                 {{ __($category->name) }}
             </a>
         @endforeach

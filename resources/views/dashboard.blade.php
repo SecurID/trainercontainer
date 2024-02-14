@@ -21,6 +21,7 @@
                 </div>
             </div>
 
+            @if(!$player && !$exercise && !$practice && !$rating)
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4 mt-10">
                 <p class="font-semibold text-xl text-gray-800 leading-tight mb-4">{{ __('Onboarding Guide')}}</p>
 
@@ -50,8 +51,8 @@
                         {{ __('Create your first ratings after the practice') }}
                     </li>
                 </ul>
-
             </div>
+            @endif
         </div>
     </div>
 </x-app-layout>

@@ -1,10 +1,6 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
-use App\Models\Exercise;
-use App\Models\Player;
-use App\Models\Practice;
-use App\Models\Rating;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\PracticeController;
@@ -25,6 +21,10 @@ use App\Http\Controllers\RatingController;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/imprint', function () {
+    return view('imprint');
+})->name('imprint');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

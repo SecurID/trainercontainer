@@ -7,10 +7,15 @@
             <div class="flex space-x-2">
                 <div>
                     <a>
-                        <button class="px-4 py-2 text-white bg-green-500 hover:bg-green-700 rounded-lg" disabled>
+                        <button data-tooltip-target="tooltip-ai-practice" data-tooltip-placement="bottom" class="px-4 py-2 text-white bg-gray-500 rounded-lg" disabled>
                             {{ __('Generate AI Practice') }}
                         </button>
                     </a>
+                    <div id="tooltip-ai-practice" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                        {{ __('Coming soon') }}
+                        <div class="tooltip-arrow" data-popper-arrow></div>
+                    </div>
+
                 </div>
                 <div>
                     <a href="{{ route('practices.create') }}">
@@ -26,6 +31,9 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
+                @if(count($practices) === 0)
+                    {{ __("No practices found.") }} {{ __('Create one by clicking on "Create Practice".') }}
+                @else
                 <table class="w-full">
                     <thead class="border-b">
                     <tr>
@@ -58,6 +66,7 @@
                     @endforeach
                     </tbody>
                 </table>
+                @endif
             </div>
         </div>
     </div>

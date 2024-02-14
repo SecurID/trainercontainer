@@ -16,15 +16,19 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $this->call([
             UserTableSeeder::class,
             CategoryTableSeeder::class,
-            ExerciseTableSeeder::class,
-            PracticeTableSeeder::class,
-            PlayerTableSeeder::class,
-            RatingTableSeeder::class,
         ]);
+        if (env('APP_ENV') == 'local') {
+            $this->call([
+                ExerciseTableSeeder::class,
+                PracticeTableSeeder::class,
+                PlayerTableSeeder::class,
+                RatingTableSeeder::class,
+            ]);
+        }
     }
 }

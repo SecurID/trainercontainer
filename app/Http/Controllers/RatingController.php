@@ -11,7 +11,7 @@ class RatingController extends Controller
 {
     public function index()
     {
-        $players = Player::all()->sortBy('name');
+        $players = Player::where('user_id', auth()->id())->get()->sortBy('name');
 
         return response()->view('ratings/create-ratings', ['players' => $players]);
     }
@@ -27,6 +27,7 @@ class RatingController extends Controller
             $rating->date = $date; // Use the converted date
             $split = str_split($key, 6);
             $rating->player_id = $split[1];
+            $rating->user_id = auth()->id();
             $rating->rating = $entry;
             $rating->save();
         }

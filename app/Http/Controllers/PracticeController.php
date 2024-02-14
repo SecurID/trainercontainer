@@ -15,7 +15,7 @@ class PracticeController extends Controller
 {
     public function index()
     {
-        $practices = Practice::all();
+        $practices = Practice::where('user_id', Auth::user()->id)->get();
 
         return response()->view('practices/practices', ['practices' => $practices]);
     }

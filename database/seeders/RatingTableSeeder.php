@@ -20,6 +20,7 @@ class RatingTableSeeder extends Seeder
             $rating = new Rating();
             $rating->date = DateTime::dateTimeThisMonth()->format('Y-m-d');
             $rating->player_id = Base::numberBetween(1,7);
+            $rating->user_id = 1;
             $rating->rating = Base::numberBetween(1,5);
             $rating->save();
         }

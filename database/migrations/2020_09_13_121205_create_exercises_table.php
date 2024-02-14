@@ -20,9 +20,13 @@ class CreateExercisesTable extends Migration
             $table->string('material')->nullable();
             $table->text('procedure')->nullable();
             $table->text('coaching')->nullable();
-            $table->float('duration')->nullable();
-            $table->integer('intensity')->nullable();
+            $table->integer('duration')->nullable();
+            $table->string('intensity')->nullable();
             $table->string('image')->nullable();
+            $table->integer('playerCount')->nullable();
+            $table->integer('goalkeeperCount')->nullable();
+            $table->integer('level')->nullable();
+            $table->integer('age')->nullable();
             $table->foreignId('user_id');
             $table->timestamps();
         });

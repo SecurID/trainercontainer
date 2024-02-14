@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
+use App\Models\Exercise;
+use App\Models\Player;
+use App\Models\Practice;
+use App\Models\Rating;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\PracticeController;
@@ -22,9 +27,7 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('exercises', ExerciseController::class);
     Route::resource('practices', PracticeController::class);

@@ -10,6 +10,10 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
+                <!-- check if players is empty -->
+                @if(count($players) === 0)
+                    {{__('No players found.')}} {{ __('You need to create Players in the "Players" tab.') }}
+                @else
                 <form method="POST" action="/ratings">
                     @csrf
                     <label for="date" class="block text-gray-700 text-sm font-bold mb-2">{{__('Datum')}}</label>
@@ -35,6 +39,7 @@
                         </button>
                     </div>
                 </form>
+                @endif
             </div>
         </div>
     </div>

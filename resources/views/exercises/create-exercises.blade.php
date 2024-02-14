@@ -38,12 +38,29 @@
                         <input type="text" class="form-input rounded-md shadow-sm w-full mr-2"
                                placeholder="{{ __('Intensity') }}" name="intensity">
                     </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-4">
+                        <input type="number" class="form-input rounded-md shadow-sm w-full mr-2"
+                               placeholder="{{ __('Player count') }}" name="playerCount">
+                        <input type="number" class="form-input rounded-md shadow-sm w-full mr-2"
+                               placeholder="{{ __('Goalkeeper count') }}" name="goalkeeperCount">
+                        <select name="level"
+                                class="form-input rounded-md shadow-sm w-full text-gray-500"
+                                >
+                            <option>{{ __('Choose Level') }}</option>
+                            <option value="1">{{ __('Beginner') }}</option>
+                            <option value="2">{{ __('Intermediate') }}</option>
+                            <option value="3">{{ __('Advanced') }}</option>
+                            <option value="4">{{ __('Expert') }}</option>
+                        </select>
+                        <input type="number" class="form-input rounded-md shadow-sm w-full mr-2"
+                               placeholder="{{ __('From Age') }}" name="age">
+                    </div>
                     <textarea class="form-input rounded-md shadow-sm w-full mb-4" placeholder="{{ __('Procedure') }}"
                               name="procedure"></textarea>
                     <textarea class="form-input rounded-md shadow-sm w-full mb-4" placeholder="{{ __('Coaching') }}"
                               name="coaching"></textarea>
-                    <div class="flex items-center mb-4">
-                        <label class="block text-md font-medium text-gray-500 mr-4 mb-2">
+                    <div class="md:flex block items-center mb-4">
+                        <label for="drawing" class="block text-md font-bold text-gray-500 mr-4 mb-2">
                             {{ __('Drawing') }}
                         </label>
                         <input type="file"
@@ -76,7 +93,7 @@
             .select2-container .select2-selection--multiple {
                 border: 1px solid #6B7280; /* Tailwind's border-gray-300 */
                 border-radius: 0.375rem; /* Tailwind's rounded-md */
-                padding: 0.125rem; /* Slight padding around tags */
+                padding: 0.125rem 0.125rem 0.5rem;
                 background-color: white; /* Tailwind's bg-white */
                 box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); /* Tailwind's shadow-sm */
             }
@@ -88,6 +105,9 @@
                 box-shadow: none; /* Removes default shadow */
                 font-size: 1rem; /* Tailwind's text-base */
                 color: #6B7280; /* Tailwind's text-gray-700 */
+                padding-left: 0.375rem;
+                font-family: Nunito, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+                height: 24px;
             }
 
             /* Style adjustments for the Select2 choices/tags */

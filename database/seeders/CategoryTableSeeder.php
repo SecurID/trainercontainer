@@ -21,7 +21,14 @@ class CategoryTableSeeder extends Seeder
             ['name' => 'Technical training'],
             ['name' => 'Tactical training'],
             ['name' => '1 on 1'],
-            ['name' => 'Over-under forms']
+            ['name' => 'Over-under forms'],
+            ['name' => 'Passing'],
+            ['name' => 'Shooting'],
+            ['name' => 'Dribbling'],
+            ['name' => 'Cognition'],
+            ['name' => 'Coordination'],
+            ['name' => 'Speed'],
+            ['name' => 'Endurance'],
         ];
 
         Category::insert($categories);

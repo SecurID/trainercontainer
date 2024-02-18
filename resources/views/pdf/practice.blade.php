@@ -62,17 +62,19 @@
                 <h5 class="text-2xl"><span class="font-bold">{{$exercise->name}}</span></h5>
                 <p class="text-lg">{{__('Focus')}}: {{$exercise->focus}}</p>
             </div>
-            <div class="flex justify-center py-4">
-                <img class="w-1/2" src="{{$exercise->image}}" alt="{{$exercise->name}}">
-            </div>
+            @if($exercise->image)
+                <div class="flex justify-center py-4">
+                    <img class="w-1/2" src="{{$exercise->image}}" alt="{{$exercise->name}}">
+                </div>
+            @endif
             <div class="mt-4">
                 <hr class="my-2">
                 <div class="grid grid-cols-5 gap-2">
                     <div class="col-span-2"><b>{{ __('Procedure') }}:</b>
-                        <p>{!! $exercise->procedure !!}</p>
+                        <pre class="font-sans text-wrap">{!! $exercise->procedure !!}</pre>
                     </div>
                     <div class="col-span-2"><b>{{ __('Coaching') }}:</b>
-                        <p>{!! $exercise->coaching !!}</p>
+                        <pre class="font-sans text-wrap">{!! $exercise->coaching !!}</pre>
                     </div>
                     <div class="col-span-1">
                         <p><b>{{ __('Duration') }}:</b> {{$exercise->duration}}<br>

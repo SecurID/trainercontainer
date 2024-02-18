@@ -18,17 +18,19 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
                 <div class="mb-3">
                     <div class="flex justify-center">
-                        <img class="w-1/2 rounded-md" src="{{$exercise->image}}" alt="{{$exercise->name}}">
+                        @if($exercise->image)
+                            <img class="w-1/2 rounded-md" src="{{$exercise->image}}" alt="{{$exercise->name}}">
+                        @endif
                     </div>
                     <div class="mt-4">
                         <h5 class="text-lg font-bold">{{$exercise->name}}</h5>
                         <hr class="my-2">
                         <div class="grid md:grid-cols-3 gap-4">
                             <div><b>{{ __('Procedure') }}:</b>
-                                <p>{!! $exercise->procedure !!}</p>
+                                <pre class="font-sans text-wrap">{!! $exercise->procedure !!}</pre>
                             </div>
                             <div><b>{{ __('Coaching') }}:</b>
-                                <p>{!! $exercise->coaching !!}</p>
+                                <pre class="font-sans text-wrap">{!! $exercise->coaching !!}</pre>
                             </div>
                             <div>
                                 <p><b>{{ __('Duration') }}:</b> {{$exercise->duration}}<br>

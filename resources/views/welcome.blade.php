@@ -28,9 +28,9 @@
 <section id="home" class="bg-cover bg-center h-screen flex items-center justify-center" style="background-image: url({{ asset('images/background_header.jpg') }})">
     <div class="text-center">
         <h1 class="text-4xl font-bold text-white">{{__('Level Up Your Soccer Practices!')}}</h1>
-        <button id="joinNowBtn" class="mt-4 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+        <a href="{{ route('register') }}">"<button id="joinNowBtn" class="mt-4 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
             {{__('Register now')}}
-        </button>
+            </button></a>
     </div>
 </section>
 

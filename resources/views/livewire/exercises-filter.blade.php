@@ -16,7 +16,9 @@
         @foreach ($exercises as $exercise)
             <a href="{{ route('exercises.show', ['exercise' => $exercise]) }}">
                 <div class="card rounded overflow-hidden shadow-lg">
-                    <img class="w-full" src="{{ $exercise->image }}" alt="{{ $exercise->name }}">
+                    @if($exercise->image)
+                        <img class="w-full" src="{{ $exercise->image }}" alt="{{ $exercise->name }}">
+                    @endif
                     <div class="px-6 py-4">
                         <div class="font-bold text-xl mb-2">{{ $exercise->name }}</div>
                         <p>Duration: {{ $exercise->duration }} min</p>

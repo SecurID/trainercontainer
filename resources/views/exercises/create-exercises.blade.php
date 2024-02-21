@@ -30,13 +30,19 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
-                        <input type="text" class="form-input rounded-md shadow-sm w-full"
+                    <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-4">
+                        <input type="text" class="lg:col-span-3 form-input rounded-md shadow-sm w-full"
                                placeholder="{{ __('Material') }}" name="material">
-                        <input type="text" class="form-input rounded-md shadow-sm w-full"
-                               placeholder="{{ __('Duration') }}" name="duration">
-                        <input type="text" class="form-input rounded-md shadow-sm w-full mr-2"
-                               placeholder="{{ __('Intensity') }}" name="intensity">
+                        <div class="flex lg:col-span-1">
+                            <input type="text" class="form-input rounded-md shadow-sm w-full"
+                                   placeholder="{{ __('Duration') }}" name="duration">
+                            <p class="my-auto mx-1 items-center">{{__('minutes')}}</p>
+                        </div>
+                        <div class="flex lg:col-span-1">
+                            <input type="text" class="form-input rounded-md shadow-sm w-full"
+                                   placeholder="{{ __('Intensity') }}" name="intensity">
+                            <p class="my-auto mx-1 items-center">%</p>
+                        </div>
                     </div>
                     <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-4">
                         <input type="number" class="form-input rounded-md shadow-sm w-full mr-2"

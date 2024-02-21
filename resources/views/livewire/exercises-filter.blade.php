@@ -21,8 +21,8 @@
                     @endif
                     <div class="px-6 py-4">
                         <div class="font-bold text-xl mb-2">{{ $exercise->name }}</div>
-                        <p>Duration: {{ $exercise->duration }} min</p>
-                        <p>Intensity: {{ $exercise->intensity }}%</p>
+                        <p>{{__('Duration')}}: {{ $exercise->duration }} {{ __('minutes') }}</p>
+                        <p>{{__('Intensity')}}: {{ $exercise->intensity }}%</p>
                     </div>
                 </div>
             </a>

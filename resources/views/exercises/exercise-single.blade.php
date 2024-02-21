@@ -33,7 +33,7 @@
                                 <pre class="font-sans text-wrap">{!! $exercise->coaching !!}</pre>
                             </div>
                             <div>
-                                <p><b>{{ __('Duration') }}:</b> {{$exercise->duration}}<br>
+                                <p><b>{{ __('Duration') }}:</b> {{$exercise->duration}} {{__('minutes')}}<br>
                                     <b>{{ __('Intensity') }}:</b> {{$exercise->intensity}}%</p>
                             </div>
                         </div>

@@ -70,9 +70,7 @@ class PracticeController extends Controller
             $s->delete();
         }
         $practice->delete();
-        return response()->json([
-            'message' => 'Practice deleted successfully',
-        ]);
+        return redirect()->route('practices.index')->with('success-message', 'Practice successfully deleted!');
     }
 
     public function print($id)

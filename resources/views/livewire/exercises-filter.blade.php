@@ -12,7 +12,7 @@
         @endforeach
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-4">
         @foreach ($exercises as $exercise)
             <a href="{{ route('exercises.show', ['exercise' => $exercise]) }}">
                 <div class="card rounded overflow-hidden shadow-lg">

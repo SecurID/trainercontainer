@@ -27,6 +27,16 @@ class PracticeController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'date' => 'required|date',
+            'topic' => 'required|string',
+            'rows.*.exerciseId' => 'required|integer',
+            'rows.*.coaches' => 'required|string',
+            'rows.*.time' => 'required|string',
+            'rows.*.playerCount' => 'required|integer',
+            'rows.*.goalkeeperCount' => 'required|integer',
+        ]);
+
         $data = $request->all();
 
         $practice = new Practice();

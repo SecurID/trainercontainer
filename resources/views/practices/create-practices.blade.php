@@ -137,7 +137,7 @@
                     goalkeeperCount: '',
                     time: ''
                 });
-                this.initAutocomplete(); // Initialize or re-initialize autocomplete
+                this.initAutocomplete();
                 this.$nextTick(() => {
                     // Set the data attribute for the new row's exercise input
                     document.querySelectorAll('.exercises').forEach((el, index) => {
@@ -173,6 +173,8 @@
                     })
                 };
 
+                console.log(JSON.stringify(data))
+
                 // Send data to the server using Fetch API
                 fetch('{{ route('practices.store') }}', {
                     method: 'POST',
@@ -189,7 +191,7 @@
                         window.location = '{{ route('practices.index') }}';
                     })
                     .catch((error) => {
-                        console.error('Error:', error);
+                        alert("{{ __('Please fill out at least the topic!') }}")
                     });
             }
         }

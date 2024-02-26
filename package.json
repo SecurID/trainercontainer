@@ -19,6 +19,6 @@
         "axios": "^1.6.7",
         "flowbite": "^2.2.1",
         "lodash": "^4.17.21",
-        "puppeteer": "^22.0.0"
+        "puppeteer": "^22.1.0"
     }
 }

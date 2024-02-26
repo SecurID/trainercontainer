@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Browsershot\Browsershot;
 use Spatie\LaravelPdf\Enums\Format;
+use Wnx\SidecarBrowsershot\BrowsershotLambda;
 use function Spatie\LaravelPdf\Support\pdf;
 
 class PracticeController extends Controller
@@ -91,11 +92,7 @@ class PracticeController extends Controller
             ->view('pdf/practice', ['practice' => $practice, 'schedules' => $schedule])
             ->format(Format::A4)
             ->landscape()
-            ->withBrowsershot(function (Browsershot $browsershot) {
-                $browsershot
-                    ->setNodeBinary('/Users/yannickkupferschmidt/.nvm/versions/node/v18.15.0/bin/node')
-                    ->setNpmBinary('/Users/yannickkupferschmidt/.nvm/versions/node/v18.15.0/npm');
-            })
+            ->onLambda()
             ->name('practice-'.$practice->date.'.pdf');
     }
 }

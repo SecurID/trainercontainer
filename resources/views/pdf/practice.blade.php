@@ -48,7 +48,7 @@
     <div class="shrink-0 flex items-center justify-end mt-10">
         <p class="mr-10">{{__('Powered by')}}</p>
         <a href="https://trainercontainer.de">
-            <img src="{{ asset('images/logo_trainercontainer.png') }}" class="block h-12 w-auto my-5"/>
+            <img src="https://trainercontainer.s3.eu-central-1.amazonaws.com/logo_trainercontainer.png" class="block h-12 w-auto my-5"/>
         </a>
     </div>
 </div>

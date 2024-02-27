@@ -14,32 +14,8 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
-                <div class="mb-3">
-                    <div class="flex justify-center">
-                        @if($exercise->image)
-                            <img class="w-1/2 rounded-md" src="{{$exercise->image}}" alt="{{$exercise->name}}">
-                        @endif
-                    </div>
-                    <div class="mt-4">
-                        <h5 class="text-lg font-bold">{{$exercise->name}}</h5>
-                        <hr class="my-2">
-                        <div class="grid md:grid-cols-3 gap-4">
-                            <div><b>{{ __('Procedure') }}:</b>
-                                <pre class="font-sans text-wrap">{!! $exercise->procedure !!}</pre>
-                            </div>
-                            <div><b>{{ __('Coaching') }}:</b>
-                                <pre class="font-sans text-wrap">{!! $exercise->coaching !!}</pre>
-                            </div>
-                            <div>
-                                <p><b>{{ __('Duration') }}:</b> {{$exercise->duration}} {{__('minutes')}}<br>
-                                    <b>{{ __('Intensity') }}:</b> {{$exercise->intensity}}%</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 bg-white shadow-xl sm:rounded-lg">
+            <x-exercise-single :exercise="$exercise"></x-exercise-single>
         </div>
     </div>
 </x-app-layout>

@@ -13,11 +13,6 @@ ARG PHP_VERSION
 
 LABEL fly_launch_runtime="laravel"
 
-# Install Node.js
-RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - && \
-    apt-get update && apt-get install -y nodejs && \
-    npm install -g npm@latest
-
 # copy application code, skipping files based on .dockerignore
 COPY . /var/www/html
 

@@ -2787,16 +2787,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "3.25.1",
+            "version": "3.26.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "abbd664eb4381102c559d358420989f835208f18"
+                "reference": "072735c56cc0da00e10716dd90d5a7f7b40b36be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/abbd664eb4381102c559d358420989f835208f18",
-                "reference": "abbd664eb4381102c559d358420989f835208f18",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/072735c56cc0da00e10716dd90d5a7f7b40b36be",
+                "reference": "072735c56cc0da00e10716dd90d5a7f7b40b36be",
                 "shasum": ""
             },
             "require": {
@@ -2861,7 +2861,7 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem/issues",
-                "source": "https://github.com/thephpleague/flysystem/tree/3.25.1"
+                "source": "https://github.com/thephpleague/flysystem/tree/3.26.0"
             },
             "funding": [
                 {
@@ -2873,7 +2873,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-16T12:53:19+00:00"
+            "time": "2024-03-25T11:49:53+00:00"
         },
         {
             "name": "league/flysystem-aws-s3-v3",
@@ -8625,16 +8625,16 @@
         },
         {
             "name": "laravel-lang/actions",
-            "version": "1.5.4",
+            "version": "1.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Lang/actions.git",
-                "reference": "d0bb626a18cb561d39d7f264fc7e74da12244f16"
+                "reference": "20f4a1da2e059ae6c3c4e84140df874888009fee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Lang/actions/zipball/d0bb626a18cb561d39d7f264fc7e74da12244f16",
-                "reference": "d0bb626a18cb561d39d7f264fc7e74da12244f16",
+                "url": "https://api.github.com/repos/Laravel-Lang/actions/zipball/20f4a1da2e059ae6c3c4e84140df874888009fee",
+                "reference": "20f4a1da2e059ae6c3c4e84140df874888009fee",
                 "shasum": ""
             },
             "require": {
@@ -8686,9 +8686,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Laravel-Lang/actions/issues",
-                "source": "https://github.com/Laravel-Lang/actions/tree/1.5.4"
+                "source": "https://github.com/Laravel-Lang/actions/tree/1.5.5"
             },
-            "time": "2024-03-16T11:46:10+00:00"
+            "time": "2024-03-23T11:24:55+00:00"
         },
         {
             "name": "laravel-lang/attributes",
@@ -8761,16 +8761,16 @@
         },
         {
             "name": "laravel-lang/common",
-            "version": "6.1.1",
+            "version": "6.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Lang/common.git",
-                "reference": "82a6cbe20ad30b98b258461d12612b0987f9b30c"
+                "reference": "6dd7ec4beae3c9fa046ced5cef020d2f8a353ea5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Lang/common/zipball/82a6cbe20ad30b98b258461d12612b0987f9b30c",
-                "reference": "82a6cbe20ad30b98b258461d12612b0987f9b30c",
+                "url": "https://api.github.com/repos/Laravel-Lang/common/zipball/6dd7ec4beae3c9fa046ced5cef020d2f8a353ea5",
+                "reference": "6dd7ec4beae3c9fa046ced5cef020d2f8a353ea5",
                 "shasum": ""
             },
             "require": {
@@ -8778,7 +8778,7 @@
                 "laravel-lang/attributes": "^2.7",
                 "laravel-lang/http-statuses": "^3.7",
                 "laravel-lang/json-fallback": "^2.0",
-                "laravel-lang/lang": "^13.12 || ^14.0",
+                "laravel-lang/lang": "^13.12 || ^14.0 || ^15.0",
                 "laravel-lang/locales": "^2.3",
                 "laravel-lang/publisher": "^16.0",
                 "php": "^8.1"
@@ -8840,7 +8840,7 @@
                 "issues": "https://github.com/Laravel-Lang/common/issues",
                 "source": "https://github.com/Laravel-Lang/common"
             },
-            "time": "2024-03-13T10:17:41+00:00"
+            "time": "2024-03-22T18:25:34+00:00"
         },
         {
             "name": "laravel-lang/http-statuses",
@@ -8962,27 +8962,27 @@
         },
         {
             "name": "laravel-lang/lang",
-            "version": "14.6.0",
+            "version": "15.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Lang/lang.git",
-                "reference": "eb3e2cc02c5e498063adb3be090e629c1c13ab65"
+                "reference": "d4305a7ba8decd2355c2f3e3d856a45d506f4cca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/eb3e2cc02c5e498063adb3be090e629c1c13ab65",
-                "reference": "eb3e2cc02c5e498063adb3be090e629c1c13ab65",
+                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/d4305a7ba8decd2355c2f3e3d856a45d506f4cca",
+                "reference": "d4305a7ba8decd2355c2f3e3d856a45d506f4cca",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "laravel-lang/publisher": "^14.0 || ^15.0 || ^16.0",
-                "php": "^8.1"
+                "laravel-lang/publisher": "^16.0",
+                "php": "^8.2"
             },
             "require-dev": {
-                "laravel-lang/status-generator": "^1.19 || ^2.0",
+                "laravel-lang/status-generator": "^2.11",
                 "phpunit/phpunit": "^10.0",
-                "symfony/var-dumper": "^6.0 || ^7.0"
+                "symfony/var-dumper": "^7.0"
             },
             "type": "library",
             "extra": {
@@ -9018,7 +9018,7 @@
                 "issues": "https://github.com/Laravel-Lang/lang/issues",
                 "source": "https://github.com/Laravel-Lang/lang"
             },
-            "time": "2024-03-19T02:58:45+00:00"
+            "time": "2024-03-25T08:24:42+00:00"
         },
         {
             "name": "laravel-lang/publisher",

@@ -20,6 +20,6 @@
         "axios": "^1.6.7",
         "flowbite": "^2.3.0",
         "lodash": "^4.17.21",
-        "puppeteer": "^22.1.0"
+        "puppeteer": "^22.6.5"
     }
 }

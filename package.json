@@ -16,7 +16,7 @@
     },
     "type": "module",
     "dependencies": {
-        "@sentry/browser": "^7.40.0",
+        "@sentry/browser": "^7.112.2",
         "axios": "^1.6.7",
         "flowbite": "^2.3.0",
         "lodash": "^4.17.21",

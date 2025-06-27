@@ -20,7 +20,6 @@
 
         <!-- Scripts -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <script src="{{ asset('vendor/kustomer/js/kustomer.js') }}" defer></script>
     </head>
     <body class="font-sans antialiased">
         <x-flash-success></x-flash-success>
@@ -192,7 +191,6 @@
         @livewireScripts
         @stack('jsscripts')
         @stack('scripts')
-        @include('kustomer::kustomer')
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-0XLX9M5RC6"></script>
         <script>

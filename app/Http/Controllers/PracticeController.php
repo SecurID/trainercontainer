@@ -7,10 +7,8 @@ use App\Models\Schedule;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Spatie\Browsershot\Browsershot;
 use Spatie\LaravelPdf\Enums\Format;
-use Wnx\SidecarBrowsershot\BrowsershotLambda;
-use function Spatie\LaravelPdf\Support\pdf;
+use Spatie\LaravelPdf\Facades\Pdf;
 
 class PracticeController extends Controller
 {
@@ -28,7 +26,7 @@ class PracticeController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'date' => 'required|date',
             'topic' => 'required|string',
             'rows.*.exerciseId' => 'required|integer',
@@ -38,25 +36,21 @@ class PracticeController extends Controller
             'rows.*.goalkeeperCount' => 'required|integer',
         ]);
 
-        $data = $request->all();
-
-        $practice = new Practice();
-        $date = DateTime::createFromFormat('d.m.Y', $data['date']);
-        $practice->date = $date->format('Y-m-d');
-        $practice->topic = $data['topic'];
-        $practice->user_id = Auth::user()->id;
+        $practice = new Practice([
+            'date' => DateTime::createFromFormat('d.m.Y', $data['date']),
+            'topic' => $data['topic'],
+            'user_id' => Auth::user()->id,
+        ]);
         $practice->save();
 
         foreach($data['rows'] as $row) {
-            $schedule = new Schedule([
-                'practice_id' => $practice->id,
+            $practice->schedules()->create([
                 'exercise_id' => $row['exerciseId'],
                 'coaches' => $row['coaches'],
                 'time' => $row['time'],
                 'playerCount' => $row['playerCount'],
                 'goalkeeperCount' => $row['goalkeeperCount'],
             ]);
-            $schedule->save();
         }
 
         return response()->json([
@@ -65,34 +59,24 @@ class PracticeController extends Controller
     }
 
 
-    public function show($id)
+    public function show(Practice $practice)
     {
-        $practice = Practice::find($id);
-        $schedule = Schedule::where('practice_id', $id)->get();
-        return response()->view('practices/practice-single', ['practice' => $practice, 'schedules' => $schedule]);
+        return response()->view('practices/practice-single', ['practice' => $practice, 'schedules' => $practice->schedules()->get()]);
     }
 
 
-    public function destroy($id)
+    public function destroy(Practice $practice)
     {
-        $practice = Practice::find($id);
-        $schedule = Schedule::where('practice_id', $id)->get();
-        foreach($schedule as $s) {
-            $s->delete();
-        }
+        $practice->schedules()->delete();
         $practice->delete();
         return redirect()->route('practices.index')->with('success-message', 'Practice successfully deleted!');
     }
 
-    public function print($id)
+    public function print(Practice $practice)
     {
-        $practice = Practice::find($id);
-        $schedule = Schedule::where('practice_id', $id)->get();
-        return pdf()
-            ->view('pdf/practice', ['practice' => $practice, 'schedules' => $schedule])
+        return Pdf::view('pdf/practice', ['practice' => $practice, 'schedules' => $practice->schedules()->get()])
             ->format(Format::A4)
             ->landscape()
-            ->onLambda()
             ->name('practice-'.$practice->date.'.pdf');
     }
 }

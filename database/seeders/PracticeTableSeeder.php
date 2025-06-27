@@ -12,7 +12,7 @@ class PracticeTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $practice = new Practice();
         $practice->date = date('Y-m-d');

@@ -12,7 +12,6 @@ rr
 vendor
 
 # 2. Ignore common files/directories we don't need
-fly.toml
 .vscode
 .idea
 **/*node_modules

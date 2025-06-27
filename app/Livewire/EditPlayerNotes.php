@@ -2,27 +2,31 @@
 
 namespace App\Livewire;
 
+use App\Models\Player;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Livewire\Component;
+use Livewire\Features\SupportRedirects\Redirector;
 
 class EditPlayerNotes extends Component
 {
-    public $player;
-    public $notes;
+    public Player $player;
+    public string $notes;
 
-    public function mount($player): void
+    public function mount(Player $player): void
     {
         $this->player = $player;
         $this->notes = $player->notes;
     }
 
-    public function save(): mixed
+    public function save(): void
     {
         $this->player->notes = $this->notes;
         $this->player->save();
-        return redirect()->route('players.show', $this->player);
+        $this->dispatch('saved');
     }
 
-    public function render(): mixed
+    public function render(): View
     {
         return view('livewire.edit-player-notes');
     }

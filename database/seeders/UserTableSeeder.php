@@ -13,12 +13,12 @@ class UserTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $user = new User();
         $user->name = "Test";
         $user->email = "test@test.com";
-        $user->password = Hash::make('Test1234');
+        $user->password = Hash::make('password');
         $user->is_admin = 1;
         $user->save();
     }

@@ -10,15 +10,6 @@ class Schedule extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'coaches',
-        'playerCount',
-        'goalkeeperCount',
-        'exercise_id',
-        'practice_id',
-        'time',
-    ];
-
     public function exercise(): HasOne
     {
         return $this->hasOne('App\Models\Exercise');

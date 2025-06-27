@@ -12,7 +12,7 @@ class PlayerTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $players = [
             ['prename' => 'Player1', 'lastname' => 'Player1', 'notes' => 'Lazy in training', 'user_id' => 1],

@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             UserTableSeeder::class,
             CategoryTableSeeder::class,
         ]);
-        if (env('APP_ENV') == 'local') {
+        if (config('app.env') == 'local') {
             $this->call([
                 ExerciseTableSeeder::class,
                 PracticeTableSeeder::class,

@@ -13,21 +13,18 @@ class ExerciseFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name(),
-            'focus' => $this->faker->word(),
-            'material' => $this->faker->word(),
-            'procedure' => $this->faker->word(),
-            'coaching' => $this->faker->word(),
-            'duration' => $this->faker->randomNumber(),
-            'intensity' => $this->faker->word(),
-            'image' => $this->faker->word(),
-            'playerCount' => $this->faker->randomNumber(),
-            'goalkeeperCount' => $this->faker->randomNumber(),
-            'level' => $this->faker->randomNumber(),
-            'age' => $this->faker->randomNumber(),
-            'user_id' => $this->faker->randomNumber(),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
+            'name' => $this->faker->words(3, true),
+            'focus' => $this->faker->randomElement(['Ballbesitz', 'Abschluss', 'Passspiel', 'Dribbling', 'Kondition']),
+            'material' => $this->faker->words(2, true),
+            'procedure' => $this->faker->sentence(8),
+            'coaching' => $this->faker->sentence(6),
+            'duration' => $this->faker->numberBetween(5, 30),
+            'intensity' => $this->faker->numberBetween(10, 100),
+            'image' => 'https://fussballtraining24.de/wp-content/uploads/2021/04/fussballuebung-2.jpg',
+            'playerCount' => $this->faker->numberBetween(4, 22),
+            'goalkeeperCount' => $this->faker->numberBetween(0, 2),
+            'level' => $this->faker->numberBetween(1, 5),
+            'age' => $this->faker->numberBetween(6, 19),
         ];
     }
 }

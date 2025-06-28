@@ -17,7 +17,7 @@ class CreateRatingsTable extends Migration
             $table->id();
             $table->date('date');
             $table->foreignId('player_id')->constrained();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->nullable()->constrained();
             $table->integer('rating')->nullable();
             $table->timestamps();
         });

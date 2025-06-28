@@ -14,10 +14,10 @@ class PracticeTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $practice = new Practice();
-        $practice->date = date('Y-m-d');
-        $practice->topic = '1 on 1';
-        $practice->user_id = 1;
-        $practice->save();
+        $userIds = \App\Models\User::pluck('id')->toArray();
+        \App\Models\Practice::factory(10)->make()->each(function ($practice) use ($userIds) {
+            $practice->user_id = fake()->randomElement($userIds);
+            $practice->save();
+        });
     }
 }

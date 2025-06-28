@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class UserTableSeeder extends Seeder
 {
@@ -15,11 +14,14 @@ class UserTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = new User();
-        $user->name = "Test";
-        $user->email = "test@test.com";
-        $user->password = Hash::make('password');
-        $user->is_admin = 1;
-        $user->save();
+        // Admin-User
+        User::factory()->create([
+            'name' => 'Test',
+            'email' => 'test@test.com',
+            'is_admin' => 1,
+            'password' => bcrypt('password'),
+        ]);
+        // Weitere zufällige User
+        User::factory(10)->create();
     }
 }

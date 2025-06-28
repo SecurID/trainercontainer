@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Player;
 use App\Models\Rating;
-use Faker\Provider\Base;
-use Faker\Provider\DateTime;
 use Illuminate\Database\Seeder;
 
 class RatingTableSeeder extends Seeder
@@ -16,13 +15,12 @@ class RatingTableSeeder extends Seeder
      */
     public function run(): void
     {
-        for($i = 0; $i < 100; $i++){
-            $rating = new Rating();
-            $rating->date = DateTime::dateTimeThisMonth()->format('Y-m-d');
-            $rating->player_id = Base::numberBetween(1,7);
-            $rating->user_id = 1;
-            $rating->rating = Base::numberBetween(1,5);
-            $rating->save();
-        }
+        Player::all()->each(function ($player) {
+            for ($i = 0; $i < 10; $i++) {
+                $rating = Rating::factory()->make();
+                $rating->player_id = $player->id;
+                $rating->save();
+            }
+        });
     }
 }

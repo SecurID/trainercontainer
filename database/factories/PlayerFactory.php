@@ -13,12 +13,10 @@ class PlayerFactory extends Factory
     public function definition(): array
     {
         return [
-            'prename' => $this->faker->text(10),
-            'lastname' => $this->faker->text(10),
-            'notes' => $this->faker->text(50),
-            'user_id' => $this->faker->randomNumber(),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
+            'prename' => $this->faker->firstName(),
+            'lastname' => $this->faker->lastName(),
+            'notes' => $this->faker->sentence(),
+            // user_id wird später im Seeder gesetzt, um echte User zu referenzieren
         ];
     }
 }

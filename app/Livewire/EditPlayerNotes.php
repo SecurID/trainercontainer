@@ -11,7 +11,7 @@ use Livewire\Features\SupportRedirects\Redirector;
 class EditPlayerNotes extends Component
 {
     public Player $player;
-    public string $notes;
+    public string|null $notes;
 
     public function mount(Player $player): void
     {

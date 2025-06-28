@@ -13,9 +13,9 @@ class PlayerFactory extends Factory
     public function definition(): array
     {
         return [
-            'prename' => $this->faker->word(),
-            'lastname' => $this->faker->name(),
-            'notes' => $this->faker->word(),
+            'prename' => $this->faker->text(10),
+            'lastname' => $this->faker->text(10),
+            'notes' => $this->faker->text(50),
             'user_id' => $this->faker->randomNumber(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),

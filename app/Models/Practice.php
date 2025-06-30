@@ -10,6 +10,13 @@ class Practice extends Model
 {
     use HasFactory;
 
+    public function casts(): array
+    {
+        return [
+            'date' => 'datetime',
+        ];
+    }
+
     public function schedules(): HasMany
     {
         return $this->HasMany(Schedule::class);

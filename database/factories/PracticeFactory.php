@@ -14,10 +14,10 @@ class PracticeFactory extends Factory
     {
         return [
             'date' => $this->faker->dateTimeBetween('-1 year', '+1 month')->format('Y-m-d'),
+            'time' => $this->faker->time('H:i'),
             'topic' => $this->faker->randomElement([
                 '1 on 1', 'Passspiel', 'Abschluss', 'Dribbling', 'Kondition', 'Taktik', 'Spielformen', 'Technik', 'Koordination'
             ]),
-            // user_id wird im Seeder gesetzt
         ];
     }
 }

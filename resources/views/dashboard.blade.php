@@ -10,7 +10,12 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-10">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
+                <p class="font-semibold text-xl text-gray-800 leading-tight mb-4">{{ __('Next Practice')}}</p>
+                <a href="{{ route('practices.show', $nextPractice) }}">{{ $nextPractice->date->format('d.m.Y') }} - {{ $nextPractice->topic }}</a>
+            </div>
+
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
                 <p class="font-semibold text-xl text-gray-800 leading-tight mb-4">{{ __('Common actions')}}</p>
                 <div class="grid lg:grid-cols-4 grid-cols-1 lg:space-x-2 lg:space-y-0">
@@ -22,7 +27,7 @@
             </div>
 
             @if(!$player OR !$exercise OR !$practice OR !$rating)
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4 mt-10">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
                 <p class="font-semibold text-xl text-gray-800 leading-tight mb-4">{{ __('Onboarding Guide')}}</p>
 
                 <ul class="space-y-1 text-gray-500 list-inside text-lg dark:text-gray-400">

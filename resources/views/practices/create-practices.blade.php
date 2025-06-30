@@ -7,6 +7,6 @@
         </div>
     </x-slot>
     <div class="py-12">
-        <livewire:create-practice />
+        <livewire:create-recurring-practice />
     </div>
 </x-app-layout>

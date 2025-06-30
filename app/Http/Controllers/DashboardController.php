@@ -12,10 +12,24 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $player = Player::where('user_id', Auth::id())->first();
-        $exercise = Exercise::where('user_id', Auth::id())->first();
-        $practice = Practice::where('user_id', Auth::id())->first();
-        $ratings = Rating::where('user_id', Auth::id())->first();
-        return view('dashboard', ['player' => isset($player), 'exercise' => isset($exercise), 'practice' => isset($practice), 'rating' => isset($ratings)]);
+        $userId = Auth::id();
+
+        $hasPlayer = Player::where('user_id', $userId)->exists();
+        $hasExercise = Exercise::where('user_id', $userId)->exists();
+        $hasPractice = Practice::where('user_id', $userId)->exists();
+        $hasRating = Rating::where('user_id', $userId)->exists();
+
+        $nextPractice = Practice::where('user_id', $userId)
+            ->where('date', '>=', now())
+            ->orderBy('date')
+            ->first();
+
+        return view('dashboard', [
+            'player' => $hasPlayer,
+            'exercise' => $hasExercise,
+            'practice' => $hasPractice,
+            'rating' => $hasRating,
+            'nextPractice' => $nextPractice,
+        ]);
     }
 }

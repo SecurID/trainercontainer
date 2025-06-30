@@ -16,7 +16,6 @@ class PlayerFactory extends Factory
             'prename' => $this->faker->firstName(),
             'lastname' => $this->faker->lastName(),
             'notes' => $this->faker->sentence(),
-            // user_id wird später im Seeder gesetzt, um echte User zu referenzieren
         ];
     }
 }

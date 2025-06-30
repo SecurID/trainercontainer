@@ -97,18 +97,4 @@ class ExerciseController extends Controller
 
         return redirect()->route('exercises.show', $exercise->id)->with('success', 'Exercise updated successfully.');
     }
-
-
-    public function destroy($id)
-    {
-        //
-    }
-
-    public function getExerciseAutocomplete(Request $request)
-    {
-        if($request->has('term')){
-            $data = Exercise::where('name', 'like', '%'.$request->input('term').'%')->limit(4)->get();
-            return response()->json($data);
-        }
-    }
 }

@@ -14,7 +14,6 @@ class RatingFactory extends Factory
         return [
             'date' => $this->faker->dateTimeThisMonth()->format('Y-m-d'),
             'rating' => $this->faker->numberBetween(1, 5),
-            // player_id und user_id werden im Seeder gesetzt
         ];
     }
 }

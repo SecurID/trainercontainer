@@ -16,7 +16,8 @@ class CreatePracticesTable extends Migration
         Schema::create('practices', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->string('topic');
+            $table->time('time')->nullable();
+            $table->string('topic')->nullable();
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });

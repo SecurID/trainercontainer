@@ -10,9 +10,9 @@
                     <div>
                         <label for="topic" class="text-sm font-bold text-gray-700">{{__('Topic')}}</label>
                         <div>
-                            <input type="text" id="topic" wire:model="topic" name="topic"
+                            <x-input type="text" id="topic" wire:model="topic" name="topic"
                                    class="w-full px-3 py-2 border border-gray-300 rounded-md"
-                                   placeholder="{{__('1 on 1')}}">
+                                   placeholder="{{__('1 on 1')}}" />
                         </div>
                     </div>
                 </div>
@@ -36,12 +36,12 @@
                                 <td class="px-4 py-3 text-center text-sm font-medium">{{ $index + 1 }}</td>
                                 <td class="px-4 py-3 relative">
                                     <div class="relative">
-                                        <input type="text"
+                                        <x-input type="text"
                                                wire:model="rows.{{ $index }}.exercise"
                                                wire:keyup="updateSearchTerm($event.target.value)"
                                                wire:click="setActiveRow({{ $index }})"
                                                class="w-full px-3 py-2 bg-gray-100 rounded cursor-text shadow-sm"
-                                               placeholder="{{__('Search exercise...')}}">
+                                               placeholder="{{__('Search exercise...')}}" />
 
                                         @if($activeRowIndex === $index && !empty($searchResults))
                                             <div class="absolute z-10 w-full mt-1 bg-white rounded-md shadow-lg">
@@ -59,9 +59,9 @@
                                     <input type="hidden" wire:model="rows.{{ $index }}.exerciseId">
                                 </td>
                                 <td class="px-4 py-3">
-                                    <input type="text"
+                                    <x-input type="text"
                                            wire:model="rows.{{ $index }}.coaches"
-                                           class="w-full px-3 py-2 bg-gray-100 rounded cursor-text shadow-sm">
+                                           class="w-full px-3 py-2 bg-gray-100 rounded cursor-text shadow-sm" />
                                 </td>
                                 <td class="px-4 py-3">
                                     <input type="number"
@@ -74,9 +74,9 @@
                                            class="w-full px-3 py-2 bg-gray-100 rounded cursor-text shadow-sm">
                                 </td>
                                 <td class="px-4 py-3">
-                                    <input type="text"
+                                    <x-input type="text"
                                            wire:model="rows.{{ $index }}.time"
-                                           class="w-full px-3 py-2 bg-gray-100 rounded cursor-text shadow-sm">
+                                           class="w-full px-3 py-2 bg-gray-100 rounded cursor-text shadow-sm" />
                                 </td>
                                 <td class="px-4 py-3 text-center">
                                     <button type="button" wire:click="removeRow({{ $index }})"

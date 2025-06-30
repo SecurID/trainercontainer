@@ -16,6 +16,7 @@ class PracticeController extends Controller
     {
         $practices = Practice::where('user_id', Auth::user()->id)
             ->where('date', '>=', now())
+            ->orderBy('date')
             ->get();
 
         return response()->view('practices/practices', ['practices' => $practices]);

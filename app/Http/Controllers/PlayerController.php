@@ -24,12 +24,11 @@ class PlayerController extends Controller
 
     public function show(Player $player)
     {
-        $lastmonth = Carbon::now()->subMonth();
-        $ratings = $player->ratings()->where('date','>', $lastmonth)->get()->sortBy('date');
+        $ratings = $player->ratings()->get()->sortBy('date');
         $labels = [];
         $ratings_array = [];
         foreach($ratings as $rating){
-            $dateFormatted = Carbon::createFromFormat('Y-m-d', $rating->date)->format('d.m.Y');
+            $dateFormatted = $rating->date->format('d.m.Y');
             $labels[] = $dateFormatted;
             $ratings_array[] = $rating->rating;
         }

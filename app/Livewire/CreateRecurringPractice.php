@@ -41,7 +41,7 @@ class CreateRecurringPractice extends Component
         }
         $this->success = true;
         $this->reset(['start_date', 'end_date', 'weekdays', 'time']);
-        $this->redirectRoute('practice.index');
+        $this->redirectRoute('practices.index');
     }
 
     public function render()

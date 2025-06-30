@@ -2,7 +2,8 @@
     <!-- Strongly Negative -->
     <label class="group relative cursor-pointer rating-option">
         <input type="radio" name="rating{{$player->id}}" class="hidden"
-               autocomplete="off" value="1" aria-label="Strongly negative">
+               autocomplete="off" value="1" aria-label="Strongly negative"
+               wire:model="ratings.{{$player->id}}">
         <span
             class="inline-flex items-center px-3 py-1 rounded-full bg-red-600 text-white">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -19,7 +20,8 @@
     <!-- Negative -->
     <label class="group relative cursor-pointer rating-option">
         <input type="radio" name="rating{{$player->id}}" class="hidden"
-               autocomplete="off" value="2" aria-label="Negative">
+               autocomplete="off" value="2" aria-label="Negative"
+               wire:model="ratings.{{$player->id}}">
         <span
             class="inline-flex items-center px-3 py-1 rounded-full bg-red-400 text-white">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -45,7 +47,8 @@
     <!-- Neutral -->
     <label class="group relative cursor-pointer rating-option">
         <input type="radio" name="rating{{$player->id}}" class="hidden"
-               autocomplete="off" value="3" aria-label="Neutral" checked>
+               autocomplete="off" value="3" aria-label="Neutral"
+               wire:model="ratings.{{$player->id}}">
         <span
             class="inline-flex items-center px-3 py-1 rounded-full bg-yellow-500 text-white">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -72,7 +75,8 @@
     <!-- Positive -->
     <label class="group relative cursor-pointer rating-option">
         <input type="radio" name="rating{{$player->id}}" class="hidden"
-               autocomplete="off" value="4">
+               autocomplete="off" value="4" aria-label="Positive"
+               wire:model="ratings.{{$player->id}}">
         <span
             class="inline-flex items-center px-3 py-1 rounded-full bg-green-400 text-white">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -98,7 +102,8 @@
     <!-- Strongly Positive -->
     <label class="group relative cursor-pointer rating-option">
         <input type="radio" name="rating{{$player->id}}" class="hidden"
-               autocomplete="off" value="5" aria-label="Strongly positive">
+               autocomplete="off" value="5" aria-label="Strongly positive"
+               wire:model="ratings.{{$player->id}}">
         <span
             class="inline-flex items-center px-3 py-1 rounded-full bg-green-600 text-white">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -118,6 +123,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const containerId = 'ratingContainer{{$player->id}}';
             const container = document.getElementById(containerId);
+            if (!container) return;
             const options = container.querySelectorAll('.rating-option');
             const highlightSelection = () => {
                 options.forEach(option => {
@@ -133,7 +139,6 @@
 
             options.forEach(option => {
                 option.addEventListener('click', () => {
-                    // This ensures the visual update happens immediately after a label is clicked
                     setTimeout(highlightSelection, 0);
                 });
             });

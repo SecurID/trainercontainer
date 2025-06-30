@@ -13,7 +13,11 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-10">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
                 <p class="font-semibold text-xl text-gray-800 leading-tight mb-4">{{ __('Next Practice')}}</p>
+                @if(!$nextPractice)
+                    <p class="text-gray-500">{{ __('No upcoming practices scheduled.') }}</p>
+                @else
                 <a href="{{ route('practices.show', $nextPractice) }}">{{ $nextPractice->date->format('d.m.Y') }} - {{ $nextPractice->topic }}</a>
+                @endif
             </div>
 
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">

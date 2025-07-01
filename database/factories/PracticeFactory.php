@@ -13,7 +13,7 @@ class PracticeFactory extends Factory
     public function definition(): array
     {
         return [
-            'date' => $this->faker->dateTimeBetween('-1 year', '+1 month')->format('Y-m-d'),
+            'date' => $this->faker->dateTimeBetween('+1 day', '+1 month')->format('Y-m-d'),
             'time' => $this->faker->time('H:i'),
             'topic' => $this->faker->randomElement([
                 '1 on 1', 'Passspiel', 'Abschluss', 'Dribbling', 'Kondition', 'Taktik', 'Spielformen', 'Technik', 'Koordination'

@@ -52,6 +52,7 @@
                                        class="text-blue-600 hover:text-blue-800">
                                         {{ Carbon::parse($practice->date)->locale(app()->getLocale())->translatedFormat('l') }}
                                         - {{ Carbon::parse($practice->date)->format('d.m.Y') }}
+                                        - {{ Carbon::parse($practice->time)->format('H:i') }} {{ __('Uhr') }}
                                         - {{ $practice->topic }}
                                     </a>
                                 </td>

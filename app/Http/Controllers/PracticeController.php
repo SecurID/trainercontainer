@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Practice;
 use App\Models\Schedule;
+use App\Models\Player;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -64,7 +65,20 @@ class PracticeController extends Controller
 
     public function show(Practice $practice)
     {
-        return response()->view('practices/practice-single', ['practice' => $practice, 'schedules' => $practice->schedules()->get()]);
+        $players = Auth::user()->players()->get()->sortBy('lastname');
+        return response()->view('practices/practice-single', [
+            'practice' => $practice,
+            'schedules' => $practice->schedules()->get(),
+            'players' => $players,
+        ]);
+    }
+
+    public function schedule(Practice $practice)
+    {
+        return view('practices.practice-schedule', [
+            'practice' => $practice,
+            'schedules' => $practice->schedules()->get(),
+        ]);
     }
 
 

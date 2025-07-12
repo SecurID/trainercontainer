@@ -28,7 +28,7 @@ class PlayerController extends Controller
         $labels = [];
         $ratings_array = [];
         foreach($ratings as $rating){
-            $dateFormatted = $rating->date->format('d.m.Y');
+            $dateFormatted = $rating->practice->date->format('d.m.Y');
             $labels[] = $dateFormatted;
             $ratings_array[] = $rating->rating;
         }

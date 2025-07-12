@@ -19,6 +19,8 @@ class RatingTableSeeder extends Seeder
             for ($i = 0; $i < 10; $i++) {
                 $rating = Rating::factory()->make();
                 $rating->player_id = $player->id;
+                $rating->user_id = $player->user->id ?? null;
+                $rating->practice_id = $player->user->practices()->inRandomOrder()->first()->id ?? null;
                 $rating->save();
             }
         });

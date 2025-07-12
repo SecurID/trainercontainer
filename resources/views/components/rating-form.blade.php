@@ -3,9 +3,9 @@
     <label class="group relative cursor-pointer rating-option">
         <input type="radio" name="rating{{$player->id}}" class="hidden"
                autocomplete="off" value="1" aria-label="Strongly negative"
-               wire:model="ratings.{{$player->id}}">
+               wire:model.live="ratings.{{$player->id}}">
         <span
-            class="inline-flex items-center px-3 py-1 rounded-full bg-red-600 text-white">
+            class="inline-flex items-center px-3 py-1 rounded-full bg-red-600 text-white transition-opacity duration-150 {{ (isset($ratings[$player->id]) && $ratings[$player->id] == 1) ? '' : 'opacity-50' }}">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                  xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -21,9 +21,9 @@
     <label class="group relative cursor-pointer rating-option">
         <input type="radio" name="rating{{$player->id}}" class="hidden"
                autocomplete="off" value="2" aria-label="Negative"
-               wire:model="ratings.{{$player->id}}">
+               wire:model.live="ratings.{{$player->id}}">
         <span
-            class="inline-flex items-center px-3 py-1 rounded-full bg-red-400 text-white">
+            class="inline-flex items-center px-3 py-1 rounded-full bg-red-400 text-white transition-opacity duration-150 {{ (isset($ratings[$player->id]) && $ratings[$player->id] == 2) ? '' : 'opacity-50' }}">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                  xmlns="http://www.w3.org/2000/svg">
             <path
@@ -48,9 +48,9 @@
     <label class="group relative cursor-pointer rating-option">
         <input type="radio" name="rating{{$player->id}}" class="hidden"
                autocomplete="off" value="3" aria-label="Neutral"
-               wire:model="ratings.{{$player->id}}">
+               wire:model.live="ratings.{{$player->id}}">
         <span
-            class="inline-flex items-center px-3 py-1 rounded-full bg-yellow-500 text-white">
+            class="inline-flex items-center px-3 py-1 rounded-full bg-yellow-500 text-white transition-opacity duration-150 {{ (isset($ratings[$player->id]) && $ratings[$player->id] == 3) ? '' : 'opacity-50' }}">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                  xmlns="http://www.w3.org/2000/svg">
             <path
@@ -76,9 +76,9 @@
     <label class="group relative cursor-pointer rating-option">
         <input type="radio" name="rating{{$player->id}}" class="hidden"
                autocomplete="off" value="4" aria-label="Positive"
-               wire:model="ratings.{{$player->id}}">
+               wire:model.live="ratings.{{$player->id}}">
         <span
-            class="inline-flex items-center px-3 py-1 rounded-full bg-green-400 text-white">
+            class="inline-flex items-center px-3 py-1 rounded-full bg-green-400 text-white transition-opacity duration-150 {{ (isset($ratings[$player->id]) && $ratings[$player->id] == 4) ? '' : 'opacity-50' }}">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                  xmlns="http://www.w3.org/2000/svg">
             <path
@@ -103,9 +103,9 @@
     <label class="group relative cursor-pointer rating-option">
         <input type="radio" name="rating{{$player->id}}" class="hidden"
                autocomplete="off" value="5" aria-label="Strongly positive"
-               wire:model="ratings.{{$player->id}}">
+               wire:model.live="ratings.{{$player->id}}">
         <span
-            class="inline-flex items-center px-3 py-1 rounded-full bg-green-600 text-white">
+            class="inline-flex items-center px-3 py-1 rounded-full bg-green-600 text-white transition-opacity duration-150 {{ (isset($ratings[$player->id]) && $ratings[$player->id] == 5) ? '' : 'opacity-50' }}">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                  xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -117,34 +117,3 @@
             class="absolute bottom-full mb-2 hidden w-auto p-2 text-xs text-white bg-black rounded-md shadow-lg">Strongly Positive</span>
     </label>
 </div>
-
-@push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const containerId = 'ratingContainer{{$player->id}}';
-            const container = document.getElementById(containerId);
-            if (!container) return;
-            const options = container.querySelectorAll('.rating-option');
-            const highlightSelection = () => {
-                options.forEach(option => {
-                    const input = option.querySelector('input[type="radio"]');
-                    const span = option.querySelector('span');
-                    if(input.checked) {
-                        span.classList.remove('opacity-50');
-                    } else {
-                        span.classList.add('opacity-50');
-                    }
-                });
-            };
-
-            options.forEach(option => {
-                option.addEventListener('click', () => {
-                    setTimeout(highlightSelection, 0);
-                });
-            });
-
-            // Initial highlight
-            highlightSelection();
-        });
-    </script>
-@endpush

@@ -10,15 +10,26 @@ class Rating extends Model
 {
     use HasFactory;
 
-    public function casts()
-    {
-        return [
-            'date' => 'datetime',
-        ];
-    }
+    protected $fillable = [
+        'practice_id',
+        'player_id',
+        'user_id',
+        'rating',
+        'attended',
+    ];
+
+    protected $casts = [
+        'attended' => 'boolean',
+        'date' => 'datetime',
+    ];
 
     public function player(): BelongsTo
     {
         return $this->belongsTo('App\Models\Player');
+    }
+
+    public function practice(): BelongsTo
+    {
+        return $this->belongsTo('App\Models\Practice');
     }
 }

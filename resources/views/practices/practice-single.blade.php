@@ -18,31 +18,27 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
-                <div class="mb-4 text-xl font-bold text-gray-800 text-center">{{__('Schedule')}}</div>
-                <table class="w-full table-auto">
-                    <thead>
-                    <tr class="text-center text-white bg-gray-800">
-                        <th class="px-4 py-2">{{__('#')}}</th>
-                        <th class="px-4 py-2">{{__('Exercise')}}</th>
-                        <th class="px-4 py-2">{{__('Coaches')}}</th>
-                        <th class="px-4 py-2">{{__('Player count')}}</th>
-                        <th class="px-4 py-2">{{__('Goalkeeper count')}}</th>
-                        <th class="px-4 py-2">{{__('Time')}}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($schedules as $schedule)
-                        <tr>
-                            <td class="px-4 py-2">{{ $loop->index + 1 }}</td>
-                            <td class="px-4 py-2">{{ \App\Models\Exercise::find($schedule->exercise_id)->name }}</td>
-                            <td class="px-4 py-2">{{ $schedule->coaches }}</td>
-                            <td class="px-4 py-2">{{ $schedule->playerCount }}</td>
-                            <td class="px-4 py-2">{{ $schedule->goalkeeperCount }}</td>
-                            <td class="px-4 py-2">{{ $schedule->time }}</td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
+                <form method="POST" action="{{ route('practices.update', $practice) }}" class="mb-6 flex flex-col md:flex-row gap-4 items-center justify-between">
+                    @csrf
+                    @method('PUT')
+                    <div class="flex flex-col md:flex-row gap-4 items-center">
+                        <label class="font-semibold">Thema:
+                            <input type="text" name="topic" value="{{ $practice->topic }}" class="border rounded px-2 py-1 ml-2" />
+                        </label>
+                        <label class="font-semibold">Datum:
+                            <input type="date" name="date" value="{{ $practice->date->format('Y-m-d') }}" class="border rounded px-2 py-1 ml-2" />
+                        </label>
+                    </div>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Speichern</button>
+                </form>
+                <div class="flex gap-4 mb-6">
+                    <form method="POST" >
+                        @csrf
+                        <button type="submit" class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">Session per KI generieren</button>
+                    </form>
+                    <a href="{{ route('practices.schedule', $practice) }}" class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700">Ablauf selbst erstellen</a>
+                </div>
+                <livewire:practice-ratings-table :practice="$practice" />
             </div>
         </div>
     </div>

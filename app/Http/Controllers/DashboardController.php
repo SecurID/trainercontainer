@@ -17,7 +17,6 @@ class DashboardController extends Controller
         $hasPlayer = Player::where('user_id', $userId)->exists();
         $hasExercise = Exercise::where('user_id', $userId)->exists();
         $hasPractice = Practice::where('user_id', $userId)->exists();
-        $hasRating = Rating::where('user_id', $userId)->exists();
 
         $nextPractice = Practice::where('user_id', $userId)
             ->where('date', '>=', now())
@@ -28,7 +27,6 @@ class DashboardController extends Controller
             'player' => $hasPlayer,
             'exercise' => $hasExercise,
             'practice' => $hasPractice,
-            'rating' => $hasRating,
             'nextPractice' => $nextPractice,
         ]);
     }

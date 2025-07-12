@@ -51,9 +51,6 @@
                                 <x-nav-link href="{{ route('players.index') }}" :active="request()->routeIs(['players.*'])">
                                     {{ __('Players') }}
                                 </x-nav-link>
-                                <x-nav-link href="{{ route('ratings.index') }}" :active="request()->routeIs(['ratings.*'])">
-                                    {{ __('Ratings') }}
-                                </x-nav-link>
                             </div>
                         </div>
 
@@ -124,9 +121,6 @@
                         </x-responsive-nav-link>
                         <x-responsive-nav-link href="{{ route('players.index') }}" :active="request()->routeIs(['players.*'])">
                             {{ __('Players') }}
-                        </x-responsive-nav-link>
-                        <x-responsive-nav-link href="{{ route('ratings.index') }}" :active="request()->routeIs(['ratings.*'])">
-                            {{ __('Ratings') }}
                         </x-responsive-nav-link>
                     </div>
 

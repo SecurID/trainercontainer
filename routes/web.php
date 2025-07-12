@@ -32,7 +32,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::resource('exercises', ExerciseController::class);
     Route::resource('practices', PracticeController::class);
     Route::resource('players', PlayerController::class)->name('GET', 'players');
-    Route::resource('ratings', RatingController::class);
 
     Route::get('practices/print/{practice}', [PracticeController::class, 'print'])->name('print');
     Route::get('practices/{practice}/schedule', [PracticeController::class, 'schedule'])->name('practices.schedule');

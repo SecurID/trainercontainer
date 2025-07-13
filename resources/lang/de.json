@@ -438,7 +438,7 @@
     "Verify Email Address": "E-Mail-Adresse bestätigen",
     "View": "Ansicht",
     "View :name": "Ansicht :name",
-    "warmup": "Aufwärmen",
+    "warm-up": "Aufwärmen",
     "We were unable to find a registered user with this email address.": "Wir konnten keinen registrierten Benutzer mit dieser E-Mail-Adresse finden.",
     "Web Server is Down": "Webserver ist ausgefallen",
     "When two factor authentication is enabled, you will be prompted for a secure, random token during authentication. You may retrieve this token from your phone's Google Authenticator application.": "Wenn die Zwei-Faktor-Authentifizierung aktiviert ist, werden Sie während der Authentifizierung zur Eingabe eines sicheren, zufälligen Tokens aufgefordert. Sie können dieses Token in der Google Authenticator-Anwendung Ihres Telefons abrufen.",

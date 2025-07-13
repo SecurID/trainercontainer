@@ -16,7 +16,7 @@
     </div>
 
     <!-- Collapsible Content -->
-    <div class="transition-all duration-300 ease-in-out {{ $isCollapsed ? 'max-h-0 overflow-hidden opacity-0' : 'max-h-none opacity-100' }}">
+    <div class="mt-4 transition-all duration-300 ease-in-out {{ $isCollapsed ? 'max-h-0 overflow-hidden opacity-0' : 'max-h-none opacity-100' }}">
 
         <!-- Success Message -->
         @if($successMessage)

@@ -48,6 +48,7 @@
                    class="form-input rounded-md shadow-sm border-[1px] border-gray-500 w-full text-gray-500"
                    wire:model="image">
         </div>
+        <div>{{ __('Have a look at our drawing tool to create new drawings quickly:') }} <a class="font-bold hover:text-green-500" href="{{ route('soccerdraw') }}" target="_blank">{{ __('SoccerDraw') }}</a></div>
         <div class="flex justify-end">
             <button type="submit"
                     class="px-4 py-2 bg-green-500 hover:bg-green-700 text-white font-bold rounded">

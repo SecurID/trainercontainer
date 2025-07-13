@@ -15,6 +15,7 @@ This is a **Laravel 12** application for sports trainers to manage players, prac
 - **Testing**: Pest PHP
 - **Build**: Vite with Laravel plugin
 - **UI Framework**: Flowbite components
+- **SoccerDraw**: There is a vue app installed which is a drawing tool for soccer exercises. Ignore it until changes to it are explicitly required
 
 ## Core Architecture
 

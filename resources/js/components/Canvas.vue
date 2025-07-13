@@ -161,13 +161,13 @@
                     <div class="border-l border-gray-300 mx-2 h-6"></div>
 
                     <!-- Download -->
-                    <toolbar-item @tool-selected="downloadCanvas()">
+                    <toolbar-item @tool-selected="downloadCanvas()" class="bg-green-500 hover:bg-black">
                         <div class="flex items-center space-x-1">
                             <div class="w-3 h-3 relative">
-                                <div class="w-3 h-2 border border-blue-600"></div>
-                                <div class="absolute bottom-0 left-1/2 w-0 h-0 border-l-[3px] border-l-transparent border-r-[3px] border-r-transparent border-t-[3px] border-t-blue-600 transform -translate-x-1/2"></div>
+                                <div class="w-3 h-2 border border-white"></div>
+                                <div class="absolute bottom-0 left-1/2 w-0 h-0 border-l-[3px] border-l-transparent border-r-[3px] border-r-transparent border-t-[3px] border-t-white transform -translate-x-1/2"></div>
                             </div>
-                            <span class="text-sm">Download</span>
+                            <span class="text-sm text-white">Download</span>
                         </div>
                     </toolbar-item>
                 </toolbar>

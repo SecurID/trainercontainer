@@ -12,6 +12,9 @@
 <header class="flex bg-white text-white p-4 fixed w-full top-0 z-10">
     <a class="font-bold text-xl text-gray-800" href="/"><img src="{{ asset('images/logo_trainercontainer.png') }}" class="md:h-16 h-12 w-auto mr-10" /></a>
     <nav class="container mx-auto flex justify-between items-center">
+        <div class="flex-1 flex justify-center">
+            <a href="{{ route('soccerdraw') }}" class=" hover:text-green-500 text-black font-bold py-2 px-4 rounded mr-4">{{__('Soccer Drawing Tool')}}</a>
+        </div>
         @if (Route::has('login'))
             <div class="flex flex-wrap md:top-auto right-0 fixed px-6 py-4 sm:block items-center">
                 @auth
@@ -37,7 +40,7 @@
 <!-- Highlight Section -->
 <section id="about" class="container mx-auto my-8 p-4">
     <h2 class="text-2xl font-semibold text-center mb-6">{{__('Features')}}</h2>
-    <div class="grid md:grid-cols-3 gap-4">
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="text-center p-4">
             <p class="font-semibold">{{ __('Coming soon') }}: {{__('AI generated practices')}}</p>
             <!-- Add icon here -->
@@ -48,6 +51,11 @@
         </div>
         <div class="text-center p-4">
             <p class="font-semibold">{{ __('Easily create your practice within 5 minutes.') }}</p>
+            <!-- Add icon here -->
+        </div>
+        <div class="text-center p-4">
+            <p class="font-semibold">{{ __('Use our free soccer drawing tool to create tactics and drills.') }}</p>
+            <a href="{{ route('soccerdraw') }}" class="mt-2 inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">{{__('Try Drawing Tool')}}</a>
             <!-- Add icon here -->
         </div>
     </div>

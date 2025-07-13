@@ -20,7 +20,7 @@ use App\Http\Controllers\RatingController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Route::get('/imprint', function () {
     return view('imprint');

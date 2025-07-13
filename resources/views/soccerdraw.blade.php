@@ -14,7 +14,7 @@
             <div class="container mx-auto px-4 py-6">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
-                        <img src="{{ asset('images/logo_trainercontainer.png') }}" class="h-12 w-auto mr-4" alt="Logo" />
+                        <a href="{{ route('welcome') }}"><img src="{{ asset('images/logo_trainercontainer.png') }}" class="h-12 w-auto mr-4" alt="Logo" /></a>
                         <h1 class="text-2xl font-bold text-gray-800">Zeichenprogramm Fußball</h1>
                     </div>
                     <div class="flex space-x-4">

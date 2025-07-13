@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('ratings', function (Blueprint $table) {
-            $table->boolean('attended')->nullable()->after('value');
+            $table->boolean('attended')->nullable()->after('rating');
         });
     }
 

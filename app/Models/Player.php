@@ -43,4 +43,9 @@ class Player extends Model
     {
         return $this->prename . ' ' . $this->lastname;
     }
+
+    public function getFullnameLastFirst(): string
+    {
+        return $this->lastname . ', ' . $this->prename;
+    }
 }

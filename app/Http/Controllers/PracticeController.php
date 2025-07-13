@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Practice;
-use App\Models\Schedule;
-use App\Models\Player;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

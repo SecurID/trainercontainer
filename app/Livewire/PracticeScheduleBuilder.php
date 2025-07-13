@@ -145,6 +145,9 @@ class PracticeScheduleBuilder extends Component
         if ($exercise->goalkeeperCount !== null && !$this->scheduleRows[$rowIndex]['goalkeeperCount']) {
             $this->scheduleRows[$rowIndex]['goalkeeperCount'] = $exercise->goalkeeperCount;
         }
+        if ($exercise->duration !== null && !$this->scheduleRows[$rowIndex]['time']) {
+            $this->scheduleRows[$rowIndex]['time'] = $exercise->duration;
+        }
 
         $this->showExerciseDropdowns[$rowIndex] = false;
         $this->saveScheduleRow($rowIndex);
@@ -152,7 +155,7 @@ class PracticeScheduleBuilder extends Component
 
     public function updatedScheduleRows($value, $key): void
     {
-        if (strpos($key, '.') !== false) {
+        if (str_contains($key, '.')) {
             [$rowIndex, $field] = explode('.', $key);
 
             if ($field !== 'exercise_name') {

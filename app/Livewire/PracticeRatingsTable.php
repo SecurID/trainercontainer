@@ -16,6 +16,8 @@ class PracticeRatingsTable extends Component
     public $success = false;
     public $isCollapsed = true;
 
+    protected $listeners = ['refreshComponent' => '$refresh'];
+
     public function mount(Practice $practice): void
     {
         $this->practice = $practice;
@@ -25,7 +27,23 @@ class PracticeRatingsTable extends Component
                 ->where('player_id', $player->id)
                 ->first();
             $this->ratings[$player->id] = $rating?->rating;
-            $this->attendances[$player->id] = $rating?->attended;
+            $this->attendances[$player->id] = $rating?->attended === false ? true : false; // Invert for checkbox logic
+        }
+    }
+
+    public function updatedRatings($value, $playerId)
+    {
+        // If a rating is selected, mark as attended
+        if ($value) {
+            $this->attendances[$playerId] = false;
+        }
+    }
+
+    public function updatedAttendances($value, $playerId)
+    {
+        // If marked as not attended, clear the rating
+        if ($value) {
+            $this->ratings[$playerId] = null;
         }
     }
 
@@ -36,14 +54,10 @@ class PracticeRatingsTable extends Component
             $attended = $this->attendances[$player->id];
             // Korrekte Typen für Boolean und Integer
             if ($attended === '1' || $attended === 1 || $attended === true) {
-                $attended = true;
-            } elseif ($attended === '0' || $attended === 0 || $attended === false) {
-                $attended = false;
-            } else {
-                $attended = null;
-            }
-            if ($attended === false) {
-                $ratingValue = null;
+                $attended = false; // Not attended
+                $ratingValue = null; // Clear rating when not attended
+            } elseif ($attended === '0' || $attended === 0 || $attended === false || $attended === null) {
+                $attended = true; // Attended
             }
             Rating::updateOrCreate(
                 [

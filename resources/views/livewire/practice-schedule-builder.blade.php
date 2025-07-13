@@ -1,5 +1,5 @@
 <div>
-    <div class="mb-4 flex items-center justify-between">
+    <div class="flex items-center justify-between">
         <button wire:click="toggleCollapse"
                 class="flex w-full justify-between space-x-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors duration-200">
             <h2 class="text-xl font-bold text-gray-800">Trainingsablauf</h2>
@@ -103,7 +103,7 @@
         <!-- Exercise Dropdown Portal (outside table) -->
         @foreach($scheduleRows as $index => $row)
             @if(isset($showExerciseDropdowns[$index]) && $showExerciseDropdowns[$index])
-                <div id="exercise-dropdown-{{ $index }}" 
+                <div id="exercise-dropdown-{{ $index }}"
                      class="fixed z-[9999] bg-white border border-gray-300 rounded-lg shadow-2xl max-h-40 overflow-y-auto min-w-[300px]"
                      x-data="{ positioned: false }"
                      x-init="
@@ -206,7 +206,7 @@
         <!-- Add New Row Button -->
         <div class="mt-6">
             <button wire:click="addRow"
-                    class="w-full px-6 py-3 bg-green-600 text-white text-lg font-semibold rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 transition-colors duration-200 flex items-center justify-center space-x-2">
+                    class="px-6 py-3 bg-green-600 text-white text-lg font-semibold rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 transition-colors duration-200 flex items-center justify-center space-x-2">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                 </svg>
@@ -229,7 +229,7 @@
     function positionExerciseDropdown(inputId, dropdownId) {
         const input = document.getElementById(inputId);
         const dropdown = document.getElementById(dropdownId);
-        
+
         if (input && dropdown) {
             const rect = input.getBoundingClientRect();
             dropdown.style.top = (rect.bottom + window.scrollY + 2) + 'px';

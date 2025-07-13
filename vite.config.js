@@ -11,7 +11,6 @@ export default defineConfig({
             ],
             refresh: true,
         }),
-        // react(),
         vue({
             template: {
                 transformAssetUrls: {
@@ -21,4 +20,12 @@ export default defineConfig({
             },
         }),
     ],
+    resolve: {
+        alias: {
+            '@': '/resources/js',
+            '@assets': '/resources/js/assets',
+            '@components': '/resources/js/components',
+            'vue': 'vue/dist/vue.esm-bundler.js',
+        },
+    },
 });

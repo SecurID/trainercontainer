@@ -26,6 +26,10 @@ Route::get('/imprint', function () {
     return view('imprint');
 })->name('imprint');
 
+Route::get('/soccerdraw', function () {
+    return view('soccerdraw');
+})->name('soccerdraw');
+
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 

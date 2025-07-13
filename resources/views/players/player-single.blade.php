@@ -13,6 +13,38 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
                 <div class="flex flex-wrap">
                     <div class="w-full md:w-1/2 lg:w-1/3 p-4">
+                        <div class="flex justify-between mb-4">
+                            <div class="font-bold">{{__('Positions')}}</div>
+                            <button data-modal-target="edit-player-positions-modal" data-modal-toggle="edit-player-positions-modal" class="block text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" type="button">
+                                {{__('Edit Positions')}}
+                            </button>
+                        </div>
+                        <livewire:edit-player-positions :player="$player"></livewire:edit-player-positions>
+                        <div class="mb-4">
+                            <p class="text-sm text-gray-600">{{__('Main Position')}}:</p>
+                            <p class="font-semibold">
+                                @if($player->mainPosition)
+                                    {{ $player->mainPosition->name }} ({{ $player->mainPosition->abbreviation }})
+                                @else
+                                    <span class="text-gray-400">{{__('Not set')}}</span>
+                                @endif
+                            </p>
+                        </div>
+                        <div class="mb-4">
+                            <p class="text-sm text-gray-600">{{__('Sub Positions')}}:</p>
+                            @if($player->subPositions->count() > 0)
+                                <div class="flex flex-wrap gap-2 mt-1">
+                                    @foreach($player->subPositions as $position)
+                                        <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+                                            {{ $position->abbreviation }}
+                                        </span>
+                                    @endforeach
+                                </div>
+                            @else
+                                <p class="text-gray-400">{{__('None set')}}</p>
+                            @endif
+                        </div>
+                        
                         <div class="flex justify-between">
                             <div class="font-bold">{{__('Notes')}}</div>
                                 <button data-modal-target="edit-player-modal" data-modal-toggle="edit-player-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">

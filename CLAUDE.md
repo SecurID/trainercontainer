@@ -38,8 +38,7 @@ The application heavily uses Livewire for interactive forms:
 
 ### Laravel/PHP Commands
 ```bash
-# Development server
-php artisan serve
+No Server needs to be started as Laravel Herd is running in the background
 
 # Run migrations
 php artisan migrate

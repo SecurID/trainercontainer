@@ -24,6 +24,8 @@ class PlayerController extends Controller
 
     public function show(Player $player)
     {
+        $player->load(['mainPosition', 'subPositions']);
+        
         $ratings = $player->ratings()->get()->sortBy('date');
         $labels = [];
         $ratings_array = [];

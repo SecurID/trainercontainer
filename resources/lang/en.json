@@ -371,5 +371,15 @@
     "You may delete any of your existing tokens if they are no longer needed.": "You may delete any of your existing tokens if they are no longer needed.",
     "You may not delete your personal team.": "You may not delete your personal team.",
     "You may not leave a team that you created.": "You may not leave a team that you created.",
-    "Your email address is unverified.": "Your email address is unverified."
+    "Your email address is unverified.": "Your email address is unverified.",
+    "Main Position": "Main Position",
+    "Sub Positions": "Sub Positions",
+    "Select main position": "Select main position",
+    "Hold Ctrl/Cmd to select multiple positions": "Hold Ctrl/Cmd to select multiple positions",
+    "Positions": "Positions",
+    "Positions of": "Positions of",
+    "Edit Positions": "Edit Positions",
+    "Save Positions": "Save Positions",
+    "Not set": "Not set",
+    "None set": "None set"
 }

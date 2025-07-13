@@ -454,5 +454,15 @@
     "You may not delete your personal team.": "Sie können Ihr persönliches Team nicht löschen.",
     "You may not leave a team that you created.": "Sie können ein von Ihnen erstelltes Team nicht verlassen.",
     "You need to create Players in the \"Players\" tab.": "Du musst Spieler im \"Spieler\" Tab hinzufügen.",
-    "Your email address is unverified.": "Ihre E-Mail-Adresse ist nicht verifiziert."
+    "Your email address is unverified.": "Ihre E-Mail-Adresse ist nicht verifiziert.",
+    "Main Position": "Hauptposition",
+    "Sub Positions": "Nebenpositionen",
+    "Select main position": "Hauptposition auswählen",
+    "Hold Ctrl/Cmd to select multiple positions": "Halte Strg/Cmd gedrückt, um mehrere Positionen auszuwählen",
+    "Positions": "Positionen",
+    "Positions of": "Positionen von",
+    "Edit Positions": "Positionen bearbeiten",
+    "Save Positions": "Positionen speichern",
+    "Not set": "Nicht festgelegt",
+    "None set": "Keine festgelegt"
 }

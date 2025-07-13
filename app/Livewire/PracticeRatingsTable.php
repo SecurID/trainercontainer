@@ -14,6 +14,7 @@ class PracticeRatingsTable extends Component
     public $ratings = [];
     public $attendances = [];
     public $success = false;
+    public $isCollapsed = true;
 
     public function mount(Practice $practice): void
     {
@@ -57,6 +58,11 @@ class PracticeRatingsTable extends Component
             );
         }
         $this->success = true;
+    }
+
+    public function toggleCollapse(): void
+    {
+        $this->isCollapsed = !$this->isCollapsed;
     }
 
     public function render()

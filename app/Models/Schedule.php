@@ -10,6 +10,15 @@ class Schedule extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'practice_id',
+        'exercise_id',
+        'coaches',
+        'playerCount',
+        'goalkeeperCount',
+        'time'
+    ];
+
     public function exercise(): BelongsTo
     {
         return $this->belongsTo(Exercise::class);

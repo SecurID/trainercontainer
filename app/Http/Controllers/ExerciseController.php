@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Exercise;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ExerciseController extends Controller
 {
@@ -38,10 +37,11 @@ class ExerciseController extends Controller
             'categories.*' => 'exists:categories,id' // Validate each category ID exists
         ]);
 
-        $exerciseData = $request->except('categories');
+        $exerciseData = $request->except(['categories', 'drawing']);
+        
         if ($request->hasFile('drawing')) {
-            $path = Storage::putFile('exercises', $request->file('drawing'));
-            $exerciseData['image'] = Storage::url($path);
+            $path = $request->file('drawing')->store('exercises', 'public');
+            $exerciseData['image'] = $path;
         }
 
         $exerciseData['user_id'] = auth()->user()->id;
@@ -86,8 +86,8 @@ class ExerciseController extends Controller
         $exercise->update($validatedData);
 
         if ($request->hasFile('drawing')) {
-            $path = Storage::putFile('exercises', $request->file('drawing'));
-            $exercise->drawing = Storage::url($path);
+            $path = $request->file('drawing')->store('exercises', 'public');
+            $exercise->image = $path;
             $exercise->save();
         }
 

@@ -55,7 +55,7 @@ class CreateExercise extends Component
         $validated = $this->validate();
 
         if ($this->image) {
-            $validated['image'] = $this->image->store('drawings', 'public');
+            $validated['image'] = $this->image->store('exercises', 'public');
         }
 
         $validated['user_id'] = auth()->user()->id;

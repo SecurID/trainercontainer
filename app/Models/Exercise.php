@@ -10,6 +10,22 @@ class Exercise extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'focus',
+        'material',
+        'procedure',
+        'coaching',
+        'duration',
+        'intensity',
+        'image',
+        'playerCount',
+        'goalkeeperCount',
+        'level',
+        'age',
+        'user_id',
+    ];
+
     public function practices(): BelongsToMany
     {
         return $this->belongsToMany('App\Roles\Practice');

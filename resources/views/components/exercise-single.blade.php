@@ -6,7 +6,7 @@
         </div>
         @if($exercise->image)
             <div class="flex justify-center">
-                <img class="w-1/2 rounded-md" src="{{$exercise->image}}" alt="{{$exercise->name}}">
+                <img class="w-1/2 rounded-md" src="{{ asset('storage/' . $exercise->image) }}" alt="{{$exercise->name}}">
             </div>
         @endif
         <div class="mt-4">

@@ -38,7 +38,7 @@ class ExerciseController extends Controller
         ]);
 
         $exerciseData = $request->except(['categories', 'drawing']);
-        
+
         if ($request->hasFile('drawing')) {
             $path = $request->file('drawing')->store('exercises', 'public');
             $exerciseData['image'] = $path;
@@ -55,15 +55,13 @@ class ExerciseController extends Controller
     }
 
 
-    public function show($id)
+    public function show(Exercise $exercise)
     {
-        $exercise = Exercise::find($id);
         return response()->view('exercises/exercise-single', ['exercise' => $exercise]);
     }
 
-    public function edit($id)
+    public function edit(Exercise $exercise)
     {
-        $exercise = Exercise::find($id);
         $categories = Category::all();
         return response()->view('exercises/update-exercises', ['exercise' => $exercise, 'categories' => $categories]);
     }

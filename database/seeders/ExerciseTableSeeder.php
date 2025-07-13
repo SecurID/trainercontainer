@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Exercise;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class ExerciseTableSeeder extends Seeder
@@ -14,8 +15,8 @@ class ExerciseTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $userIds = \App\Models\User::pluck('id')->toArray();
-        \App\Models\Exercise::factory(25)->make()->each(function ($exercise) use ($userIds) {
+        $userIds = User::pluck('id')->toArray();
+        Exercise::factory(25)->make()->each(function ($exercise) use ($userIds) {
             $exercise->user_id = fake()->randomElement($userIds);
             $exercise->save();
         });

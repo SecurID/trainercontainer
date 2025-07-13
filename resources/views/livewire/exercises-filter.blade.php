@@ -14,8 +14,8 @@
 
     <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-4">
         @foreach ($exercises as $exercise)
-            <a href="{{ route('exercises.show', ['exercise' => $exercise]) }}">
-                <div class="card rounded overflow-hidden shadow-lg">
+            <div class="card rounded overflow-hidden shadow-lg relative">
+                <a href="{{ route('exercises.show', ['exercise' => $exercise]) }}">
                     @if($exercise->image)
                         <img class="w-full" src="{{ asset('storage/' . $exercise->image) }}" alt="{{ $exercise->name }}">
                     @endif
@@ -24,8 +24,8 @@
                         <p>{{__('Duration')}}: {{ $exercise->duration }} {{ __('minutes') }}</p>
                         <p>{{__('Intensity')}}: {{ $exercise->intensity }}%</p>
                     </div>
-                </div>
-            </a>
+                </a>
+            </div>
         @endforeach
     </div>
 </div>

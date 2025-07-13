@@ -62,6 +62,10 @@ class ExerciseController extends Controller
 
     public function edit(Exercise $exercise)
     {
+        if ($exercise->user_id !== auth()->id()) {
+            abort(403, 'You are not authorized to edit this exercise.');
+        }
+
         $categories = Category::all();
         return response()->view('exercises/update-exercises', ['exercise' => $exercise, 'categories' => $categories]);
     }

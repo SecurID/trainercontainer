@@ -4,7 +4,12 @@
             <h2 class="text-xl font-semibold text-gray-800 leading-tight">
                 {{ __('Players') }}
             </h2>
-            <div>
+            <div class="flex space-x-2">
+                <a href="{{ route('players.position-analysis') }}">
+                    <button class="px-4 py-2 bg-green-500 text-white font-bold rounded hover:bg-green-700">
+                        {{ __('Position Analysis') }}
+                    </button>
+                </a>
                 <a href="/players/create">
                     <button class="px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-700">
                         {{ __('Create Player') }}
@@ -23,7 +28,7 @@
                     @endif
                     @foreach($players as $player)
                         <a href="{{ route('players.show', $player->id) }}" class="block px-4 py-2 mt-2 bg-gray-100 rounded hover:bg-gray-200">
-                            {{$player->prename}} {{$player->lastname}}
+                            {{$player->lastname}}, {{$player->prename}}
                         </a>
                     @endforeach
                 </div>

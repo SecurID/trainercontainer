@@ -15,20 +15,20 @@ class CategoryTableSeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            ['name' => 'Warm-up'],
-            ['name' => 'Games'],
-            ['name' => 'Individual training'],
-            ['name' => 'Technical training'],
-            ['name' => 'Tactical training'],
-            ['name' => '1 on 1'],
-            ['name' => 'Over-under forms'],
-            ['name' => 'Passing'],
-            ['name' => 'Shooting'],
-            ['name' => 'Dribbling'],
-            ['name' => 'Cognition'],
-            ['name' => 'Coordination'],
-            ['name' => 'Speed'],
-            ['name' => 'Endurance'],
+            ['name' => 'warmup'],
+            ['name' => 'games'],
+            ['name' => 'individual'],
+            ['name' => 'technical'],
+            ['name' => 'tactical'],
+            ['name' => '1-on-1'],
+            ['name' => 'over-under-forms'],
+            ['name' => 'passing'],
+            ['name' => 'shooting'],
+            ['name' => 'dribbling'],
+            ['name' => 'cognition'],
+            ['name' => 'coordination'],
+            ['name' => 'speed'],
+            ['name' => 'endurance'],
         ];
 
         Category::insert($categories);

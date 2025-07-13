@@ -21,10 +21,12 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserTableSeeder::class,
             CategoryTableSeeder::class,
+            PositionSeeder::class,
         ]);
         if (config('app.env') == 'local') {
             $this->call([
                 ExerciseTableSeeder::class,
+                //ExerciseCategorySeeder::class,
                 PracticeTableSeeder::class,
                 PlayerTableSeeder::class,
                 RatingTableSeeder::class,

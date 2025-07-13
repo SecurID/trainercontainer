@@ -7,20 +7,6 @@
             </h2>
             <div class="flex space-x-2">
                 <div>
-                    <a>
-                        <button data-tooltip-target="tooltip-ai-practice" data-tooltip-placement="bottom"
-                                class="px-4 py-2 text-white bg-gray-500 rounded-lg" disabled>
-                            {{ __('Generate AI Practice') }}
-                        </button>
-                    </a>
-                    <div id="tooltip-ai-practice" role="tooltip"
-                         class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                        {{ __('Coming soon') }}
-                        <div class="tooltip-arrow" data-popper-arrow></div>
-                    </div>
-
-                </div>
-                <div>
                     <a href="{{ route('practices.create') }}">
                         <button class="px-4 py-2 text-white bg-blue-500 hover:bg-blue-700 rounded-lg">
                             {{ __('Create Practice') }}

@@ -96,7 +96,16 @@ class PracticeController extends Controller
 
         // Configure Chrome/Chromium path for different environments
         $pdf->withBrowsershot(function ($browsershot) {
+            // Set environment variables to prevent Chrome from accessing /var/www/.local
+            $browsershot->setEnvironmentVariable('HOME', '/tmp');
+            $browsershot->setEnvironmentVariable('XDG_CONFIG_HOME', '/tmp');
+            $browsershot->setEnvironmentVariable('XDG_CACHE_HOME', '/tmp');
+            $browsershot->setEnvironmentVariable('XDG_DATA_HOME', '/tmp');
+            
             // Add Chrome arguments for headless server environment
+            $userDataDir = (config('app.chrome_temp_dir') ?: sys_get_temp_dir()) . '/chrome-user-data-' . uniqid();
+            $crashDumpsDir = (config('app.chrome_temp_dir') ?: sys_get_temp_dir()) . '/chrome-crash-dumps-' . uniqid();
+            
             $browsershot->setOption('args', [
                 '--no-sandbox',
                 '--disable-dev-shm-usage',
@@ -130,7 +139,32 @@ class PracticeController extends Controller
                 '--no-default-browser-check',
                 '--no-zygote',
                 '--single-process',
-                '--user-data-dir=' . (config('app.chrome_temp_dir') ?: sys_get_temp_dir()) . '/chrome-user-data-' . uniqid(),
+                '--headless',
+                '--disable-crash-reporter',
+                '--disable-logging',
+                '--disable-login-animations',
+                '--disable-notifications',
+                '--disable-permissions-api',
+                '--disable-plugins',
+                '--disable-print-preview',
+                '--disable-speech-api',
+                '--disable-file-system',
+                '--disable-presentation-api',
+                '--disable-sensors',
+                '--disable-tab-for-desktop-share',
+                '--disable-translate',
+                '--disable-wake-on-wifi',
+                '--enable-features=NetworkService,NetworkServiceLogging',
+                '--disable-features=AudioServiceOutOfProcess,MediaRouter',
+                '--aggressive-cache-discard',
+                '--disable-back-forward-cache',
+                '--disable-backgrounding-occluded-windows',
+                '--disable-features=Translate,BackForwardCache,AcceptCHFrame,MediaRouter,OptimizationHints',
+                '--hide-crash-restore-bubble',
+                '--user-data-dir=' . $userDataDir,
+                '--crash-dumps-dir=' . $crashDumpsDir,
+                '--disable-crash-reporter',
+                '--no-crash-upload',
             ]);
 
             // Use environment variable if set

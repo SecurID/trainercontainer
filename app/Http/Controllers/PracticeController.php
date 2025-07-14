@@ -104,60 +104,30 @@ class PracticeController extends Controller
                     '--disable-gpu',
                     '--headless',
                 ]);
-                
+
                 // Let Puppeteer handle Chrome detection locally
                 return $browsershot;
             } else {
-                // Production server - comprehensive configuration
+                // Production server - simplified but effective configuration
                 $browsershot->setOption('args', [
                     '--no-sandbox',
                     '--disable-setuid-sandbox',
                     '--disable-dev-shm-usage',
                     '--disable-gpu',
-                    '--headless=new',
+                    '--headless',
                     '--disable-web-security',
                     '--disable-features=VizDisplayCompositor',
-                    '--run-all-compositor-stages-before-draw',
-                    '--disable-checker-imaging',
-                    '--disable-new-content-rendering-timeout',
-                    '--disable-threaded-animation',
-                    '--disable-threaded-scrolling',
-                    '--disable-in-process-stack-traces',
-                    '--disable-histogram-customizer',
-                    '--disable-gl-extensions',
-                    '--disable-composited-antialiasing',
-                    '--disable-canvas-aa',
-                    '--disable-3d-apis',
-                    '--disable-accelerated-2d-canvas',
-                    '--disable-accelerated-jpeg-decoding',
-                    '--disable-accelerated-mjpeg-decode',
-                    '--disable-app-list-dismiss-on-blur',
-                    '--disable-accelerated-video-decode',
-                    '--num-raster-threads=1',
-                    '--enable-main-frame-before-activation',
-                    '--disable-partial-raster',
-                    '--disable-skia-runtime-opts',
-                    '--disable-zero-browsers-open-for-tests',
-                    '--disable-renderer-backgrounding',
-                    '--disable-background-networking',
-                    '--disable-background-timer-throttling',
-                    '--disable-client-side-phishing-detection',
-                    '--disable-default-apps',
                     '--disable-extensions',
-                    '--disable-hang-monitor',
-                    '--disable-popup-blocking',
-                    '--disable-prompt-on-repost',
+                    '--disable-default-apps',
+                    '--no-first-run',
                     '--disable-sync',
                     '--disable-translate',
                     '--metrics-recording-only',
-                    '--no-first-run',
                     '--enable-automation',
                     '--password-store=basic',
                     '--use-mock-keychain',
-                    '--export-tagged-pdf',
-                    '--no-pdf-header-footer',
-                    '--disable-pdf-tagging',
                     '--user-data-dir=/tmp/chrome-pdf-' . uniqid(),
+                    '--virtual-time-budget=10000', // Limit execution time
                 ]);
 
                 // Production: Use wrapper script if available, otherwise direct Chrome
@@ -167,7 +137,7 @@ class PracticeController extends Controller
                     return $browsershot->setChromePath('/usr/bin/google-chrome-stable');
                 }
             }
-            
+
             return $browsershot;
         });
 

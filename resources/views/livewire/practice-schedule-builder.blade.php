@@ -31,17 +31,21 @@
                 <table class="w-full table-auto border-collapse">
                     <thead>
                         <tr class="text-center text-white bg-gray-800">
+                            <th class="px-4 py-3 w-10">#</th>
                             <th class="px-4 py-3 text-left min-w-[200px]">Übung</th>
-                            <th class="px-4 py-3 w-20">Spieler</th>
-                            <th class="px-4 py-3 w-20">Torwart</th>
-                            <th class="px-4 py-3 w-24">Zeit</th>
-                            <th class="px-4 py-3 min-w-[120px]">Trainer</th>
+                            <th class="px-4 py-3 w-20">Spieler:innen</th>
+                            <th class="px-4 py-3 w-20">Torhüter:innen</th>
+                            <th class="px-4 py-3 w-36">Zeit</th>
+                            <th class="px-4 py-3 min-w-[80px]">Trainer:in</th>
                             <th class="px-4 py-3 w-16">Aktion</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($scheduleRows as $index => $row)
                             <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                <td class="px-4 py-3">
+                                    {{ $index+1 }}
+                                </td>
                                 <!-- Exercise Autocomplete -->
                                 <td class="px-4 py-3 relative">
                                     <input type="text"
@@ -167,7 +171,7 @@
                     <!-- Player and Goalkeeper Counts -->
                     <div class="grid grid-cols-2 gap-4 mb-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Spieler</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Spieler:innen</label>
                             <input type="number"
                                    wire:model.live="scheduleRows.{{ $index }}.playerCount"
                                    min="1" max="30"

@@ -179,7 +179,7 @@ class PracticeScheduleBuilder extends Component
             return;
         }
         if (empty($row['playerCount'])) {
-            $this->showSuccessMessage('Fehler: Spieleranzahl fehlt');
+            $this->showSuccessMessage('Fehler: Spieler:innenanzahl fehlt');
             return;
         }
         if (empty($row['time'])) {

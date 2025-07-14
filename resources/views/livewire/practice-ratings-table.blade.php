@@ -2,7 +2,7 @@
     <div class="mt-4 flex items-center justify-between">
         <button wire:click="toggleCollapse"
                 class="flex w-full justify-between space-x-2 px-4 py-2 bg-bg-secondary hover:bg-bg-tertiary rounded-lg transition-colors duration-200">
-            <h2 class="text-xl font-bold text-text-primary">Spielerbewertungen</h2>
+            <h2 class="text-xl font-bold text-text-primary">Spieler:innenbewertungen</h2>
             <div class="flex items-center space-x-2">
                 <span class="text-sm font-medium">
                     {{ $isCollapsed ? 'Anzeigen' : 'Ausblenden' }}

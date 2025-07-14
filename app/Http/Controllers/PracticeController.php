@@ -89,112 +89,117 @@ class PracticeController extends Controller
 
     public function print(Practice $practice)
     {
+        // Try wkhtmltopdf first if available (more reliable for servers)
+        if ($this->isWkhtmltopdfAvailable()) {
+            return $this->generatePdfWithWkhtmltopdf($practice);
+        }
+
+        // Fallback to Browsershot/Chrome
+        return $this->generatePdfWithBrowsershot($practice);
+    }
+
+    private function isWkhtmltopdfAvailable(): bool
+    {
+        $wkhtmltopdfPaths = [
+            '/usr/bin/wkhtmltopdf',
+            '/usr/local/bin/wkhtmltopdf',
+            config('app.wkhtmltopdf_path'),
+        ];
+
+        foreach ($wkhtmltopdfPaths as $path) {
+            if ($path && file_exists($path)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function generatePdfWithWkhtmltopdf(Practice $practice)
+    {
+        // Generate HTML content
+        $html = view('pdf/practice', [
+            'practice' => $practice, 
+            'schedules' => $practice->schedules()->get()
+        ])->render();
+
+        // Save HTML to temporary file
+        $tempHtmlFile = tempnam(sys_get_temp_dir(), 'practice_') . '.html';
+        file_put_contents($tempHtmlFile, $html);
+
+        // Generate PDF with wkhtmltopdf
+        $tempPdfFile = tempnam(sys_get_temp_dir(), 'practice_') . '.pdf';
+        $wkhtmltopdfPath = $this->getWkhtmltopdfPath();
+        
+        $command = sprintf(
+            '%s --page-size A4 --orientation Landscape --margin-top 10mm --margin-right 10mm --margin-bottom 10mm --margin-left 10mm "%s" "%s"',
+            $wkhtmltopdfPath,
+            $tempHtmlFile,
+            $tempPdfFile
+        );
+
+        exec($command, $output, $returnCode);
+
+        // Clean up HTML file
+        unlink($tempHtmlFile);
+
+        if ($returnCode !== 0 || !file_exists($tempPdfFile)) {
+            throw new \Exception('Failed to generate PDF with wkhtmltopdf');
+        }
+
+        // Return PDF response
+        $fileName = 'practice-' . $practice->date->format('Y-m-d') . '.pdf';
+        
+        return response()->file($tempPdfFile, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="' . $fileName . '"'
+        ])->deleteFileAfterSend(true);
+    }
+
+    private function getWkhtmltopdfPath(): string
+    {
+        $paths = [
+            config('app.wkhtmltopdf_path'),
+            '/usr/bin/wkhtmltopdf',
+            '/usr/local/bin/wkhtmltopdf',
+        ];
+
+        foreach ($paths as $path) {
+            if ($path && file_exists($path)) {
+                return $path;
+            }
+        }
+
+        return '/usr/bin/wkhtmltopdf'; // Default fallback
+    }
+
+    private function generatePdfWithBrowsershot(Practice $practice)
+    {
         $pdf = Pdf::view('pdf/practice', ['practice' => $practice, 'schedules' => $practice->schedules()->get()])
             ->format(Format::A4)
             ->landscape()
-            ->name('practice-'.$practice->date.'.pdf');
+            ->name('practice-' . $practice->date->format('Y-m-d') . '.pdf');
 
-        // Configure Chrome/Chromium path for different environments
+        // Configure Chrome/Chromium with minimal arguments for compatibility
         $pdf->withBrowsershot(function ($browsershot) {
-            // Set environment variables to prevent Chrome from accessing /var/www/.local
-            $browsershot->setEnvironmentVariable('HOME', '/tmp');
-            $browsershot->setEnvironmentVariable('XDG_CONFIG_HOME', '/tmp');
-            $browsershot->setEnvironmentVariable('XDG_CACHE_HOME', '/tmp');
-            $browsershot->setEnvironmentVariable('XDG_DATA_HOME', '/tmp');
-            
-            // Add Chrome arguments for headless server environment
-            $userDataDir = (config('app.chrome_temp_dir') ?: sys_get_temp_dir()) . '/chrome-user-data-' . uniqid();
-            
             $browsershot->setOption('args', [
                 '--no-sandbox',
                 '--disable-dev-shm-usage',
                 '--disable-gpu',
-                '--disable-web-security',
-                '--disable-features=VizDisplayCompositor',
-                '--disable-background-networking',
-                '--disable-background-timer-throttling',
-                '--disable-backgrounding-occluded-windows',
-                '--disable-breakpad',
-                '--disable-client-side-phishing-detection',
-                '--disable-component-extensions-with-background-pages',
-                '--disable-default-apps',
-                '--disable-extensions',
-                '--disable-features=TranslateUI',
-                '--disable-hang-monitor',
-                '--disable-ipc-flooding-protection',
-                '--disable-popup-blocking',
-                '--disable-prompt-on-repost',
-                '--disable-renderer-backgrounding',
-                '--disable-sync',
-                '--force-color-profile=srgb',
-                '--metrics-recording-only',
-                '--no-first-run',
-                '--safebrowsing-disable-auto-update',
-                '--enable-automation',
-                '--password-store=basic',
-                '--use-mock-keychain',
-                '--hide-scrollbars',
-                '--mute-audio',
-                '--no-default-browser-check',
-                '--no-zygote',
-                '--single-process',
                 '--headless',
                 '--disable-crash-reporter',
-                '--disable-logging',
-                '--disable-login-animations',
-                '--disable-notifications',
-                '--disable-permissions-api',
-                '--disable-plugins',
-                '--disable-print-preview',
-                '--disable-speech-api',
-                '--disable-file-system',
-                '--disable-presentation-api',
-                '--disable-sensors',
-                '--disable-tab-for-desktop-share',
-                '--disable-translate',
-                '--disable-wake-on-wifi',
-                '--enable-features=NetworkService,NetworkServiceLogging',
-                '--disable-features=AudioServiceOutOfProcess,MediaRouter,Crashpad',
-                '--aggressive-cache-discard',
-                '--disable-back-forward-cache',
-                '--disable-backgrounding-occluded-windows',
-                '--disable-features=Translate,BackForwardCache,AcceptCHFrame,MediaRouter,OptimizationHints,Crashpad',
-                '--hide-crash-restore-bubble',
-                '--user-data-dir=' . $userDataDir,
-                '--disable-crash-reporter',
-                '--no-crash-upload',
-                '--disable-crashpad',
-                '--disable-features=Crashpad',
+                '--disable-extensions',
+                '--no-first-run',
+                '--disable-default-apps',
+                '--single-process',
             ]);
 
-            // Use environment variable if set
-            if ($chromePath = config('app.chrome_path')) {
-                if (file_exists($chromePath)) {
-                    return $browsershot->setChromePath($chromePath);
-                }
-            }
-
-            // Try Puppeteer's Chrome first (more reliable for headless)
-            $puppeteerChromePaths = [
-                '/var/www/.cache/puppeteer/chrome/linux-131.0.6778.204/chrome-linux64/chrome', // Puppeteer 23
-                '/var/www/.cache/puppeteer/chrome/linux-127.0.6533.88/chrome-linux64/chrome',  // Fallback
-                '/root/.cache/puppeteer/chrome/linux-131.0.6778.204/chrome-linux64/chrome',   // Root cache
-                '/home/www-data/.cache/puppeteer/chrome/linux-131.0.6778.204/chrome-linux64/chrome', // www-data cache
-            ];
-            
-            foreach ($puppeteerChromePaths as $chromePath) {
-                if (file_exists($chromePath)) {
-                    return $browsershot->setChromePath($chromePath);
-                }
-            }
-
-            // Try common Chrome/Chromium paths as fallback
+            // Try to find a working Chrome installation
             $chromePaths = [
-                '/usr/bin/google-chrome-stable',  // Google Chrome (preferred)
-                '/usr/bin/google-chrome',         // Alternative Google Chrome
-                '/opt/google/chrome/chrome',      // Another Chrome path
-                '/usr/bin/chromium',              // Non-snap Chromium
-                '/usr/bin/chromium-browser',      // Your current snap version (fallback)
+                '/usr/bin/google-chrome-stable',
+                '/usr/bin/google-chrome',
+                '/usr/bin/chromium-browser',
+                '/usr/bin/chromium',
             ];
 
             foreach ($chromePaths as $path) {
@@ -203,7 +208,6 @@ class PracticeController extends Controller
                 }
             }
 
-            // For local development, let Puppeteer handle Chrome detection
             return $browsershot;
         });
 

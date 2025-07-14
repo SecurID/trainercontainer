@@ -81,6 +81,7 @@ return [
 
     'chrome_path' => env('CHROME_PATH'),
     'chrome_temp_dir' => env('CHROME_TEMP_DIR'),
+    'wkhtmltopdf_path' => env('WKHTMLTOPDF_PATH'),
 
     /*
     |--------------------------------------------------------------------------

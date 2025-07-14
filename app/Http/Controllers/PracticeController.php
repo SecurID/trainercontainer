@@ -96,6 +96,9 @@ class PracticeController extends Controller
 
         // Configure Chrome based on environment
         $pdf->withBrowsershot(function ($browsershot) {
+            // Set timeout for all environments
+            $browsershot->setOption('timeout', 60000); // 60 seconds
+            
             if (app()->environment('local')) {
                 // Local development - minimal configuration
                 $browsershot->setOption('args', [
@@ -126,15 +129,29 @@ class PracticeController extends Controller
                     '--enable-automation',
                     '--password-store=basic',
                     '--use-mock-keychain',
+                    '--disable-touch-emulation',
+                    '--disable-device-emulation',
+                    '--disable-mobile-emulation',
+                    '--disable-viewport-meta',
+                    '--disable-background-timer-throttling',
+                    '--disable-renderer-backgrounding',
+                    '--disable-backgrounding-occluded-windows',
                     '--user-data-dir=/tmp/chrome-pdf-' . uniqid(),
                     '--virtual-time-budget=10000', // Limit execution time
                 ]);
 
-                // Production: Use wrapper script if available, otherwise direct Chrome
-                if (file_exists('/usr/local/bin/chrome-pdf')) {
-                    return $browsershot->setChromePath('/usr/local/bin/chrome-pdf');
-                } elseif (file_exists('/usr/bin/google-chrome-stable')) {
+                // Disable viewport emulation to prevent the crash
+                $browsershot->setOption('viewport', [
+                    'width' => 1200,
+                    'height' => 800,
+                    'deviceScaleFactor' => 1,
+                ]);
+
+                // Production: Try direct Chrome first, then wrapper as fallback
+                if (file_exists('/usr/bin/google-chrome-stable')) {
                     return $browsershot->setChromePath('/usr/bin/google-chrome-stable');
+                } elseif (file_exists('/usr/local/bin/chrome-pdf')) {
+                    return $browsershot->setChromePath('/usr/local/bin/chrome-pdf');
                 }
             }
 

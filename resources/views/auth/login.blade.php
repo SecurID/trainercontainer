@@ -44,5 +44,12 @@
                 </x-button>
             </div>
         </form>
+        <div class="flex items-center justify-end mt-4">
+            <a href="{{ route('register') }}">
+                <x-secondary-button class="ml-4">
+                    {{ __('No Account yet? Create one!') }}
+                </x-secondary-button>
+            </a>
+        </div>
     </x-authentication-card>
 </x-guest-layout>

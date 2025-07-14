@@ -89,9 +89,51 @@ class PracticeController extends Controller
 
     public function print(Practice $practice)
     {
-        return Pdf::view('pdf/practice', ['practice' => $practice, 'schedules' => $practice->schedules()->get()])
+        $pdf = Pdf::view('pdf/practice', ['practice' => $practice, 'schedules' => $practice->schedules()->get()])
             ->format(Format::A4)
             ->landscape()
             ->name('practice-'.$practice->date.'.pdf');
+
+        // Configure Chrome/Chromium path for different environments
+        $pdf->withBrowsershot(function ($browsershot) {
+            // Use environment variable if set
+            if ($chromePath = config('app.chrome_path')) {
+                if (file_exists($chromePath)) {
+                    return $browsershot->setChromePath($chromePath);
+                }
+            }
+
+            // Try common Chrome/Chromium paths
+            $chromePaths = [
+                '/usr/bin/chromium-browser',      // Your production server
+                '/usr/bin/google-chrome-stable',  // Common production path
+                '/usr/bin/google-chrome',         // Alternative production path
+                '/usr/bin/chromium',              // Alternative chromium path
+                '/opt/google/chrome/chrome',      // Another common path
+            ];
+
+            foreach ($chromePaths as $path) {
+                if (file_exists($path)) {
+                    return $browsershot->setChromePath($path);
+                }
+            }
+
+            // Try Puppeteer's Chrome (updated for version 23)
+            $puppeteerChromePaths = [
+                '/var/www/.cache/puppeteer/chrome/linux-131.0.6778.204/chrome-linux64/chrome', // Puppeteer 23
+                '/var/www/.cache/puppeteer/chrome/linux-127.0.6533.88/chrome-linux64/chrome',  // Fallback
+            ];
+            
+            foreach ($puppeteerChromePaths as $chromePath) {
+                if (file_exists($chromePath)) {
+                    return $browsershot->setChromePath($chromePath);
+                }
+            }
+
+            // For local development, let Puppeteer handle Chrome detection
+            return $browsershot;
+        });
+
+        return $pdf;
     }
 }

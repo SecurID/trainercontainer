@@ -71,6 +71,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Chrome Path Configuration
+    |--------------------------------------------------------------------------
+    |
+    | This value is used to specify the path to the Chrome/Chromium executable
+    | for PDF generation. If not set, the application will auto-detect Chrome.
+    |
+    */
+
+    'chrome_path' => env('CHROME_PATH'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Locale Configuration
     |--------------------------------------------------------------------------
     |

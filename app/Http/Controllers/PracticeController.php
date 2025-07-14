@@ -89,18 +89,11 @@ class PracticeController extends Controller
 
     public function print(Practice $practice)
     {
-        $pdf = Pdf::view('pdf/practice', ['practice' => $practice, 'schedules' => $practice->schedules()->get()])
+        return Pdf::view('pdf/practice', ['practice' => $practice, 'schedules' => $practice->schedules()->get()])
             ->format(Format::A4)
             ->landscape()
-            ->name('practice-' . $practice->date->format('Y-m-d') . '.pdf');
+            ->name('practice-' . $practice->date->format('Y-m-d') . '.pdf')
+            ->onLambda();
 
-        // Set environment variable to force Puppeteer to use system Chrome
-        $pdf->withBrowsershot(function ($browsershot) {
-            $browsershot->setChromePath('/var/www/.cache/puppeteer/chrome/linux-131.0.6778.204/chrome-linux64/chrome');
-
-            return $browsershot;
-        });
-
-        return $pdf;
     }
 }

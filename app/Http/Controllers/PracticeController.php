@@ -96,15 +96,8 @@ class PracticeController extends Controller
 
         // Set environment variable to force Puppeteer to use system Chrome
         $pdf->withBrowsershot(function ($browsershot) {
-            // Force Puppeteer to use system Chrome via environment variable
-            putenv('PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser');
-            
-            $browsershot->setOption('args', [
-                '--no-sandbox',
-                '--disable-dev-shm-usage',
-                '--headless',
-            ]);
-            
+            $browsershot->setChromePath('/var/www/.cache/puppeteer/chrome/linux-131.0.6778.204/chrome-linux64/chrome');
+
             return $browsershot;
         });
 

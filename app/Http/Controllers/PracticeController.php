@@ -96,9 +96,7 @@ class PracticeController extends Controller
 
         // Configure Chrome based on environment
         $pdf->withBrowsershot(function ($browsershot) {
-            // Set timeout for all environments
-            $browsershot->setOption('timeout', 60000); // 60 seconds
-            
+
             if (app()->environment('local')) {
                 // Local development - minimal configuration
                 $browsershot->setOption('args', [

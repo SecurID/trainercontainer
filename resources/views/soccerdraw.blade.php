@@ -14,13 +14,26 @@
             <div class="container mx-auto px-4 py-6">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
-                        <a href="{{ route('welcome') }}"><img src="{{ asset('images/logo_trainercontainer.png') }}" class="h-12 w-auto mr-4" alt="Logo" /></a>
+                        <a href="{{ route('dashboard') }}">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <div class="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center">
+                                        <span class="text-white text-xl font-bold">t</span>
+                                    </div>
+                                </div>
+                                <span class="ml-3 text-xl font-bold text-gray-900">trainercontainer</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div>
                         <h1 class="text-2xl font-bold text-gray-800">Zeichenprogramm Fußball</h1>
                     </div>
                     <div class="flex space-x-4">
                         @auth
-                            <a href="{{ route('dashboard') }}" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+                            <a href="{{ route('dashboard') }}">
+                                <x-button>
                                 Dashboard
+                                </x-button>
                             </a>
                         @else
                             <a href="{{ route('login') }}" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
@@ -52,7 +65,7 @@
             <div class="container mx-auto px-4 text-center">
                 <p>&copy; {{ date('Y') }} {{ config('APP_NAME') }}. All rights reserved.</p>
                 <div class="mt-4">
-                    <a href="{{ route('imprint') }}" class="text-gray-300 hover:text-white mx-2">Imprint</a>
+                    <a href="https://trainercontainer.de/impressum.html" class="text-gray-300 hover:text-white mx-2">Imprint</a>
                 </div>
             </div>
         </footer>

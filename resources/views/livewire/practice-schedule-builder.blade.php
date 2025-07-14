@@ -205,13 +205,12 @@
 
         <!-- Add New Row Button -->
         <div class="mt-6">
-            <button wire:click="addRow"
-                    class="px-6 py-3 bg-green-600 text-white text-lg font-semibold rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 transition-colors duration-200 flex items-center justify-center space-x-2">
+            <x-button wire:click="addRow">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                 </svg>
                 <span>Übung hinzufügen</span>
-            </button>
+            </x-button>
         </div>
     </div>
 </div>

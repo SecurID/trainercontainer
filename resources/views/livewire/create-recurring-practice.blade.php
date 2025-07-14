@@ -58,9 +58,9 @@
                     </div>
                 </div>
                 <div class="flex justify-end mt-4">
-                    <button type="submit" class="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-700 transition duration-300">
+                    <x-button type="submit">
                         Erstellen
-                    </button>
+                    </x-button>
                 </div>
                 @if($success)
                     <div class="mt-4 text-green-600 font-semibold">Trainingseinheiten wurden erfolgreich erstellt!</div>

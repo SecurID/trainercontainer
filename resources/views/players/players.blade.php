@@ -6,14 +6,14 @@
             </h2>
             <div class="flex space-x-2">
                 <a href="{{ route('players.position-analysis') }}">
-                    <button class="px-4 py-2 bg-green-500 text-white font-bold rounded hover:bg-green-700">
+                    <x-secondary-button class="px-4 py-2 bg-green-500 text-white font-bold rounded hover:bg-green-700">
                         {{ __('Position Analysis') }}
-                    </button>
+                    </x-secondary-button>
                 </a>
                 <a href="/players/create">
-                    <button class="px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-700">
+                    <x-button>
                         {{ __('Create Player') }}
-                    </button>
+                    </x-button>
                 </a>
             </div>
         </div>

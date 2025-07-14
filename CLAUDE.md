@@ -132,3 +132,69 @@ php artisan migrate:rollback
 - Uses Sidecar with Browsershot for PDF generation (requires Puppeteer)
 - Environment variables configured for various services (mail, cache, queue)
 - Supports Docker deployment (Dockerfile present)
+
+# Styleguide
+Apply this styleguide to every newly created component
+
+```bash
+// TrainerContainer Color Palette
+// Primary Colors - Teal theme from logo
+primary-50: #f0fdfa
+primary-100: #ccfbf1
+primary-200: #99f6e4
+primary-300: #5eead4
+primary-400: #2dd4bf
+primary-500: #14b8a6  // Main brand color
+primary-600: #0d9488
+primary-700: #0f766e
+primary-800: #115e59
+primary-900: #134e4a
+
+// Neutral Colors - Grays for UI
+gray-50: #f9fafb
+gray-100: #f3f4f6
+gray-200: #e5e7eb
+gray-300: #d1d5db
+gray-400: #9ca3af
+gray-500: #6b7280
+gray-600: #4b5563
+gray-700: #374151
+gray-800: #1f2937
+gray-900: #111827
+
+// Accent Colors
+success-green: #10b981
+warning-amber: #f59e0b
+error-red: #ef4444
+info-blue: #3b82f6
+
+// Background Colors
+bg-primary: #ffffff
+bg-secondary: #f9fafb
+bg-tertiary: #f3f4f6
+bg-dark: #111827
+
+// Text Colors
+text-primary: #111827
+text-secondary: #4b5563
+text-tertiary: #6b7280
+text-inverse: #ffffff
+
+// Border Colors
+border-light: #e5e7eb
+border-default: #d1d5db
+border-dark: #9ca3af
+
+// Shadow Colors
+shadow-sm: rgba(0, 0, 0, 0.05)
+shadow-md: rgba(0, 0, 0, 0.1)
+shadow-lg: rgba(0, 0, 0, 0.15)
+
+// Special Effects
+gradient-start: #14b8a6
+gradient-middle: #0d9488
+gradient-end: #0f766e
+overlay-light: rgba(255, 255, 255, 0.9)
+overlay-dark: rgba(0, 0, 0, 0.5)
+```
+

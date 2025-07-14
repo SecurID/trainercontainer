@@ -8,9 +8,9 @@
             <div class="flex space-x-2">
                 <div>
                     <a href="{{ route('practices.create') }}">
-                        <button class="px-4 py-2 text-white bg-blue-500 hover:bg-blue-700 rounded-lg">
+                        <x-button class="px-4 py-2 text-white bg-blue-500 hover:bg-blue-700 rounded-lg">
                             {{ __('Create Practice') }}
-                        </button>
+                        </x-button>
                     </a>
                 </div>
             </div>

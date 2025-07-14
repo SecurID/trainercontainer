@@ -6,9 +6,9 @@
             </h2>
             <div>
                 <a href="/exercises/create">
-                    <button class="px-4 py-2 text-white bg-blue-500 hover:bg-blue-700 rounded">
+                    <x-button>
                         {{ __('Create Exercise') }}
-                    </button>
+                    </x-button>
                 </a>
             </div>
         </div>

@@ -94,8 +94,11 @@ class PracticeController extends Controller
             ->landscape()
             ->name('practice-' . $practice->date->format('Y-m-d') . '.pdf');
 
-        // Ultra-simple Chrome configuration - just the absolute basics
+        // Set environment variable to force Puppeteer to use system Chrome
         $pdf->withBrowsershot(function ($browsershot) {
+            // Force Puppeteer to use system Chrome via environment variable
+            putenv('PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser');
+            
             $browsershot->setOption('args', [
                 '--no-sandbox',
                 '--disable-dev-shm-usage',

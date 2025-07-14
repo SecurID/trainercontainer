@@ -94,65 +94,14 @@ class PracticeController extends Controller
             ->landscape()
             ->name('practice-' . $practice->date->format('Y-m-d') . '.pdf');
 
-        // Configure Chrome based on environment
+        // Ultra-simple Chrome configuration - just the absolute basics
         $pdf->withBrowsershot(function ($browsershot) {
-
-            if (app()->environment('local')) {
-                // Local development - minimal configuration
-                $browsershot->setOption('args', [
-                    '--no-sandbox',
-                    '--disable-dev-shm-usage',
-                    '--disable-gpu',
-                    '--headless',
-                ]);
-
-                // Let Puppeteer handle Chrome detection locally
-                return $browsershot;
-            } else {
-                // Production server - simplified but effective configuration
-                $browsershot->setOption('args', [
-                    '--no-sandbox',
-                    '--disable-setuid-sandbox',
-                    '--disable-dev-shm-usage',
-                    '--disable-gpu',
-                    '--headless',
-                    '--disable-web-security',
-                    '--disable-features=VizDisplayCompositor',
-                    '--disable-extensions',
-                    '--disable-default-apps',
-                    '--no-first-run',
-                    '--disable-sync',
-                    '--disable-translate',
-                    '--metrics-recording-only',
-                    '--enable-automation',
-                    '--password-store=basic',
-                    '--use-mock-keychain',
-                    '--disable-touch-emulation',
-                    '--disable-device-emulation',
-                    '--disable-mobile-emulation',
-                    '--disable-viewport-meta',
-                    '--disable-background-timer-throttling',
-                    '--disable-renderer-backgrounding',
-                    '--disable-backgrounding-occluded-windows',
-                    '--user-data-dir=/tmp/chrome-pdf-' . uniqid(),
-                    '--virtual-time-budget=10000', // Limit execution time
-                ]);
-
-                // Disable viewport emulation to prevent the crash
-                $browsershot->setOption('viewport', [
-                    'width' => 1200,
-                    'height' => 800,
-                    'deviceScaleFactor' => 1,
-                ]);
-
-                // Production: Try direct Chrome first, then wrapper as fallback
-                if (file_exists('/usr/bin/google-chrome-stable')) {
-                    return $browsershot->setChromePath('/usr/bin/google-chrome-stable');
-                } elseif (file_exists('/usr/local/bin/chrome-pdf')) {
-                    return $browsershot->setChromePath('/usr/local/bin/chrome-pdf');
-                }
-            }
-
+            $browsershot->setOption('args', [
+                '--no-sandbox',
+                '--disable-dev-shm-usage',
+                '--headless',
+            ]);
+            
             return $browsershot;
         });
 

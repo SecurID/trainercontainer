@@ -97,7 +97,7 @@ class PracticeController extends Controller
         // Configure Chrome/Chromium path for different environments
         $pdf->withBrowsershot(function ($browsershot) {
             // Add Chrome arguments for headless server environment
-            $browsershot->addChromiumArguments([
+            $browsershot->setOption('args', [
                 '--no-sandbox',
                 '--disable-dev-shm-usage',
                 '--disable-gpu',
@@ -130,7 +130,7 @@ class PracticeController extends Controller
                 '--no-default-browser-check',
                 '--no-zygote',
                 '--single-process',
-                '--user-data-dir=' . sys_get_temp_dir() . '/chrome-user-data-' . uniqid(),
+                '--user-data-dir=' . (config('app.chrome_temp_dir') ?: sys_get_temp_dir()) . '/chrome-user-data-' . uniqid(),
             ]);
 
             // Use environment variable if set
@@ -140,13 +140,13 @@ class PracticeController extends Controller
                 }
             }
 
-            // Try common Chrome/Chromium paths
+            // Try common Chrome/Chromium paths (prioritize non-snap versions)
             $chromePaths = [
-                '/usr/bin/chromium-browser',      // Your production server
-                '/usr/bin/google-chrome-stable',  // Common production path
-                '/usr/bin/google-chrome',         // Alternative production path
-                '/usr/bin/chromium',              // Alternative chromium path
-                '/opt/google/chrome/chrome',      // Another common path
+                '/usr/bin/google-chrome-stable',  // Google Chrome (preferred)
+                '/usr/bin/google-chrome',         // Alternative Google Chrome
+                '/opt/google/chrome/chrome',      // Another Chrome path
+                '/usr/bin/chromium',              // Non-snap Chromium
+                '/usr/bin/chromium-browser',      // Your current snap version (fallback)
             ];
 
             foreach ($chromePaths as $path) {

@@ -104,7 +104,6 @@ class PracticeController extends Controller
             
             // Add Chrome arguments for headless server environment
             $userDataDir = (config('app.chrome_temp_dir') ?: sys_get_temp_dir()) . '/chrome-user-data-' . uniqid();
-            $crashDumpsDir = (config('app.chrome_temp_dir') ?: sys_get_temp_dir()) . '/chrome-crash-dumps-' . uniqid();
             
             $browsershot->setOption('args', [
                 '--no-sandbox',
@@ -155,16 +154,17 @@ class PracticeController extends Controller
                 '--disable-translate',
                 '--disable-wake-on-wifi',
                 '--enable-features=NetworkService,NetworkServiceLogging',
-                '--disable-features=AudioServiceOutOfProcess,MediaRouter',
+                '--disable-features=AudioServiceOutOfProcess,MediaRouter,Crashpad',
                 '--aggressive-cache-discard',
                 '--disable-back-forward-cache',
                 '--disable-backgrounding-occluded-windows',
-                '--disable-features=Translate,BackForwardCache,AcceptCHFrame,MediaRouter,OptimizationHints',
+                '--disable-features=Translate,BackForwardCache,AcceptCHFrame,MediaRouter,OptimizationHints,Crashpad',
                 '--hide-crash-restore-bubble',
                 '--user-data-dir=' . $userDataDir,
-                '--crash-dumps-dir=' . $crashDumpsDir,
                 '--disable-crash-reporter',
                 '--no-crash-upload',
+                '--disable-crashpad',
+                '--disable-features=Crashpad',
             ]);
 
             // Use environment variable if set
@@ -174,7 +174,21 @@ class PracticeController extends Controller
                 }
             }
 
-            // Try common Chrome/Chromium paths (prioritize non-snap versions)
+            // Try Puppeteer's Chrome first (more reliable for headless)
+            $puppeteerChromePaths = [
+                '/var/www/.cache/puppeteer/chrome/linux-131.0.6778.204/chrome-linux64/chrome', // Puppeteer 23
+                '/var/www/.cache/puppeteer/chrome/linux-127.0.6533.88/chrome-linux64/chrome',  // Fallback
+                '/root/.cache/puppeteer/chrome/linux-131.0.6778.204/chrome-linux64/chrome',   // Root cache
+                '/home/www-data/.cache/puppeteer/chrome/linux-131.0.6778.204/chrome-linux64/chrome', // www-data cache
+            ];
+            
+            foreach ($puppeteerChromePaths as $chromePath) {
+                if (file_exists($chromePath)) {
+                    return $browsershot->setChromePath($chromePath);
+                }
+            }
+
+            // Try common Chrome/Chromium paths as fallback
             $chromePaths = [
                 '/usr/bin/google-chrome-stable',  // Google Chrome (preferred)
                 '/usr/bin/google-chrome',         // Alternative Google Chrome
@@ -186,18 +200,6 @@ class PracticeController extends Controller
             foreach ($chromePaths as $path) {
                 if (file_exists($path)) {
                     return $browsershot->setChromePath($path);
-                }
-            }
-
-            // Try Puppeteer's Chrome (updated for version 23)
-            $puppeteerChromePaths = [
-                '/var/www/.cache/puppeteer/chrome/linux-131.0.6778.204/chrome-linux64/chrome', // Puppeteer 23
-                '/var/www/.cache/puppeteer/chrome/linux-127.0.6533.88/chrome-linux64/chrome',  // Fallback
-            ];
-            
-            foreach ($puppeteerChromePaths as $chromePath) {
-                if (file_exists($chromePath)) {
-                    return $browsershot->setChromePath($chromePath);
                 }
             }
 

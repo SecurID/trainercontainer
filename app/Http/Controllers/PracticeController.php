@@ -89,125 +89,85 @@ class PracticeController extends Controller
 
     public function print(Practice $practice)
     {
-        // Try wkhtmltopdf first if available (more reliable for servers)
-        if ($this->isWkhtmltopdfAvailable()) {
-            return $this->generatePdfWithWkhtmltopdf($practice);
-        }
-
-        // Fallback to Browsershot/Chrome
-        return $this->generatePdfWithBrowsershot($practice);
-    }
-
-    private function isWkhtmltopdfAvailable(): bool
-    {
-        $wkhtmltopdfPaths = [
-            '/usr/bin/wkhtmltopdf',
-            '/usr/local/bin/wkhtmltopdf',
-            config('app.wkhtmltopdf_path'),
-        ];
-
-        foreach ($wkhtmltopdfPaths as $path) {
-            if ($path && file_exists($path)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private function generatePdfWithWkhtmltopdf(Practice $practice)
-    {
-        // Generate HTML content
-        $html = view('pdf/practice', [
-            'practice' => $practice, 
-            'schedules' => $practice->schedules()->get()
-        ])->render();
-
-        // Save HTML to temporary file
-        $tempHtmlFile = tempnam(sys_get_temp_dir(), 'practice_') . '.html';
-        file_put_contents($tempHtmlFile, $html);
-
-        // Generate PDF with wkhtmltopdf
-        $tempPdfFile = tempnam(sys_get_temp_dir(), 'practice_') . '.pdf';
-        $wkhtmltopdfPath = $this->getWkhtmltopdfPath();
-        
-        $command = sprintf(
-            '%s --page-size A4 --orientation Landscape --margin-top 10mm --margin-right 10mm --margin-bottom 10mm --margin-left 10mm "%s" "%s"',
-            $wkhtmltopdfPath,
-            $tempHtmlFile,
-            $tempPdfFile
-        );
-
-        exec($command, $output, $returnCode);
-
-        // Clean up HTML file
-        unlink($tempHtmlFile);
-
-        if ($returnCode !== 0 || !file_exists($tempPdfFile)) {
-            throw new \Exception('Failed to generate PDF with wkhtmltopdf');
-        }
-
-        // Return PDF response
-        $fileName = 'practice-' . $practice->date->format('Y-m-d') . '.pdf';
-        
-        return response()->file($tempPdfFile, [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="' . $fileName . '"'
-        ])->deleteFileAfterSend(true);
-    }
-
-    private function getWkhtmltopdfPath(): string
-    {
-        $paths = [
-            config('app.wkhtmltopdf_path'),
-            '/usr/bin/wkhtmltopdf',
-            '/usr/local/bin/wkhtmltopdf',
-        ];
-
-        foreach ($paths as $path) {
-            if ($path && file_exists($path)) {
-                return $path;
-            }
-        }
-
-        return '/usr/bin/wkhtmltopdf'; // Default fallback
-    }
-
-    private function generatePdfWithBrowsershot(Practice $practice)
-    {
         $pdf = Pdf::view('pdf/practice', ['practice' => $practice, 'schedules' => $practice->schedules()->get()])
             ->format(Format::A4)
             ->landscape()
             ->name('practice-' . $practice->date->format('Y-m-d') . '.pdf');
 
-        // Configure Chrome/Chromium with minimal arguments for compatibility
+        // Configure Chrome based on environment
         $pdf->withBrowsershot(function ($browsershot) {
-            $browsershot->setOption('args', [
-                '--no-sandbox',
-                '--disable-dev-shm-usage',
-                '--disable-gpu',
-                '--headless',
-                '--disable-crash-reporter',
-                '--disable-extensions',
-                '--no-first-run',
-                '--disable-default-apps',
-                '--single-process',
-            ]);
+            if (app()->environment('local')) {
+                // Local development - minimal configuration
+                $browsershot->setOption('args', [
+                    '--no-sandbox',
+                    '--disable-dev-shm-usage',
+                    '--disable-gpu',
+                    '--headless',
+                ]);
+                
+                // Let Puppeteer handle Chrome detection locally
+                return $browsershot;
+            } else {
+                // Production server - comprehensive configuration
+                $browsershot->setOption('args', [
+                    '--no-sandbox',
+                    '--disable-setuid-sandbox',
+                    '--disable-dev-shm-usage',
+                    '--disable-gpu',
+                    '--headless=new',
+                    '--disable-web-security',
+                    '--disable-features=VizDisplayCompositor',
+                    '--run-all-compositor-stages-before-draw',
+                    '--disable-checker-imaging',
+                    '--disable-new-content-rendering-timeout',
+                    '--disable-threaded-animation',
+                    '--disable-threaded-scrolling',
+                    '--disable-in-process-stack-traces',
+                    '--disable-histogram-customizer',
+                    '--disable-gl-extensions',
+                    '--disable-composited-antialiasing',
+                    '--disable-canvas-aa',
+                    '--disable-3d-apis',
+                    '--disable-accelerated-2d-canvas',
+                    '--disable-accelerated-jpeg-decoding',
+                    '--disable-accelerated-mjpeg-decode',
+                    '--disable-app-list-dismiss-on-blur',
+                    '--disable-accelerated-video-decode',
+                    '--num-raster-threads=1',
+                    '--enable-main-frame-before-activation',
+                    '--disable-partial-raster',
+                    '--disable-skia-runtime-opts',
+                    '--disable-zero-browsers-open-for-tests',
+                    '--disable-renderer-backgrounding',
+                    '--disable-background-networking',
+                    '--disable-background-timer-throttling',
+                    '--disable-client-side-phishing-detection',
+                    '--disable-default-apps',
+                    '--disable-extensions',
+                    '--disable-hang-monitor',
+                    '--disable-popup-blocking',
+                    '--disable-prompt-on-repost',
+                    '--disable-sync',
+                    '--disable-translate',
+                    '--metrics-recording-only',
+                    '--no-first-run',
+                    '--enable-automation',
+                    '--password-store=basic',
+                    '--use-mock-keychain',
+                    '--export-tagged-pdf',
+                    '--no-pdf-header-footer',
+                    '--disable-pdf-tagging',
+                    '--user-data-dir=/tmp/chrome-pdf-' . uniqid(),
+                ]);
 
-            // Try to find a working Chrome installation
-            $chromePaths = [
-                '/usr/bin/google-chrome-stable',
-                '/usr/bin/google-chrome',
-                '/usr/bin/chromium-browser',
-                '/usr/bin/chromium',
-            ];
-
-            foreach ($chromePaths as $path) {
-                if (file_exists($path)) {
-                    return $browsershot->setChromePath($path);
+                // Production: Use wrapper script if available, otherwise direct Chrome
+                if (file_exists('/usr/local/bin/chrome-pdf')) {
+                    return $browsershot->setChromePath('/usr/local/bin/chrome-pdf');
+                } elseif (file_exists('/usr/bin/google-chrome-stable')) {
+                    return $browsershot->setChromePath('/usr/bin/google-chrome-stable');
                 }
             }
-
+            
             return $browsershot;
         });
 

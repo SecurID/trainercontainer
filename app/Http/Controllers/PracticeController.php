@@ -96,6 +96,43 @@ class PracticeController extends Controller
 
         // Configure Chrome/Chromium path for different environments
         $pdf->withBrowsershot(function ($browsershot) {
+            // Add Chrome arguments for headless server environment
+            $browsershot->addChromiumArguments([
+                '--no-sandbox',
+                '--disable-dev-shm-usage',
+                '--disable-gpu',
+                '--disable-web-security',
+                '--disable-features=VizDisplayCompositor',
+                '--disable-background-networking',
+                '--disable-background-timer-throttling',
+                '--disable-backgrounding-occluded-windows',
+                '--disable-breakpad',
+                '--disable-client-side-phishing-detection',
+                '--disable-component-extensions-with-background-pages',
+                '--disable-default-apps',
+                '--disable-extensions',
+                '--disable-features=TranslateUI',
+                '--disable-hang-monitor',
+                '--disable-ipc-flooding-protection',
+                '--disable-popup-blocking',
+                '--disable-prompt-on-repost',
+                '--disable-renderer-backgrounding',
+                '--disable-sync',
+                '--force-color-profile=srgb',
+                '--metrics-recording-only',
+                '--no-first-run',
+                '--safebrowsing-disable-auto-update',
+                '--enable-automation',
+                '--password-store=basic',
+                '--use-mock-keychain',
+                '--hide-scrollbars',
+                '--mute-audio',
+                '--no-default-browser-check',
+                '--no-zygote',
+                '--single-process',
+                '--user-data-dir=' . sys_get_temp_dir() . '/chrome-user-data-' . uniqid(),
+            ]);
+
             // Use environment variable if set
             if ($chromePath = config('app.chrome_path')) {
                 if (file_exists($chromePath)) {

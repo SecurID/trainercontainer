@@ -14,7 +14,6 @@ class PracticeController extends Controller
     public function index()
     {
         $practices = Practice::where('user_id', Auth::user()->id)
-            ->where('date', '>=', now())
             ->orderBy('date')
             ->get();
 

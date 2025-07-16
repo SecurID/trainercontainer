@@ -19,7 +19,7 @@ class DashboardController extends Controller
         $hasPractice = Practice::where('user_id', $userId)->exists();
 
         $nextPractice = Practice::where('user_id', $userId)
-            ->where('date', '>=', now())
+            ->where('date', '>', now())
             ->orderBy('date')
             ->first();
 

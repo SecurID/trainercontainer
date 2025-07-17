@@ -25,12 +25,12 @@ class PlayerController extends Controller
     public function show(Player $player)
     {
         $player->load(['mainPosition', 'subPositions']);
-        
+
         $ratings = $player->ratings()->get()->sortBy('date');
         $labels = [];
         $ratings_array = [];
         foreach($ratings as $rating){
-            $dateFormatted = $rating->practice->date->format('d.m.Y');
+            $dateFormatted = $rating->practice?->exists ? $rating->practice->date->format('d.m.Y') : $rating->game->date->format('d.m.Y');
             $labels[] = $dateFormatted;
             $ratings_array[] = $rating->rating;
         }
@@ -42,17 +42,17 @@ class PlayerController extends Controller
     {
         $players = Auth::user()->players()->with(['mainPosition', 'subPositions'])->get();
         $positions = \App\Models\Position::all();
-        
+
         $positionAnalysis = [];
-        
+
         foreach ($positions as $position) {
             $mainPositionCount = $players->where('main_position_id', $position->id)->count();
             $subPositionCount = $players->filter(function ($player) use ($position) {
                 return $player->subPositions->contains('id', $position->id);
             })->count();
-            
+
             $totalCount = $mainPositionCount + $subPositionCount;
-            
+
             $positionAnalysis[] = [
                 'position' => $position,
                 'main_count' => $mainPositionCount,
@@ -65,18 +65,18 @@ class PlayerController extends Controller
                 })
             ];
         }
-        
+
         // Sort by total count (least covered first)
         usort($positionAnalysis, function ($a, $b) {
             return $a['total_count'] <=> $b['total_count'];
         });
-        
+
         return response()->view('players/position-analysis', [
             'positionAnalysis' => $positionAnalysis,
             'totalPlayers' => $players->count()
         ]);
     }
-    
+
     private function getCoverageStatus($count)
     {
         if ($count == 0) return 'critical';

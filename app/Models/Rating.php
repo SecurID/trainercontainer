@@ -12,6 +12,7 @@ class Rating extends Model
 
     protected $fillable = [
         'practice_id',
+        'game_id',
         'player_id',
         'user_id',
         'rating',
@@ -31,5 +32,10 @@ class Rating extends Model
     public function practice(): BelongsTo
     {
         return $this->belongsTo('App\Models\Practice');
+    }
+
+    public function game(): BelongsTo
+    {
+        return $this->belongsTo('App\Models\Game');
     }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExerciseController;
+use App\Http\Controllers\GameController;
 use App\Http\Controllers\PracticeController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\RatingController;
@@ -34,6 +35,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('exercises', ExerciseController::class);
+    Route::resource('games', GameController::class);
     Route::resource('practices', PracticeController::class);
     Route::resource('players', PlayerController::class)->name('GET', 'players');
     Route::get('players-position-analysis', [PlayerController::class, 'positionAnalysis'])->name('players.position-analysis');

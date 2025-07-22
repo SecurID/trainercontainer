@@ -31,7 +31,7 @@
             <x-input
                 type="number"
                 id="playerCount"
-                wire:model.live="playerCount"
+                wire:model.live.blur="playerCount"
                 name="playerCount"
                 class="mt-1 block w-full"
                 min="0"
@@ -43,12 +43,24 @@
             <x-input
                 type="number"
                 id="goalkeeperCount"
-                wire:model.live="goalkeeperCount"
+                wire:model.live.blur="goalkeeperCount"
                 name="goalkeeperCount"
                 class="mt-1 block w-full"
                 min="0"
             />
         </div>
+    </div>
+
+    <div class="mb-6">
+        <x-label for="notes" value="{{ __('Notes') }}" />
+        <textarea
+            id="notes"
+            wire:model.live.blur="notes"
+            name="notes"
+            rows="4"
+            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500"
+            placeholder="{{ __('Practice notes and observations...') }}"
+        ></textarea>
     </div>
 
     @if($successMessage)

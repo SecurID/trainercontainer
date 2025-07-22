@@ -10,6 +10,14 @@ class Practice extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'date',
+        'time',
+        'topic',
+        'notes',
+        'user_id',
+    ];
+
     public function casts(): array
     {
         return [

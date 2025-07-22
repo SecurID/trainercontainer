@@ -13,6 +13,7 @@ class EditPractice extends Component
     public string $successMessage = '';
     public ?int $playerCount;
     public ?int $goalkeeperCount;
+    public string $notes;
 
     public function mount(Practice $practice): void
     {
@@ -21,6 +22,7 @@ class EditPractice extends Component
         $this->date = $practice->date->format('Y-m-d');
         $this->playerCount = $practice->playerCount;
         $this->goalkeeperCount = $practice->goalkeeperCount;
+        $this->notes = $practice->notes ?? '';
     }
 
     public function updatedTopic(): void
@@ -44,6 +46,12 @@ class EditPractice extends Component
     public function updatedGoalkeeperCount(): void
     {
         $this->practice->update(['goalkeeperCount' => $this->goalkeeperCount]);
+        $this->showSuccessMessage();
+    }
+
+    public function updatedNotes(): void
+    {
+        $this->practice->update(['notes' => $this->notes]);
         $this->showSuccessMessage();
     }
 

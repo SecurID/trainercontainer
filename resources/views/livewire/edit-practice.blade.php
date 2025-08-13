@@ -53,14 +53,21 @@
 
     <div class="mb-6">
         <x-label for="notes" value="{{ __('Notes') }}" />
-        <textarea
-            id="notes"
-            wire:model.live.blur="notes"
-            name="notes"
-            rows="4"
-            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500"
-            placeholder="{{ __('Practice notes and observations...') }}"
-        ></textarea>
+        <div class="mt-1" wire:ignore>
+            <trix-editor 
+                wire:trix-blur="setNotesContent($event.target.value)"
+                placeholder="{{ __('Practice notes and observations...') }}"
+                class="trix-content"
+                x-data="{
+                    init() {
+                        // Set initial content when the editor loads
+                        this.$el.addEventListener('trix-initialize', () => {
+                            this.$el.value = @js($notes ?? '');
+                        });
+                    }
+                }"
+            ></trix-editor>
+        </div>
     </div>
 
     @if($successMessage)

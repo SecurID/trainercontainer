@@ -55,6 +55,32 @@ class EditPractice extends Component
         $this->showSuccessMessage();
     }
 
+    public function setNotesContent($content): void
+    {
+        \Log::info('setNotesContent called', [
+            'practice_id' => $this->practice->id,
+            'content_received' => $content,
+            'content_length' => strlen($content ?? '')
+        ]);
+        
+        $this->notes = $content;
+        $this->practice->update(['notes' => $this->notes]);
+        $this->showSuccessMessage();
+    }
+
+    public function saveNotes(): void
+    {
+        \Log::info('SaveNotes called', [
+            'practice_id' => $this->practice->id,
+            'notes_content' => $this->notes,
+            'notes_length' => strlen($this->notes ?? '')
+        ]);
+        
+        $this->practice->update(['notes' => $this->notes]);
+        $this->showSuccessMessage();
+    }
+
+
     private function showSuccessMessage(): void
     {
         $this->successMessage = 'Gespeichert!';

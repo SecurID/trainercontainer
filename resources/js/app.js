@@ -1,5 +1,7 @@
 import './bootstrap.js';
 import 'flowbite';
+import 'trix/dist/trix.css';
+import 'trix';
 import { createApp } from 'vue';
 import Canvas from "./components/Canvas.vue";
 import Toolbar from "./components/Toolbar.vue";

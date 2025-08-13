@@ -16,6 +16,8 @@ class Practice extends Model
         'topic',
         'notes',
         'user_id',
+        'playerCount',
+        'goalkeeperCount',
     ];
 
     public function casts(): array

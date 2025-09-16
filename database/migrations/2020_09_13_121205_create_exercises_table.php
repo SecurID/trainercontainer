@@ -15,7 +15,7 @@ class CreateExercisesTable extends Migration
     {
         Schema::create('exercises', function (Blueprint $table) {
             $table->id();
-            $table->string('name','100');
+            $table->string('name', '100');
             $table->string('focus')->nullable();
             $table->string('material')->nullable();
             $table->text('procedure')->nullable();

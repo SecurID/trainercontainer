@@ -10,7 +10,7 @@ class ExerciseControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testIndex()
+    public function test_index()
     {
         Exercise::factory()->count(3)->create([
             'user_id' => auth()->id(),

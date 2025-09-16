@@ -34,8 +34,8 @@ class ExerciseFactory extends Factory
     private function generateFakeImage(): string
     {
         // Generate filename
-        $filename = 'exercise_' . uniqid() . '.svg';
-        $filepath = 'exercises/' . $filename;
+        $filename = 'exercise_'.uniqid().'.svg';
+        $filepath = 'exercises/'.$filename;
 
         // Ensure the exercises directory exists in public storage
         Storage::disk('public')->makeDirectory('exercises');
@@ -47,7 +47,7 @@ class ExerciseFactory extends Factory
 
         $svg = '<?xml version="1.0" encoding="UTF-8"?>
 <svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
-  <rect width="100%" height="100%" fill="' . $bgColor . '"/>
+  <rect width="100%" height="100%" fill="'.$bgColor.'"/>
 
   <!-- Soccer field representation -->
   <rect x="100" y="100" width="600" height="400" fill="none" stroke="white" stroke-width="3"/>
@@ -59,15 +59,15 @@ class ExerciseFactory extends Factory
   <rect x="640" y="220" width="60" height="160" fill="none" stroke="white" stroke-width="2"/>
 
   <!-- Title -->
-  <text x="400" y="50" font-family="Arial, sans-serif" font-size="24" fill="' . $textColor . '" text-anchor="middle" font-weight="bold">Exercise Diagram</text>
+  <text x="400" y="50" font-family="Arial, sans-serif" font-size="24" fill="'.$textColor.'" text-anchor="middle" font-weight="bold">Exercise Diagram</text>
 
   <!-- Player positions (example) -->
-  <circle cx="200" cy="300" r="15" fill="' . $textColor . '"/>
-  <circle cx="300" cy="250" r="15" fill="' . $textColor . '"/>
-  <circle cx="300" cy="350" r="15" fill="' . $textColor . '"/>
-  <circle cx="500" cy="250" r="15" fill="' . $textColor . '"/>
-  <circle cx="500" cy="350" r="15" fill="' . $textColor . '"/>
-  <circle cx="600" cy="300" r="15" fill="' . $textColor . '"/>
+  <circle cx="200" cy="300" r="15" fill="'.$textColor.'"/>
+  <circle cx="300" cy="250" r="15" fill="'.$textColor.'"/>
+  <circle cx="300" cy="350" r="15" fill="'.$textColor.'"/>
+  <circle cx="500" cy="250" r="15" fill="'.$textColor.'"/>
+  <circle cx="500" cy="350" r="15" fill="'.$textColor.'"/>
+  <circle cx="600" cy="300" r="15" fill="'.$textColor.'"/>
 </svg>';
 
         // Save SVG to storage

@@ -1,12 +1,11 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\GameController;
-use App\Http\Controllers\PracticeController;
 use App\Http\Controllers\PlayerController;
-use App\Http\Controllers\RatingController;
+use App\Http\Controllers\PracticeController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------

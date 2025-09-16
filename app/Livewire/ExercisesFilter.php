@@ -2,9 +2,9 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-use App\Models\Exercise;
 use App\Models\Category;
+use App\Models\Exercise;
+use Livewire\Component;
 
 class ExercisesFilter extends Component
 {

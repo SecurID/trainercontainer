@@ -13,7 +13,7 @@ class GameControllerTest extends TestCase
 
     private User $user;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->user = User::factory()->create();
@@ -22,9 +22,9 @@ class GameControllerTest extends TestCase
     public function test_index_displays_games()
     {
         Game::factory()->count(3)->create(['user_id' => $this->user->id]);
-        
+
         $response = $this->actingAs($this->user)->get(route('games.index'));
-        
+
         $response->assertStatus(200);
         $response->assertViewIs('games.games');
         $response->assertViewHas('games', function ($games) {
@@ -35,7 +35,7 @@ class GameControllerTest extends TestCase
     public function test_create_displays_game_creation_form()
     {
         $response = $this->actingAs($this->user)->get(route('games.create'));
-        
+
         $response->assertStatus(200);
         $response->assertViewIs('games.create-game');
     }
@@ -47,26 +47,26 @@ class GameControllerTest extends TestCase
             'date' => '2024-01-01',
             'time' => '15:00',
             'location' => 'Test Stadium',
-            'notes' => 'Test notes'
+            'notes' => 'Test notes',
         ];
 
         $response = $this->actingAs($this->user)->post(route('games.store'), $gameData);
 
         $response->assertRedirect(route('games.index'));
         $response->assertSessionHas('success-message');
-        
+
         $this->assertDatabaseHas('games', [
             'opponent' => 'Test Opponent',
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
     }
 
     public function test_show_displays_game_details()
     {
         $game = Game::factory()->create(['user_id' => $this->user->id]);
-        
+
         $response = $this->actingAs($this->user)->get(route('games.show', $game));
-        
+
         $response->assertStatus(200);
         $response->assertViewIs('games.game-single');
         $response->assertViewHas('game', $game);
@@ -75,9 +75,9 @@ class GameControllerTest extends TestCase
     public function test_edit_displays_game_edit_form()
     {
         $game = Game::factory()->create(['user_id' => $this->user->id]);
-        
+
         $response = $this->actingAs($this->user)->get(route('games.edit', $game));
-        
+
         $response->assertStatus(200);
         $response->assertViewIs('games.edit-game');
         $response->assertViewHas('game', $game);
@@ -86,38 +86,38 @@ class GameControllerTest extends TestCase
     public function test_update_modifies_game()
     {
         $game = Game::factory()->create(['user_id' => $this->user->id]);
-        
+
         $updateData = [
             'opponent' => 'Updated Opponent',
             'date' => '2024-02-01',
             'time' => '16:00',
             'location' => 'Updated Stadium',
-            'notes' => 'Updated notes'
+            'notes' => 'Updated notes',
         ];
 
         $response = $this->actingAs($this->user)->put(route('games.update', $game), $updateData);
 
         $response->assertRedirect(route('games.index'));
         $response->assertSessionHas('success-message');
-        
+
         $this->assertDatabaseHas('games', [
             'id' => $game->id,
             'opponent' => 'Updated Opponent',
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
     }
 
     public function test_destroy_deletes_game()
     {
         $game = Game::factory()->create(['user_id' => $this->user->id]);
-        
+
         $response = $this->actingAs($this->user)->delete(route('games.destroy', $game));
 
         $response->assertRedirect(route('games.index'));
         $response->assertSessionHas('success-message');
-        
+
         $this->assertDatabaseMissing('games', [
-            'id' => $game->id
+            'id' => $game->id,
         ]);
     }
 
@@ -125,9 +125,9 @@ class GameControllerTest extends TestCase
     {
         $otherUser = User::factory()->create();
         $otherUserGame = Game::factory()->create(['user_id' => $otherUser->id]);
-        
+
         $response = $this->actingAs($this->user)->get(route('games.show', $otherUserGame));
-        
+
         $response->assertStatus(403);
     }
 }

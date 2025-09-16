@@ -2,8 +2,8 @@
 
 namespace App\Livewire;
 
-use App\Models\Practice;
 use App\Models\Exercise;
+use App\Models\Practice;
 use App\Models\Schedule;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -11,11 +11,17 @@ use Livewire\Component;
 class PracticeScheduleBuilder extends Component
 {
     public Practice $practice;
+
     public $scheduleRows = [];
+
     public $availableExercises = [];
+
     public $exerciseSearchTerms = [];
+
     public $showExerciseDropdowns = [];
+
     public $isCollapsed = true;
+
     public $successMessage = '';
 
     protected $rules = [
@@ -23,7 +29,7 @@ class PracticeScheduleBuilder extends Component
         'scheduleRows.*.playerCount' => 'required|integer|min:1|max:30',
         'scheduleRows.*.goalkeeperCount' => 'nullable|integer|min:0|max:5',
         'scheduleRows.*.time' => 'required|string|max:20',
-        'scheduleRows.*.coaches' => 'nullable|string|max:100'
+        'scheduleRows.*.coaches' => 'nullable|string|max:100',
     ];
 
     public function mount(Practice $practice): void
@@ -94,10 +100,10 @@ class PracticeScheduleBuilder extends Component
         $this->exerciseSearchTerms[$rowIndex] = $searchTerm;
 
         if (strlen($searchTerm) >= 1) {
-            $this->availableExercises[$rowIndex] = Exercise::where(function($query) use ($searchTerm) {
-                    $query->where('name', 'like', "%{$searchTerm}%")
-                          ->orWhere('focus', 'like', "%{$searchTerm}%");
-                })
+            $this->availableExercises[$rowIndex] = Exercise::where(function ($query) use ($searchTerm) {
+                $query->where('name', 'like', "%{$searchTerm}%")
+                    ->orWhere('focus', 'like', "%{$searchTerm}%");
+            })
                 ->orderBy('name')
                 ->limit(10)
                 ->get();
@@ -139,13 +145,13 @@ class PracticeScheduleBuilder extends Component
         $this->scheduleRows[$rowIndex]['exercise_name'] = $exercise->name;
         $this->exerciseSearchTerms[$rowIndex] = $exercise->name;
 
-        if ($exercise->playerCount && !$this->scheduleRows[$rowIndex]['playerCount']) {
+        if ($exercise->playerCount && ! $this->scheduleRows[$rowIndex]['playerCount']) {
             $this->scheduleRows[$rowIndex]['playerCount'] = $exercise->playerCount;
         }
-        if ($exercise->goalkeeperCount !== null && !$this->scheduleRows[$rowIndex]['goalkeeperCount']) {
+        if ($exercise->goalkeeperCount !== null && ! $this->scheduleRows[$rowIndex]['goalkeeperCount']) {
             $this->scheduleRows[$rowIndex]['goalkeeperCount'] = $exercise->goalkeeperCount;
         }
-        if ($exercise->duration !== null && !$this->scheduleRows[$rowIndex]['time']) {
+        if ($exercise->duration !== null && ! $this->scheduleRows[$rowIndex]['time']) {
             $this->scheduleRows[$rowIndex]['time'] = $exercise->duration;
         }
 
@@ -166,8 +172,9 @@ class PracticeScheduleBuilder extends Component
 
     public function saveScheduleRow($rowIndex): void
     {
-        if (!isset($this->scheduleRows[$rowIndex])) {
+        if (! isset($this->scheduleRows[$rowIndex])) {
             $this->showSuccessMessage('Fehler: Zeile nicht gefunden');
+
             return;
         }
 
@@ -176,14 +183,17 @@ class PracticeScheduleBuilder extends Component
         // Check required fields
         if (empty($row['exercise_id'])) {
             $this->showSuccessMessage('Fehler: Übung fehlt');
+
             return;
         }
         if (empty($row['playerCount'])) {
             $this->showSuccessMessage('Fehler: Spieler:innenanzahl fehlt');
+
             return;
         }
         if (empty($row['time'])) {
             $this->showSuccessMessage('Fehler: Zeit fehlt');
+
             return;
         }
 
@@ -197,7 +207,7 @@ class PracticeScheduleBuilder extends Component
                 'coaches' => $row['coaches'] ?? '',
             ];
 
-            if (!empty($row['id'])) {
+            if (! empty($row['id'])) {
                 $schedule = Schedule::find($row['id']);
                 if ($schedule) {
                     $schedule->update($scheduleData);
@@ -211,13 +221,13 @@ class PracticeScheduleBuilder extends Component
                 $this->showSuccessMessage('Neu gespeichert!');
             }
         } catch (\Exception $e) {
-            $this->showSuccessMessage('Fehler beim Speichern: ' . $e->getMessage());
+            $this->showSuccessMessage('Fehler beim Speichern: '.$e->getMessage());
         }
     }
 
     public function toggleCollapse(): void
     {
-        $this->isCollapsed = !$this->isCollapsed;
+        $this->isCollapsed = ! $this->isCollapsed;
     }
 
     private function showSuccessMessage($message): void

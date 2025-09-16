@@ -2,16 +2,19 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
 use App\Models\Player;
 use App\Models\Practice;
 use App\Models\Rating;
+use Livewire\Component;
 
 class PlayerPracticeRating extends Component
 {
     public Player $player;
+
     public Practice $practice;
+
     public $value;
+
     public $ratingId;
 
     public function mount(Player $player, Practice $practice)

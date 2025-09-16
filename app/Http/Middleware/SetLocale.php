@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Middleware;
 
 use Closure;
@@ -15,14 +16,14 @@ class SetLocale
             return Auth::check() ? Auth::user()->locale : null;
         });
 
-        if (!$locale) {
+        if (! $locale) {
             $locale = config('app.locale');
         }
 
         App::setLocale($locale);
 
         // If locale is determined by the user, ensure it's stored in the session.
-        if (!Session::has('locale') && Auth::check()) {
+        if (! Session::has('locale') && Auth::check()) {
             Session::put('locale', $locale);
         }
 

@@ -60,8 +60,9 @@ class GameController extends Controller
     public function show(Game $game)
     {
         $this->authorize('view', $game);
-        
+
         $players = Auth::user()->players()->get()->sortBy('lastname');
+
         return response()->view('games/game-single', [
             'game' => $game,
             'players' => $players,
@@ -74,7 +75,7 @@ class GameController extends Controller
     public function edit(Game $game)
     {
         $this->authorize('update', $game);
-        
+
         return response()->view('games/edit-game', ['game' => $game]);
     }
 
@@ -84,7 +85,7 @@ class GameController extends Controller
     public function update(Request $request, Game $game)
     {
         $this->authorize('update', $game);
-        
+
         $data = $request->validate([
             'opponent' => 'required|string|max:255',
             'date' => 'required|date',
@@ -104,8 +105,9 @@ class GameController extends Controller
     public function destroy(Game $game)
     {
         $this->authorize('delete', $game);
-        
+
         $game->delete();
+
         return redirect()->route('games.index')->with('success-message', 'Game successfully deleted!');
     }
 }

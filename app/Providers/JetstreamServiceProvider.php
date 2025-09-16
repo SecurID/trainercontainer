@@ -20,8 +20,6 @@ class JetstreamServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
     public function boot(): void
     {
@@ -32,8 +30,6 @@ class JetstreamServiceProvider extends ServiceProvider
 
     /**
      * Configure the permissions that are available within the application.
-     *
-     * @return void
      */
     protected function configurePermissions(): void
     {

@@ -31,5 +31,4 @@ class Practice extends Model
     {
         return $this->HasMany(Schedule::class);
     }
-
 }

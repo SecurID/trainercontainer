@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Practice;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Carbon;
 
 class PracticeFactory extends Factory
 {
@@ -16,9 +15,8 @@ class PracticeFactory extends Factory
             'date' => $this->faker->dateTimeBetween('+1 day', '+1 month')->format('Y-m-d'),
             'time' => $this->faker->time('H:i'),
             'topic' => $this->faker->randomElement([
-                '1 on 1', 'Passspiel', 'Abschluss', 'Dribbling', 'Kondition', 'Taktik', 'Spielformen', 'Technik', 'Koordination'
+                '1 on 1', 'Passspiel', 'Abschluss', 'Dribbling', 'Kondition', 'Taktik', 'Spielformen', 'Technik', 'Koordination',
             ]),
         ];
     }
 }
-

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Exercise;
 use App\Models\Player;
 use App\Models\Practice;
-use App\Models\Rating;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller

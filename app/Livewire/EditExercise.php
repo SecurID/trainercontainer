@@ -4,10 +4,9 @@ namespace App\Livewire;
 
 use App\Models\Category;
 use App\Models\Exercise;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Database\Eloquent\Collection;
 
 class EditExercise extends Component
 {
@@ -51,7 +50,7 @@ class EditExercise extends Component
 
         $this->exercise = $exercise;
         $this->categoriesList = Category::all();
-        
+
         $this->name = $exercise->name;
         $this->focus = $exercise->focus;
         $this->material = $exercise->material;
@@ -86,6 +85,7 @@ class EditExercise extends Component
         $this->exercise->categories()->sync($this->categories);
 
         session()->flash('success', __('Exercise updated successfully!'));
+
         return redirect()->route('exercises.index');
     }
 
@@ -98,6 +98,7 @@ class EditExercise extends Component
         $this->exercise->delete();
 
         session()->flash('success', __('Exercise deleted successfully!'));
+
         return redirect()->route('exercises.index');
     }
 

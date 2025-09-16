@@ -44,7 +44,7 @@ class PracticeController extends Controller
         ]);
         $practice->save();
 
-        foreach($data['rows'] as $row) {
+        foreach ($data['rows'] as $row) {
             $practice->schedules()->create([
                 'exercise_id' => $row['exerciseId'],
                 'coaches' => $row['coaches'],
@@ -59,10 +59,10 @@ class PracticeController extends Controller
         ]);
     }
 
-
     public function show(Practice $practice)
     {
         $players = Auth::user()->players()->get()->sortBy('lastname');
+
         return response()->view('practices/practice-single', [
             'practice' => $practice,
             'schedules' => $practice->schedules()->get(),
@@ -78,11 +78,11 @@ class PracticeController extends Controller
         ]);
     }
 
-
     public function destroy(Practice $practice)
     {
         $practice->schedules()->delete();
         $practice->delete();
+
         return redirect()->route('practices.index')->with('success-message', 'Practice successfully deleted!');
     }
 
@@ -91,7 +91,7 @@ class PracticeController extends Controller
         return Pdf::view('pdf/practice', ['practice' => $practice, 'schedules' => $practice->schedules()->get()])
             ->format(Format::A4)
             ->landscape()
-            ->name('practice-' . $practice->date->format('Y-m-d') . '.pdf')
+            ->name('practice-'.$practice->date->format('Y-m-d').'.pdf')
             ->onLambda();
 
     }

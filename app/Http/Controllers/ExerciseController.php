@@ -12,12 +12,14 @@ class ExerciseController extends Controller
     {
         $exercises = Exercise::all();
         $categories = Category::all();
+
         return response()->view('exercises/exercises', ['exercises' => $exercises, 'categories' => $categories]);
     }
 
     public function create()
     {
         $categories = Category::all();
+
         return response()->view('exercises/create-exercises', ['categories' => $categories]);
     }
 
@@ -34,7 +36,7 @@ class ExerciseController extends Controller
             'coaching' => 'required|string',
             'drawing' => 'nullable|file',
             'categories' => 'required|array',
-            'categories.*' => 'exists:categories,id' // Validate each category ID exists
+            'categories.*' => 'exists:categories,id', // Validate each category ID exists
         ]);
 
         $exerciseData = $request->except(['categories', 'drawing']);
@@ -47,13 +49,12 @@ class ExerciseController extends Controller
         $exerciseData['user_id'] = auth()->user()->id;
         $exercise = Exercise::create($exerciseData);
 
-        if (!empty($validatedData['categories'])) {
+        if (! empty($validatedData['categories'])) {
             $exercise->categories()->attach($validatedData['categories']);
         }
 
         return redirect()->route('exercises.index');
     }
-
 
     public function show(Exercise $exercise)
     {
@@ -67,6 +68,7 @@ class ExerciseController extends Controller
         }
 
         $categories = Category::all();
+
         return response()->view('exercises/update-exercises', ['exercise' => $exercise, 'categories' => $categories]);
     }
 

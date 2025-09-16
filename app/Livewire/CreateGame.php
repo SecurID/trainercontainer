@@ -9,9 +9,13 @@ use Livewire\Component;
 class CreateGame extends Component
 {
     public $opponent;
+
     public $date;
+
     public $time;
+
     public $location;
+
     public $notes;
 
     public function mount(): void
@@ -45,6 +49,7 @@ class CreateGame extends Component
         $game->save();
 
         session()->flash('success-message', 'Spiel erfolgreich erstellt!');
+
         return redirect()->route('games.index');
     }
 }

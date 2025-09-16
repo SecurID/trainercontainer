@@ -16,7 +16,7 @@ class Schedule extends Model
         'coaches',
         'playerCount',
         'goalkeeperCount',
-        'time'
+        'time',
     ];
 
     public function exercise(): BelongsTo

@@ -8,11 +8,17 @@ use Livewire\Component;
 class EditPractice extends Component
 {
     public Practice $practice;
+
     public string $topic;
+
     public $date;
+
     public string $successMessage = '';
+
     public ?int $playerCount;
+
     public ?int $goalkeeperCount;
+
     public string $notes;
 
     public function mount(Practice $practice): void
@@ -60,9 +66,9 @@ class EditPractice extends Component
         \Log::info('setNotesContent called', [
             'practice_id' => $this->practice->id,
             'content_received' => $content,
-            'content_length' => strlen($content ?? '')
+            'content_length' => strlen($content ?? ''),
         ]);
-        
+
         $this->notes = $content;
         $this->practice->update(['notes' => $this->notes]);
         $this->showSuccessMessage();
@@ -73,19 +79,18 @@ class EditPractice extends Component
         \Log::info('SaveNotes called', [
             'practice_id' => $this->practice->id,
             'notes_content' => $this->notes,
-            'notes_length' => strlen($this->notes ?? '')
+            'notes_length' => strlen($this->notes ?? ''),
         ]);
-        
+
         $this->practice->update(['notes' => $this->notes]);
         $this->showSuccessMessage();
     }
-
 
     private function showSuccessMessage(): void
     {
         $this->successMessage = 'Gespeichert!';
     }
-    
+
     public function clearSuccessMessage(): void
     {
         $this->successMessage = '';

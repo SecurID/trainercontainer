@@ -71,7 +71,7 @@ class PlayerController extends Controller
                 'main_players' => $players->where('main_position_id', $position->id),
                 'sub_players' => $players->filter(function ($player) use ($position) {
                     return $player->subPositions->contains('id', $position->id);
-                })
+                }),
             ];
         }
 
@@ -82,15 +82,22 @@ class PlayerController extends Controller
 
         return response()->view('players/position-analysis', [
             'positionAnalysis' => $positionAnalysis,
-            'totalPlayers' => $players->count()
+            'totalPlayers' => $players->count(),
         ]);
     }
 
     private function getCoverageStatus($count)
     {
-        if ($count == 0) return 'critical';
-        if ($count == 1) return 'low';
-        if ($count <= 3) return 'medium';
+        if ($count == 0) {
+            return 'critical';
+        }
+        if ($count == 1) {
+            return 'low';
+        }
+        if ($count <= 3) {
+            return 'medium';
+        }
+
         return 'good';
     }
 }

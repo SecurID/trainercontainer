@@ -32,7 +32,7 @@ class CreatePlayer extends Component
             'main_position_id' => $this->main_position_id,
         ]);
 
-        if (!empty($this->sub_position_ids)) {
+        if (! empty($this->sub_position_ids)) {
             $player->subPositions()->attach($this->sub_position_ids);
         }
 
@@ -44,6 +44,7 @@ class CreatePlayer extends Component
     public function render()
     {
         $positions = Position::all();
+
         return view('livewire.create-player', compact('positions'));
     }
 }

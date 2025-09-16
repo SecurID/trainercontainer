@@ -11,10 +11,15 @@ use Livewire\Component;
 class CreatePractice extends Component
 {
     public $date;
+
     public $topic;
+
     public $rows = [];
+
     public $searchTerm = '';
+
     public $searchResults = [];
+
     public $activeRowIndex = null;
 
     public function mount(): void
@@ -36,7 +41,7 @@ class CreatePractice extends Component
             'coaches' => '',
             'playerCount' => '',
             'goalkeeperCount' => '',
-            'time' => ''
+            'time' => '',
         ];
     }
 
@@ -54,7 +59,7 @@ class CreatePractice extends Component
     public function search(): void
     {
         if (strlen($this->searchTerm) >= 2) {
-            $this->searchResults = Exercise::where('name', 'like', '%' . $this->searchTerm . '%')
+            $this->searchResults = Exercise::where('name', 'like', '%'.$this->searchTerm.'%')
                 ->limit(4)
                 ->get()
                 ->toArray();

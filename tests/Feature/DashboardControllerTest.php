@@ -46,4 +46,3 @@ class DashboardControllerTest extends TestCase
         Carbon::setTestNow();
     }
 }
-

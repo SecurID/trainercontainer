@@ -2,18 +2,23 @@
 
 namespace App\Livewire;
 
-use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
 use App\Models\Game;
 use App\Models\Rating;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 
 class GameRatingsTable extends Component
 {
     public Game $game;
+
     public $players;
+
     public $ratings = [];
+
     public $attendances = [];
+
     public $success = false;
+
     public $isCollapsed = true;
 
     protected $listeners = ['refreshComponent' => '$refresh'];
@@ -76,7 +81,7 @@ class GameRatingsTable extends Component
 
     public function toggleCollapse(): void
     {
-        $this->isCollapsed = !$this->isCollapsed;
+        $this->isCollapsed = ! $this->isCollapsed;
     }
 
     public function render()

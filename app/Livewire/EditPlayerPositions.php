@@ -10,7 +10,9 @@ use Livewire\Component;
 class EditPlayerPositions extends Component
 {
     public Player $player;
+
     public ?int $main_position_id = null;
+
     public array $sub_position_ids = [];
 
     public function mount(Player $player): void
@@ -40,6 +42,7 @@ class EditPlayerPositions extends Component
     public function render(): View
     {
         $positions = Position::all();
+
         return view('livewire.edit-player-positions', compact('positions'));
     }
 }

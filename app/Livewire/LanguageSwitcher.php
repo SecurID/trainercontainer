@@ -2,17 +2,18 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Livewire\Component;
 
 class LanguageSwitcher extends Component
 {
     public $currentLocale;
+
     public $availableLocales = [
         'de' => 'DE',
-        'en' => 'EN'
+        'en' => 'EN',
     ];
 
     public function mount()
@@ -23,7 +24,7 @@ class LanguageSwitcher extends Component
     public function switchLanguage($locale)
     {
         // Validate locale
-        if (!array_key_exists($locale, $this->availableLocales)) {
+        if (! array_key_exists($locale, $this->availableLocales)) {
             return;
         }
 

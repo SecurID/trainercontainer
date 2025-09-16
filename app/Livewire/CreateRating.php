@@ -2,18 +2,20 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
-use App\Models\Practice;
 use App\Models\Player;
+use App\Models\Practice;
 use App\Models\Rating;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 
 class CreateRating extends Component
 {
     public $practices;
+
     public $players;
+
     public $selectedPractice;
+
     public $ratings = [];
 
     public function mount()
@@ -26,7 +28,7 @@ class CreateRating extends Component
             ->orderBy('lastname', 'asc')
             ->get();
         // Nächste zukünftige Practice vorauswählen
-        $next = $this->practices->firstWhere(fn($p) => $p->date >= now());
+        $next = $this->practices->firstWhere(fn ($p) => $p->date >= now());
         $this->selectedPractice = $next ? $next->id : ($this->practices->first()->id ?? null);
     }
 
@@ -43,6 +45,7 @@ class CreateRating extends Component
             ]);
         }
         session()->flash('success', 'Bewertungen gespeichert!');
+
         return redirect()->route('players.index');
     }
 

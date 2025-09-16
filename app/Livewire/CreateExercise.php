@@ -3,10 +3,10 @@
 namespace App\Livewire;
 
 use App\Models\Category;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Database\Eloquent\Collection;
 
 class CreateExercise extends Component
 {
@@ -62,10 +62,11 @@ class CreateExercise extends Component
 
         $exercise = Auth::user()->exercises()->create($validated);
 
-        if (!empty($this->categories)) {
+        if (! empty($this->categories)) {
             $exercise->categories()->sync($this->categories);
         }
         session()->flash('success', __('Exercise created successfully!'));
+
         return redirect()->route('exercises.index');
     }
 

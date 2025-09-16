@@ -54,4 +54,3 @@ class PlayerChartOrderTest extends TestCase
         });
     }
 }
-

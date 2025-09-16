@@ -2,16 +2,20 @@
 
 namespace App\Livewire;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
-use Carbon\Carbon;
 
 class CreateRecurringPractice extends Component
 {
     public $start_date;
+
     public $end_date;
+
     public $weekdays = [];
+
     public $time;
+
     public $success = false;
 
     protected $rules = [
@@ -49,4 +53,3 @@ class CreateRecurringPractice extends Component
         return view('livewire.create-recurring-practice');
     }
 }
-

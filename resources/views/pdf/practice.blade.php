@@ -11,8 +11,20 @@
             margin: 10mm
         }
 
+        body {
+            position: relative;
+            padding-bottom: 60px;
+        }
+
         .page-break {
             page-break-after: always;
+        }
+
+        .pdf-footer {
+            position: fixed;
+            bottom: 10mm;
+            left: 20mm;
+            right: 20mm;
         }
     </style>
 </head>
@@ -54,19 +66,6 @@
             {!! $practice->notes !!}
         </div>
     </div>
-    <div class="shrink-0 flex items-center justify-end mt-10">
-        <p class="mr-10">{{__('Powered by')}}</p>
-        <a href="https://trainercontainer.de">
-            <div class="flex items-center">
-                <div class="flex-shrink-0">
-                    <div class="w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center">
-                        <span class="text-white text-xl font-bold">t</span>
-                    </div>
-                </div>
-                <span class="ml-3 text-xl font-bold text-gray-900">trainercontainer</span>
-            </div>
-        </a>
-    </div>
 </div>
 
 @foreach($schedules as $schedule)
@@ -74,5 +73,17 @@
     <div class="page-break"></div>
     <x-exercise-single :exercise="$exercise"></x-exercise-single>
 @endforeach
+
+<footer class="pdf-footer">
+    <div class="flex items-center justify-end text-sm text-gray-500">
+        <span class="mr-6 uppercase tracking-wide">{{__('Powered by')}}</span>
+        <a href="https://trainercontainer.de" class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center">
+                <span class="text-white text-xl font-bold">t</span>
+            </div>
+            <span class="text-xl font-bold text-gray-900">trainercontainer</span>
+        </a>
+    </div>
+</footer>
 </body>
 </html>

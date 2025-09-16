@@ -62,6 +62,11 @@
 
                         <!-- Settings Dropdown -->
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
+                            <!-- Language Switcher -->
+                            <div class="mr-3">
+                                <livewire:language-switcher />
+                            </div>
+                            
                             <x-dropdown align="right" width="48">
                                 <x-slot name="trigger">
                                     <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-primary-300 transition duration-150 ease-in-out">
@@ -135,6 +140,9 @@
 
                     <!-- Responsive Settings Options -->
                     <div class="pt-4 pb-1 border-t border-border-light">
+                        <!-- Mobile Language Switcher -->
+                        <livewire:language-switcher />
+                        
                         <div class="flex items-center px-4">
                             <div class="shrink-0">
                                 <img class="h-10 w-10 rounded-full" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />

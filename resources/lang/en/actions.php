@@ -40,6 +40,8 @@ return [
     'expand_all'      => 'Expand All',
     'explanation'     => 'Explanation',
     'export'          => 'Export',
+    'language'        => 'Language',
+    'select_language' => 'Select Language',
     'file'            => 'File',
     'files'           => 'Files',
     'go_home'         => 'Go Home',

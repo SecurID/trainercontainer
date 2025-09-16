@@ -19,6 +19,18 @@ class User extends Authenticatable
     use TwoFactorAuthenticatable;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'locale',
+    ];
+
+    /**
      * The attributes that should be hidden for arrays.
      *
      * @var array

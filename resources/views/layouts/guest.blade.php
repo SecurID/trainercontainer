@@ -13,6 +13,7 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         @vite(['resources/css/app.css','resources/js/app.js'])
+        @livewireStyles
 
         <!-- Scripts -->
         <!--<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.2.1/dist/alpine.js" defer></script>-->
@@ -21,6 +22,7 @@
         <div class="font-sans text-text-primary antialiased">
             {{ $slot }}
         </div>
+        @livewireScripts
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-0XLX9M5RC6"></script>
         <script>

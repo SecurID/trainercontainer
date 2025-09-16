@@ -40,6 +40,8 @@ return [
     'expand_all'      => 'Alle erweitern',
     'explanation'     => 'Erläuterung',
     'export'          => 'Exportieren',
+    'language'        => 'Sprache',
+    'select_language' => 'Sprache wählen',
     'file'            => 'Datei',
     'files'           => 'Dateien',
     'go_home'         => 'Nach Hause gehen',

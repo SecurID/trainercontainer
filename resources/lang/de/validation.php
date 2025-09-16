@@ -38,6 +38,7 @@ return [
     'digits_between'         => ':Attribute muss zwischen :min und :max Stellen haben.',
     'dimensions'             => ':Attribute hat ungültige Bildabmessungen.',
     'distinct'               => ':Attribute beinhaltet einen bereits vorhandenen Wert.',
+    'doesnt_contain'         => ':Attribute darf keines der folgenden enthalten: :values.',
     'doesnt_end_with'        => ':Attribute darf nicht mit einem der folgenden enden: :values.',
     'doesnt_start_with'      => ':Attribute darf nicht mit einem der folgenden beginnen: :values.',
     'email'                  => ':Attribute muss eine gültige E-Mail-Adresse sein.',

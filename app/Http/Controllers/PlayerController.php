@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Player;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -24,18 +23,30 @@ class PlayerController extends Controller
 
     public function show(Player $player)
     {
-        $player->load(['mainPosition', 'subPositions']);
+        $player->load(['mainPosition', 'subPositions', 'ratings.practice', 'ratings.game']);
 
-        $ratings = $player->ratings()->get()->sortBy('date');
-        $labels = [];
-        $ratings_array = [];
-        foreach($ratings as $rating){
-            $dateFormatted = $rating->practice?->exists ? $rating->practice->date->format('d.m.Y') : $rating->game->date->format('d.m.Y');
-            $labels[] = $dateFormatted;
-            $ratings_array[] = $rating->rating;
-        }
+        $ratings = $player->ratings
+            ->sortBy(function ($rating) {
+                $date = $rating->practice?->date ?? $rating->game?->date;
 
-        return response()->view('players/player-single', ['player' => $player, 'ratings' => $ratings, 'labels' => $labels, 'ratings_array' => $ratings_array]);
+                return $date ? $date->timestamp : PHP_INT_MAX;
+            })
+            ->values();
+
+        $labels = $ratings->map(function ($rating) {
+            $date = $rating->practice?->date ?? $rating->game?->date;
+
+            return $date ? $date->format('d.m.Y') : null;
+        })->all();
+
+        $ratings_array = $ratings->pluck('rating')->all();
+
+        return response()->view('players/player-single', [
+            'player' => $player,
+            'ratings' => $ratings,
+            'labels' => $labels,
+            'ratings_array' => $ratings_array,
+        ]);
     }
 
     public function positionAnalysis()

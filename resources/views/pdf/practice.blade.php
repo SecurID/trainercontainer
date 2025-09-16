@@ -49,7 +49,10 @@
     </div>
     <div class="m-10"></div>
     <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
-        {!! $practice->notes !!}
+        <h3 class="text-lg font-semibold text-gray-800 mb-3 border-b border-teal-200 pb-2">{{ __('Practice Notes') }}</h3>
+        <div class="text-sm text-gray-700 leading-relaxed bg-teal-50 border border-teal-100 rounded-lg p-4">
+            {!! $practice->notes !!}
+        </div>
     </div>
     <div class="shrink-0 flex items-center justify-end mt-10">
         <p class="mr-10">{{__('Powered by')}}</p>

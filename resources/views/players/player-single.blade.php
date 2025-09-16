@@ -1,10 +1,24 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center space-x-4">
-            <x-back-button></x-back-button>
-            <h2 class="flex-grow text-xl font-semibold text-gray-800 leading-tight">
-                {{ $player->prename }} {{ $player->lastname }}
-            </h2>
+        <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div class="flex items-center gap-3">
+                <x-back-button></x-back-button>
+                <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+                    <h2 class="text-xl font-semibold text-gray-800 leading-tight">
+                        {{ $player->prename }} {{ $player->lastname }}
+                    </h2>
+                    <button
+                        type="button"
+                        data-modal-target="edit-player-name-modal"
+                        data-modal-toggle="edit-player-name-modal"
+                        class="inline-flex items-center gap-2 rounded-md border border-primary-200 bg-white px-3 py-1.5 text-sm font-medium text-primary-700 shadow-sm transition hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-200 focus:ring-offset-2"
+                    >
+                        <x-heroicon-o-pencil class="h-4 w-4" />
+                        {{ __('Edit Name') }}
+                    </button>
+                </div>
+            </div>
+            <livewire:delete-player :player="$player" />
         </div>
     </x-slot>
 
@@ -13,9 +27,15 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
                 <div class="flex flex-wrap">
                     <div class="w-full md:w-1/2 lg:w-1/3 p-4">
-                        <div class="flex justify-between mb-4">
+                        <div class="flex items-center justify-between mb-4">
                             <div class="font-bold">{{__('Positions')}}</div>
-                            <button data-modal-target="edit-player-positions-modal" data-modal-toggle="edit-player-positions-modal" class="block text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" type="button">
+                            <button
+                                type="button"
+                                data-modal-target="edit-player-positions-modal"
+                                data-modal-toggle="edit-player-positions-modal"
+                                class="inline-flex items-center gap-2 rounded-md border border-primary-200 bg-white px-3 py-1.5 text-sm font-medium text-primary-700 shadow-sm transition hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-200 focus:ring-offset-2"
+                            >
+                                <x-heroicon-o-clipboard-document-list class="h-4 w-4" />
                                 {{__('Edit Positions')}}
                             </button>
                         </div>
@@ -44,13 +64,19 @@
                                 <p class="text-gray-400">{{__('None set')}}</p>
                             @endif
                         </div>
-                        
-                        <div class="flex justify-between">
+
+                        <div class="flex items-center justify-between">
                             <div class="font-bold">{{__('Notes')}}</div>
-                                <button data-modal-target="edit-player-modal" data-modal-toggle="edit-player-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-                                    {{__('Edit Notes')}}
-                                </button>
-                            </div>
+                            <button
+                                type="button"
+                                data-modal-target="edit-player-modal"
+                                data-modal-toggle="edit-player-modal"
+                                class="inline-flex items-center gap-2 rounded-md border border-primary-200 bg-white px-3 py-1.5 text-sm font-medium text-primary-700 shadow-sm transition hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-200 focus:ring-offset-2"
+                            >
+                                <x-heroicon-o-document-text class="h-4 w-4" />
+                                {{__('Edit Notes')}}
+                            </button>
+                        </div>
                         <livewire:edit-player-notes :player="$player"></livewire:edit-player-notes>
                         <p class="mt-2">{{ $player->notes }}</p>
                     </div>
@@ -124,4 +150,5 @@
             });
         </script>
     @endpush
+    <livewire:edit-player-name :player="$player" />
 </x-app-layout>

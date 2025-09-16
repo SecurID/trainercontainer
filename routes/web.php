@@ -37,7 +37,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::resource('exercises', ExerciseController::class);
     Route::resource('games', GameController::class);
     Route::resource('practices', PracticeController::class);
-    Route::resource('players', PlayerController::class)->name('GET', 'players');
+    Route::resource('players', PlayerController::class)->except(['destroy'])->name('GET', 'players');
     Route::get('players-position-analysis', [PlayerController::class, 'positionAnalysis'])->name('players.position-analysis');
 
     Route::get('practices/print/{practice}', [PracticeController::class, 'print'])->name('print');

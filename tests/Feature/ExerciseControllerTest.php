@@ -12,7 +12,9 @@ class ExerciseControllerTest extends TestCase
 
     public function testIndex()
     {
-        Exercise::factory()->count(3)->create();
+        Exercise::factory()->count(3)->create([
+            'user_id' => auth()->id(),
+        ]);
         $response = $this->get(route('exercises.index'));
         $response->assertStatus(200);
         $response->assertViewIs('exercises.exercises');

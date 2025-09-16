@@ -18,7 +18,7 @@
         @endif
         @foreach($players as $player)
             <a href="{{ route('players.show', $player->id) }}" class="block px-4 py-2 mt-2 bg-gray-100 rounded hover:bg-gray-200">
-                {{$player->lastname}}, {{$player->prename}}
+                {{ $player->lastname }}, {{ $player->prename }}
             </a>
         @endforeach
     </div>

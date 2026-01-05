@@ -3,37 +3,43 @@
 namespace App\Livewire;
 
 use App\Models\Game;
+use App\Models\User;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\Features\SupportRedirects\Redirector;
 
 class CreateGame extends Component
 {
-    public $opponent_id;
+    public ?int $opponent_id = null;
 
-    public $opponent_formation;
+    public ?string $opponent_formation = null;
 
-    public $date;
+    public ?string $date = null;
 
-    public $time;
+    public ?string $time = null;
 
-    public $location;
+    public ?string $location = null;
 
-    public $notes;
+    public ?string $notes = null;
 
     public function mount(): void
     {
         $this->date = date('Y-m-d');
     }
 
-    public function render()
+    public function render(): View
     {
-        $opponents = Auth::user()->opponents()->orderBy('name')->get();
+        /** @var User $user */
+        $user = Auth::user();
+        $opponents = $user->opponents()->orderBy('name')->get();
         $formations = Game::FORMATIONS;
 
         return view('livewire.create-game', compact('opponents', 'formations'));
     }
 
-    public function save()
+    public function save(): RedirectResponse|Redirector
     {
         $this->validate([
             'opponent_id' => 'required|exists:opponents,id',
@@ -44,6 +50,8 @@ class CreateGame extends Component
             'notes' => 'nullable|string',
         ]);
 
+        /** @var User $user */
+        $user = Auth::user();
         $game = new Game([
             'opponent_id' => $this->opponent_id,
             'opponent_formation' => $this->opponent_formation,
@@ -51,7 +59,7 @@ class CreateGame extends Component
             'time' => $this->time,
             'location' => $this->location,
             'notes' => $this->notes,
-            'user_id' => Auth::user()->id,
+            'user_id' => $user->id,
         ]);
         $game->save();
 

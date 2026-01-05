@@ -87,7 +87,10 @@ class PracticeScheduleBuilder extends Component
     public function removeRow(int $index): void
     {
         if (isset($this->scheduleRows[$index]['id'])) {
-            Schedule::query()->find($this->scheduleRows[$index]['id'])?->delete();
+            $schedule = Schedule::query()->find($this->scheduleRows[$index]['id']);
+            if ($schedule instanceof Schedule) {
+                $schedule->delete();
+            }
         }
 
         unset($this->scheduleRows[$index]);

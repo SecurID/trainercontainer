@@ -3,14 +3,14 @@
 namespace App\Livewire;
 
 use App\Models\Player;
-use Illuminate\View\View;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
 class EditPlayerNotes extends Component
 {
     public Player $player;
 
-    public ?string $notes;
+    public ?string $notes = null;
 
     public function mount(Player $player): void
     {

@@ -65,10 +65,12 @@ class CreatePractice extends Component
     public function search(): void
     {
         if (strlen($this->searchTerm) >= 2) {
-            $this->searchResults = Exercise::query()->where('name', 'like', '%'.$this->searchTerm.'%')
+            /** @var array<int, array<string, mixed>> $results */
+            $results = Exercise::query()->where('name', 'like', '%'.$this->searchTerm.'%')
                 ->limit(4)
                 ->get()
                 ->toArray();
+            $this->searchResults = $results;
         } else {
             $this->searchResults = [];
         }

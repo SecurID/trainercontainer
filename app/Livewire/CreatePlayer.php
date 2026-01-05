@@ -3,6 +3,8 @@
 namespace App\Livewire;
 
 use App\Models\Position;
+use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
 class CreatePlayer extends Component
@@ -13,6 +15,7 @@ class CreatePlayer extends Component
 
     public ?int $main_position_id = null;
 
+    /** @var array<int, int> */
     public array $sub_position_ids = [];
 
     public function save(): void
@@ -25,6 +28,7 @@ class CreatePlayer extends Component
             'sub_position_ids.*' => 'exists:positions,id',
         ]);
 
+        /** @var User $user */
         $user = auth()->user();
         $player = $user->players()->create([
             'prename' => $this->prename,
@@ -41,7 +45,7 @@ class CreatePlayer extends Component
         $this->reset(['prename', 'lastname', 'main_position_id', 'sub_position_ids']);
     }
 
-    public function render()
+    public function render(): View
     {
         $positions = Position::all();
 

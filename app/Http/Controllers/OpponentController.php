@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Opponent;
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class OpponentController extends Controller
@@ -11,9 +14,11 @@ class OpponentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): Response
     {
-        $opponents = Opponent::where('user_id', Auth::user()->id)
+        /** @var User $user */
+        $user = Auth::user();
+        $opponents = Opponent::query()->where('user_id', $user->id)
             ->orderBy('name')
             ->get();
 
@@ -23,7 +28,7 @@ class OpponentController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Response
     {
         return response()->view('opponents/create-opponent');
     }
@@ -31,17 +36,20 @@ class OpponentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
+        /** @var array{name: string, notes: ?string} $data */
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'notes' => 'nullable|string',
         ]);
 
+        /** @var User $user */
+        $user = Auth::user();
         $opponent = new Opponent([
             'name' => $data['name'],
-            'notes' => $data['notes'],
-            'user_id' => Auth::user()->id,
+            'notes' => $data['notes'] ?? null,
+            'user_id' => $user->id,
         ]);
         $opponent->save();
 
@@ -51,7 +59,7 @@ class OpponentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Opponent $opponent)
+    public function show(Opponent $opponent): Response
     {
         $this->authorize('view', $opponent);
 
@@ -66,7 +74,7 @@ class OpponentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Opponent $opponent)
+    public function edit(Opponent $opponent): Response
     {
         $this->authorize('update', $opponent);
 
@@ -76,10 +84,11 @@ class OpponentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Opponent $opponent)
+    public function update(Request $request, Opponent $opponent): RedirectResponse
     {
         $this->authorize('update', $opponent);
 
+        /** @var array{name: string, notes: ?string} $data */
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'notes' => 'nullable|string',
@@ -93,7 +102,7 @@ class OpponentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Opponent $opponent)
+    public function destroy(Opponent $opponent): RedirectResponse
     {
         $this->authorize('delete', $opponent);
 

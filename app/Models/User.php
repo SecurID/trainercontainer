@@ -12,16 +12,23 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+    /** @use HasApiTokens<\Laravel\Sanctum\PersonalAccessToken> */
     use HasApiTokens;
+
+    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
+
     use HasProfilePhoto;
+
+    /** @use Notifiable<\Illuminate\Notifications\DatabaseNotification, \Illuminate\Notifications\DatabaseNotificationCollection<\Illuminate\Notifications\DatabaseNotification>> */
     use Notifiable;
+
     use TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'name',
@@ -33,7 +40,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be hidden for arrays.
      *
-     * @var array
+     * @var list<string>
      */
     protected $hidden = [
         'password',
@@ -45,7 +52,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
@@ -54,34 +61,49 @@ class User extends Authenticatable
     /**
      * The accessors to append to the model's array form.
      *
-     * @var array
+     * @var list<string>
      */
     protected $appends = [
         'profile_photo_url',
     ];
 
+    /**
+     * @return HasMany<Player, $this>
+     */
     public function players(): HasMany
     {
-        return $this->hasMany('App\Models\Player');
+        return $this->hasMany(Player::class);
     }
 
+    /**
+     * @return HasMany<Practice, $this>
+     */
     public function practices(): HasMany
     {
-        return $this->hasMany('App\Models\Practice');
+        return $this->hasMany(Practice::class);
     }
 
+    /**
+     * @return HasMany<Exercise, $this>
+     */
     public function exercises(): HasMany
     {
-        return $this->hasMany('App\Models\Exercise');
+        return $this->hasMany(Exercise::class);
     }
 
+    /**
+     * @return HasMany<Game, $this>
+     */
     public function games(): HasMany
     {
-        return $this->hasMany('App\Models\Game');
+        return $this->hasMany(Game::class);
     }
 
+    /**
+     * @return HasMany<Opponent, $this>
+     */
     public function opponents(): HasMany
     {
-        return $this->hasMany('App\Models\Opponent');
+        return $this->hasMany(Opponent::class);
     }
 }

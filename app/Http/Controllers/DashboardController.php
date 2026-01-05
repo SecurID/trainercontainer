@@ -5,19 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\Exercise;
 use App\Models\Player;
 use App\Models\Practice;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         $userId = Auth::id();
 
-        $hasPlayer = Player::where('user_id', $userId)->exists();
-        $hasExercise = Exercise::where('user_id', $userId)->exists();
-        $hasPractice = Practice::where('user_id', $userId)->exists();
+        $hasPlayer = Player::query()->where('user_id', $userId)->exists();
+        $hasExercise = Exercise::query()->where('user_id', $userId)->exists();
+        $hasPractice = Practice::query()->where('user_id', $userId)->exists();
 
-        $nextPractice = Practice::where('user_id', $userId)
+        $nextPractice = Practice::query()->where('user_id', $userId)
             ->where('date', '>=', now()->startOfDay())
             ->orderBy('date')
             ->first();

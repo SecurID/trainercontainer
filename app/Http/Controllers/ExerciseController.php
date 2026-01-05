@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Exercise;
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class ExerciseController extends Controller
 {
-    public function index()
+    public function index(): Response
     {
         $exercises = Exercise::all();
         $categories = Category::all();
@@ -16,16 +20,16 @@ class ExerciseController extends Controller
         return response()->view('exercises/exercises', ['exercises' => $exercises, 'categories' => $categories]);
     }
 
-    public function create()
+    public function create(): Response
     {
         $categories = Category::all();
 
         return response()->view('exercises/create-exercises', ['categories' => $categories]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        // Validate request, especially for the new array of categories
+        /** @var array{name: string, focus: string, material: ?string, duration: ?string, intensity: ?string, procedure: string, coaching: string, categories: array<int, int>} $validatedData */
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'focus' => 'required|string|max:255',
@@ -36,17 +40,23 @@ class ExerciseController extends Controller
             'coaching' => 'required|string',
             'drawing' => 'nullable|file',
             'categories' => 'required|array',
-            'categories.*' => 'exists:categories,id', // Validate each category ID exists
+            'categories.*' => 'exists:categories,id',
         ]);
 
+        /** @var array<string, mixed> $exerciseData */
         $exerciseData = $request->except(['categories', 'drawing']);
 
         if ($request->hasFile('drawing')) {
-            $path = $request->file('drawing')->store('exercises', 'public');
-            $exerciseData['image'] = $path;
+            $file = $request->file('drawing');
+            if ($file !== null) {
+                $path = $file->store('exercises', 'public');
+                $exerciseData['image'] = $path;
+            }
         }
 
-        $exerciseData['user_id'] = auth()->user()->id;
+        /** @var User $user */
+        $user = Auth::user();
+        $exerciseData['user_id'] = $user->id;
         $exercise = Exercise::create($exerciseData);
 
         if (! empty($validatedData['categories'])) {
@@ -56,14 +66,14 @@ class ExerciseController extends Controller
         return redirect()->route('exercises.index');
     }
 
-    public function show(Exercise $exercise)
+    public function show(Exercise $exercise): Response
     {
         return response()->view('exercises/exercise-single', ['exercise' => $exercise]);
     }
 
-    public function edit(Exercise $exercise)
+    public function edit(Exercise $exercise): Response
     {
-        if ($exercise->user_id !== auth()->id()) {
+        if ($exercise->user_id !== Auth::id()) {
             abort(403, 'You are not authorized to edit this exercise.');
         }
 
@@ -72,8 +82,9 @@ class ExerciseController extends Controller
         return response()->view('exercises/update-exercises', ['exercise' => $exercise, 'categories' => $categories]);
     }
 
-    public function update(Request $request, Exercise $exercise)
+    public function update(Request $request, Exercise $exercise): RedirectResponse
     {
+        /** @var array{name: string, focus: string, material: ?string, duration: ?string, intensity: ?string, procedure: string, coaching: ?string, categories?: array<int, int>} $validatedData */
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'focus' => 'required|string|max:255',
@@ -90,9 +101,14 @@ class ExerciseController extends Controller
         $exercise->update($validatedData);
 
         if ($request->hasFile('drawing')) {
-            $path = $request->file('drawing')->store('exercises', 'public');
-            $exercise->image = $path;
-            $exercise->save();
+            $file = $request->file('drawing');
+            if ($file !== null) {
+                $path = $file->store('exercises', 'public');
+                if ($path !== false) {
+                    $exercise->image = $path;
+                    $exercise->save();
+                }
+            }
         }
 
         if (isset($validatedData['categories'])) {

@@ -5,10 +5,13 @@ namespace App\Livewire;
 use App\Models\Player;
 use App\Models\Position;
 use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
 class EditPlayerPositions extends Component
 {
+    use AuthorizesRequests;
+
     public Player $player;
 
     public ?int $main_position_id = null;
@@ -18,6 +21,8 @@ class EditPlayerPositions extends Component
 
     public function mount(Player $player): void
     {
+        $this->authorize('update', $player);
+
         $this->player = $player;
         $this->main_position_id = $player->main_position_id;
         /** @var array<int, int> $subPositionIds */
@@ -27,6 +32,8 @@ class EditPlayerPositions extends Component
 
     public function save(): void
     {
+        $this->authorize('update', $this->player);
+
         $this->validate([
             'main_position_id' => 'nullable|exists:positions,id',
             'sub_position_ids' => 'array',

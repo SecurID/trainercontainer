@@ -12,6 +12,9 @@ class Game extends Model
     /** @use HasFactory<\Database\Factories\GameFactory> */
     use HasFactory;
 
+    /**
+     * @var list<string>
+     */
     public const FORMATIONS = [
         '4-4-2',
         '4-3-3',
@@ -25,6 +28,9 @@ class Game extends Model
         '3-4-2-1',
     ];
 
+    /**
+     * @var list<string>
+     */
     protected $fillable = [
         'opponent_id',
         'opponent_formation',
@@ -35,20 +41,32 @@ class Game extends Model
         'user_id',
     ];
 
+    /**
+     * @var array<string, string>
+     */
     protected $casts = [
         'date' => 'date',
     ];
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * @return BelongsTo<Opponent, $this>
+     */
     public function opponent(): BelongsTo
     {
         return $this->belongsTo(Opponent::class);
     }
 
+    /**
+     * @return HasMany<Rating, $this>
+     */
     public function ratings(): HasMany
     {
         return $this->hasMany(Rating::class);

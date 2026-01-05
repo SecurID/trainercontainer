@@ -4,8 +4,12 @@ namespace App\Livewire;
 
 use App\Models\Category;
 use App\Models\Exercise;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\RedirectResponse;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use Livewire\Features\SupportRedirects\Redirector;
 use Livewire\WithFileUploads;
 
 class EditExercise extends Component
@@ -18,6 +22,7 @@ class EditExercise extends Component
 
     public ?string $focus = null;
 
+    /** @var array<int, int> */
     public array $categories = [];
 
     public ?string $material = null;
@@ -30,7 +35,7 @@ class EditExercise extends Component
 
     public ?int $goalkeeperCount = null;
 
-    public $level = null;
+    public mixed $level = null;
 
     public ?int $age = null;
 
@@ -38,8 +43,9 @@ class EditExercise extends Component
 
     public ?string $coaching = null;
 
-    public $image = null;
+    public TemporaryUploadedFile|string|null $image = null;
 
+    /** @var Collection<int, Category>|null */
     public ?Collection $categoriesList = null;
 
     public function mount(Exercise $exercise): void
@@ -54,7 +60,7 @@ class EditExercise extends Component
         $this->name = $exercise->name;
         $this->focus = $exercise->focus;
         $this->material = $exercise->material;
-        $this->duration = $exercise->duration;
+        $this->duration = $exercise->duration !== null ? (string) $exercise->duration : null;
         $this->intensity = $exercise->intensity;
         $this->playerCount = $exercise->playerCount;
         $this->goalkeeperCount = $exercise->goalkeeperCount;
@@ -62,19 +68,22 @@ class EditExercise extends Component
         $this->age = $exercise->age;
         $this->procedure = $exercise->procedure;
         $this->coaching = $exercise->coaching;
-        $this->categories = $exercise->categories->pluck('id')->toArray();
+        /** @var array<int, int> $categoryIds */
+        $categoryIds = $exercise->categories->pluck('id')->toArray();
+        $this->categories = $categoryIds;
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.edit-exercise');
     }
 
-    public function update()
+    public function update(): RedirectResponse|Redirector
     {
+        /** @var array<string, mixed> $validated */
         $validated = $this->validate();
 
-        if ($this->image) {
+        if ($this->image instanceof TemporaryUploadedFile) {
             $validated['image'] = $this->image->store('exercises', 'public');
         } else {
             unset($validated['image']);
@@ -89,7 +98,7 @@ class EditExercise extends Component
         return redirect()->route('exercises.index');
     }
 
-    public function delete()
+    public function delete(): RedirectResponse|Redirector
     {
         if ($this->exercise->user_id !== auth()->id()) {
             abort(403, 'You are not authorized to delete this exercise.');
@@ -102,6 +111,9 @@ class EditExercise extends Component
         return redirect()->route('exercises.index');
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function rules(): array
     {
         return [

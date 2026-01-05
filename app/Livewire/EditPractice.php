@@ -3,29 +3,33 @@
 namespace App\Livewire;
 
 use App\Models\Practice;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class EditPractice extends Component
 {
     public Practice $practice;
 
-    public string $topic;
+    public string $topic = '';
 
-    public $date;
+    public string $date = '';
 
     public string $successMessage = '';
 
-    public ?int $playerCount;
+    public ?int $playerCount = null;
 
-    public ?int $goalkeeperCount;
+    public ?int $goalkeeperCount = null;
 
-    public string $notes;
+    public string $notes = '';
 
     public function mount(Practice $practice): void
     {
         $this->practice = $practice;
-        $this->topic = $practice->topic;
-        $this->date = $practice->date->format('Y-m-d');
+        $this->topic = $practice->topic ?? '';
+        /** @var \Carbon\Carbon $practiceDate */
+        $practiceDate = $practice->date;
+        $this->date = $practiceDate->format('Y-m-d');
         $this->playerCount = $practice->playerCount;
         $this->goalkeeperCount = $practice->goalkeeperCount;
         $this->notes = $practice->notes ?? '';
@@ -61,25 +65,25 @@ class EditPractice extends Component
         $this->showSuccessMessage();
     }
 
-    public function setNotesContent($content): void
+    public function setNotesContent(?string $content): void
     {
-        \Log::info('setNotesContent called', [
+        Log::info('setNotesContent called', [
             'practice_id' => $this->practice->id,
             'content_received' => $content,
             'content_length' => strlen($content ?? ''),
         ]);
 
-        $this->notes = $content;
+        $this->notes = $content ?? '';
         $this->practice->update(['notes' => $this->notes]);
         $this->showSuccessMessage();
     }
 
     public function saveNotes(): void
     {
-        \Log::info('SaveNotes called', [
+        Log::info('SaveNotes called', [
             'practice_id' => $this->practice->id,
             'notes_content' => $this->notes,
-            'notes_length' => strlen($this->notes ?? ''),
+            'notes_length' => strlen($this->notes),
         ]);
 
         $this->practice->update(['notes' => $this->notes]);
@@ -96,7 +100,7 @@ class EditPractice extends Component
         $this->successMessage = '';
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.edit-practice');
     }

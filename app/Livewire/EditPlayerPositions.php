@@ -4,7 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Player;
 use App\Models\Position;
-use Illuminate\View\View;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
 class EditPlayerPositions extends Component
@@ -13,13 +13,16 @@ class EditPlayerPositions extends Component
 
     public ?int $main_position_id = null;
 
+    /** @var array<int, int> */
     public array $sub_position_ids = [];
 
     public function mount(Player $player): void
     {
         $this->player = $player;
         $this->main_position_id = $player->main_position_id;
-        $this->sub_position_ids = $player->subPositions->pluck('id')->toArray();
+        /** @var array<int, int> $subPositionIds */
+        $subPositionIds = $player->subPositions->pluck('id')->toArray();
+        $this->sub_position_ids = $subPositionIds;
     }
 
     public function save(): void

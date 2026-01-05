@@ -3,30 +3,39 @@
 namespace App\Http\Controllers;
 
 use App\Models\Practice;
+use App\Models\User;
 use DateTime;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Spatie\LaravelPdf\Enums\Format;
 use Spatie\LaravelPdf\Facades\Pdf;
+use Spatie\LaravelPdf\PdfBuilder;
 
 class PracticeController extends Controller
 {
-    public function index()
+    public function index(): Response
     {
-        $practices = Practice::where('user_id', Auth::user()->id)
+        /** @var User $user */
+        $user = Auth::user();
+        $practices = Practice::query()->where('user_id', $user->id)
             ->orderBy('date')
             ->get();
 
         return response()->view('practices/practices', ['practices' => $practices]);
     }
 
-    public function create()
+    public function create(): Response
     {
         return response()->view('practices/create-practices');
     }
 
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
+        /** @var array{date: string, topic: string, rows: array<int, array{exerciseId: int, coaches: string, time: string, playerCount: int, goalkeeperCount: int}>} $data */
         $data = $request->validate([
             'date' => 'required|date',
             'topic' => 'required|string',
@@ -37,10 +46,13 @@ class PracticeController extends Controller
             'rows.*.goalkeeperCount' => 'required|integer',
         ]);
 
+        /** @var User $user */
+        $user = Auth::user();
+
         $practice = new Practice([
             'date' => DateTime::createFromFormat('d.m.Y', $data['date']),
             'topic' => $data['topic'],
-            'user_id' => Auth::user()->id,
+            'user_id' => $user->id,
         ]);
         $practice->save();
 
@@ -59,9 +71,11 @@ class PracticeController extends Controller
         ]);
     }
 
-    public function show(Practice $practice)
+    public function show(Practice $practice): Response
     {
-        $players = Auth::user()->players()->get()->sortBy('lastname');
+        /** @var User $user */
+        $user = Auth::user();
+        $players = $user->players()->get()->sortBy('lastname');
 
         return response()->view('practices/practice-single', [
             'practice' => $practice,
@@ -70,7 +84,7 @@ class PracticeController extends Controller
         ]);
     }
 
-    public function schedule(Practice $practice)
+    public function schedule(Practice $practice): View
     {
         return view('practices.practice-schedule', [
             'practice' => $practice,
@@ -78,7 +92,7 @@ class PracticeController extends Controller
         ]);
     }
 
-    public function destroy(Practice $practice)
+    public function destroy(Practice $practice): RedirectResponse
     {
         $practice->schedules()->delete();
         $practice->delete();
@@ -86,13 +100,15 @@ class PracticeController extends Controller
         return redirect()->route('practices.index')->with('success-message', 'Practice successfully deleted!');
     }
 
-    public function print(Practice $practice)
+    public function print(Practice $practice): PdfBuilder
     {
+        /** @var \Carbon\Carbon $date */
+        $date = $practice->date;
+
         return Pdf::view('pdf/practice', ['practice' => $practice, 'schedules' => $practice->schedules()->get()])
             ->format(Format::A4)
             ->landscape()
-            ->name('practice-'.$practice->date->format('Y-m-d').'.pdf')
+            ->name('practice-'.$date->format('Y-m-d').'.pdf')
             ->onLambda();
-
     }
 }

@@ -1,0 +1,30 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    paths:
+        - app/
+
+    # Level 9 is the highest/strictest level
+    level: 9
+
+    ignoreErrors:
+        # Laravel Notifiable trait is not generic in stub
+        - '#PHPDoc tag @use contains generic type.*Notifiable#'
+        # Kernel and Handler arrays have covariance issues with framework
+        - '#PHPDoc type array of property App\\Http\\Kernel#'
+        - '#PHPDoc type array of property App\\Exceptions\\Handler#'
+        - '#Property App\\Http\\Kernel::\$middleware#'
+        - '#Property App\\Exceptions\\Handler::\$dontReport#'
+        - '#Property App\\Exceptions\\Handler::\$dontFlash#'
+        # Middleware arrays
+        - '#PHPDoc type array of property App\\Http\\Middleware#'
+        - '#Property App\\Http\\Middleware.*::\$except#'
+        # Factory types that may not exist
+        - '#PHPDoc tag @use has invalid type Database\\Factories#'
+        - '#Type Database\\Factories.*in generic type#'
+        # Ignore nullsafe warnings as they are stylistic
+        - '#Using nullsafe property access#'
+
+    excludePaths:
+        - app/Console/Kernel.php

@@ -5,43 +5,51 @@ namespace App\Livewire;
 use App\Models\Player;
 use App\Models\Practice;
 use App\Models\Rating;
+use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\Features\SupportRedirects\Redirector;
 
 class CreateRating extends Component
 {
-    public $practices;
+    /** @var Collection<int, Practice>|null */
+    public ?Collection $practices = null;
 
-    public $players;
+    /** @var Collection<int, Player>|null */
+    public ?Collection $players = null;
 
-    public $selectedPractice;
+    public ?int $selectedPractice = null;
 
-    public $ratings = [];
+    /** @var array<int, int|null> */
+    public array $ratings = [];
 
-    public function mount()
+    public function mount(): void
     {
         $userId = Auth::id();
-        $this->practices = Practice::where('user_id', $userId)
+        $this->practices = Practice::query()->where('user_id', $userId)
             ->orderBy('date', 'asc')
             ->get();
-        $this->players = Player::where('user_id', $userId)
+        $this->players = Player::query()->where('user_id', $userId)
             ->orderBy('lastname', 'asc')
             ->get();
-        // Nächste zukünftige Practice vorauswählen
+        // Select next future practice
         $next = $this->practices->firstWhere(fn ($p) => $p->date >= now());
-        $this->selectedPractice = $next ? $next->id : ($this->practices->first()->id ?? null);
+        $this->selectedPractice = $next?->id ?? $this->practices->first()?->id;
     }
 
-    public function save()
+    public function save(): RedirectResponse|Redirector
     {
         $practiceId = $this->selectedPractice;
         foreach ($this->ratings as $playerId => $ratingValue) {
+            $practice = Practice::query()->find($practiceId);
             Rating::create([
                 'practice_id' => $practiceId,
                 'player_id' => $playerId,
                 'user_id' => Auth::id(),
                 'rating' => $ratingValue,
-                'date' => Practice::find($practiceId)->date,
+                'date' => $practice?->date,
             ]);
         }
         session()->flash('success', 'Bewertungen gespeichert!');
@@ -49,7 +57,7 @@ class CreateRating extends Component
         return redirect()->route('players.index');
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.create-rating');
     }

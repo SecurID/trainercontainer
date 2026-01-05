@@ -4,9 +4,11 @@ namespace App\Livewire;
 
 use App\Models\Player;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\Features\SupportRedirects\Redirector;
 
 class DeletePlayer extends Component
 {
@@ -24,7 +26,7 @@ class DeletePlayer extends Component
         $this->confirmingDeletion = false;
     }
 
-    public function deletePlayer()
+    public function deletePlayer(): RedirectResponse|Redirector
     {
         abort_if($this->player->user_id !== Auth::id(), Response::HTTP_FORBIDDEN);
 

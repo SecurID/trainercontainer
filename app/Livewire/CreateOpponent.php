@@ -2,6 +2,8 @@
 
 namespace App\Livewire;
 
+use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
 class CreateOpponent extends Component
@@ -17,6 +19,7 @@ class CreateOpponent extends Component
             'notes' => 'nullable|string',
         ]);
 
+        /** @var User $user */
         $user = auth()->user();
         $user->opponents()->create([
             'name' => $this->name,
@@ -28,7 +31,7 @@ class CreateOpponent extends Component
         $this->reset(['name', 'notes']);
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.create-opponent');
     }

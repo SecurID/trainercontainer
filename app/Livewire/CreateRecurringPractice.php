@@ -2,42 +2,55 @@
 
 namespace App\Livewire;
 
+use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class CreateRecurringPractice extends Component
 {
-    public $start_date;
+    public ?string $start_date = null;
 
-    public $end_date;
+    public ?string $end_date = null;
 
-    public $weekdays = [];
+    /** @var array<int, string> */
+    public array $weekdays = [];
 
-    public $time;
+    public ?string $time = null;
 
-    public $success = false;
+    public bool $success = false;
 
-    protected $rules = [
+    /** @var array<string, string> */
+    protected array $rules = [
         'start_date' => 'required|date',
         'end_date' => 'required|date|after_or_equal:start_date',
         'weekdays' => 'required|array|min:1',
         'time' => 'required',
     ];
 
-    public function create()
+    public function create(): void
     {
         $this->validate();
+
+        if ($this->start_date === null || $this->end_date === null) {
+            return;
+        }
+
         $start = Carbon::parse($this->start_date);
         $end = Carbon::parse($this->end_date);
+        /** @var array<int, Carbon> $dates */
         $dates = [];
         for ($date = $start->copy(); $date->lte($end); $date->addDay()) {
             if (in_array($date->format('N'), $this->weekdays)) {
                 $dates[] = $date->copy();
             }
         }
+
+        /** @var User $user */
+        $user = Auth::user();
         foreach ($dates as $date) {
-            Auth::user()->practices()->create([
+            $user->practices()->create([
                 'date' => $date->format('Y-m-d'),
                 'time' => $this->time,
                 'topic' => 'Training',
@@ -48,7 +61,7 @@ class CreateRecurringPractice extends Component
         $this->redirectRoute('practices.index');
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.create-recurring-practice');
     }

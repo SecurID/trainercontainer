@@ -8,8 +8,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Rating extends Model
 {
+    /** @use HasFactory<\Database\Factories\RatingFactory> */
     use HasFactory;
 
+    /**
+     * @var list<string>
+     */
     protected $fillable = [
         'practice_id',
         'game_id',
@@ -19,23 +23,35 @@ class Rating extends Model
         'attended',
     ];
 
+    /**
+     * @var array<string, string>
+     */
     protected $casts = [
         'attended' => 'boolean',
         'date' => 'datetime',
     ];
 
+    /**
+     * @return BelongsTo<Player, $this>
+     */
     public function player(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Player');
+        return $this->belongsTo(Player::class);
     }
 
+    /**
+     * @return BelongsTo<Practice, $this>
+     */
     public function practice(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Practice');
+        return $this->belongsTo(Practice::class);
     }
 
+    /**
+     * @return BelongsTo<Game, $this>
+     */
     public function game(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Game');
+        return $this->belongsTo(Game::class);
     }
 }

@@ -3,55 +3,69 @@
 namespace App\Http\Controllers;
 
 use App\Models\Player;
+use App\Models\Position;
+use App\Models\User;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class PlayerController extends Controller
 {
-    public function index()
+    public function index(): Response
     {
-        $players = Auth::user()->players()->orderBy('players.lastname')->get();
+        /** @var User $user */
+        $user = Auth::user();
+        $players = $user->players()->orderBy('players.lastname')->get();
 
         return response()->view('players/players', ['players' => $players]);
     }
 
-    public function create()
+    public function create(): Response
     {
         return response()->view('players/create-player');
     }
 
-    public function show(Player $player)
+    public function show(Player $player): Response
     {
         $player->load(['mainPosition', 'subPositions', 'ratings.practice', 'ratings.game']);
 
         $ratings = $player->ratings
             ->sortBy(function ($rating) {
                 $date = $rating->practice?->date ?? $rating->game?->date;
+                if ($date instanceof \Carbon\Carbon) {
+                    return $date->timestamp;
+                }
 
-                return $date ? $date->timestamp : PHP_INT_MAX;
+                return PHP_INT_MAX;
             })
             ->values();
 
         $labels = $ratings->map(function ($rating) {
             $date = $rating->practice?->date ?? $rating->game?->date;
+            if ($date instanceof \Carbon\Carbon) {
+                return $date->format('d.m.Y');
+            }
 
-            return $date ? $date->format('d.m.Y') : null;
+            return null;
         })->all();
 
-        $ratings_array = $ratings->pluck('rating')->all();
+        $ratingsArray = $ratings->pluck('rating')->all();
 
         return response()->view('players/player-single', [
             'player' => $player,
             'ratings' => $ratings,
             'labels' => $labels,
-            'ratings_array' => $ratings_array,
+            'ratings_array' => $ratingsArray,
         ]);
     }
 
-    public function positionAnalysis()
+    public function positionAnalysis(): Response
     {
-        $players = Auth::user()->players()->with(['mainPosition', 'subPositions'])->get();
-        $positions = \App\Models\Position::all();
+        /** @var User $user */
+        $user = Auth::user();
+        $players = $user->players()->with(['mainPosition', 'subPositions'])->get();
+        $positions = Position::all();
 
+        /** @var list<array{position: Position, main_count: int, sub_count: int, total_count: int, coverage_status: string, main_players: \Illuminate\Support\Collection<int, Player>, sub_players: \Illuminate\Support\Collection<int, Player>}> $positionAnalysis */
         $positionAnalysis = [];
 
         foreach ($positions as $position) {
@@ -86,12 +100,12 @@ class PlayerController extends Controller
         ]);
     }
 
-    private function getCoverageStatus($count)
+    private function getCoverageStatus(int $count): string
     {
-        if ($count == 0) {
+        if ($count === 0) {
             return 'critical';
         }
-        if ($count == 1) {
+        if ($count === 1) {
             return 'low';
         }
         if ($count <= 3) {

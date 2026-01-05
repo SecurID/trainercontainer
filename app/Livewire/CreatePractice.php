@@ -4,23 +4,29 @@ namespace App\Livewire;
 
 use App\Models\Exercise;
 use App\Models\Practice;
+use App\Models\User;
 use DateTime;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\Features\SupportRedirects\Redirector;
 
 class CreatePractice extends Component
 {
-    public $date;
+    public string $date = '';
 
-    public $topic;
+    public string $topic = '';
 
-    public $rows = [];
+    /** @var array<int, array<string, mixed>> */
+    public array $rows = [];
 
-    public $searchTerm = '';
+    public string $searchTerm = '';
 
-    public $searchResults = [];
+    /** @var array<int, array<string, mixed>> */
+    public array $searchResults = [];
 
-    public $activeRowIndex = null;
+    public ?int $activeRowIndex = null;
 
     public function mount(): void
     {
@@ -28,7 +34,7 @@ class CreatePractice extends Component
         $this->addRow();
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.create-practice');
     }
@@ -45,13 +51,13 @@ class CreatePractice extends Component
         ];
     }
 
-    public function removeRow($index): void
+    public function removeRow(int $index): void
     {
         unset($this->rows[$index]);
         $this->rows = array_values($this->rows);
     }
 
-    public function setActiveRow($index): void
+    public function setActiveRow(int $index): void
     {
         $this->activeRowIndex = $index;
     }
@@ -59,16 +65,18 @@ class CreatePractice extends Component
     public function search(): void
     {
         if (strlen($this->searchTerm) >= 2) {
-            $this->searchResults = Exercise::where('name', 'like', '%'.$this->searchTerm.'%')
+            /** @var array<int, array<string, mixed>> $results */
+            $results = Exercise::query()->where('name', 'like', '%'.$this->searchTerm.'%')
                 ->limit(4)
                 ->get()
                 ->toArray();
+            $this->searchResults = $results;
         } else {
             $this->searchResults = [];
         }
     }
 
-    public function selectExercise($exerciseId, $exerciseName): void
+    public function selectExercise(int $exerciseId, string $exerciseName): void
     {
         if ($this->activeRowIndex !== null) {
             $this->rows[$this->activeRowIndex]['exercise'] = $exerciseName;
@@ -79,13 +87,13 @@ class CreatePractice extends Component
         }
     }
 
-    public function updateSearchTerm($value): void
+    public function updateSearchTerm(string $value): void
     {
         $this->searchTerm = $value;
         $this->search();
     }
 
-    public function save()
+    public function save(): RedirectResponse|Redirector
     {
         $this->validate([
             'date' => 'required|string',
@@ -97,10 +105,12 @@ class CreatePractice extends Component
             'rows.*.goalkeeperCount' => 'required',
         ]);
 
+        /** @var User $user */
+        $user = Auth::user();
         $practice = new Practice([
             'date' => DateTime::createFromFormat('d.m.Y', $this->date),
             'topic' => $this->topic,
-            'user_id' => Auth::user()->id,
+            'user_id' => $user->id,
         ]);
         $practice->save();
 

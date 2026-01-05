@@ -11,9 +11,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Player extends Model
 {
+    /** @use HasFactory<\Database\Factories\PlayerFactory> */
     use HasFactory;
+
     use SoftDeletes;
 
+    /**
+     * @var list<string>
+     */
     protected $fillable = [
         'prename',
         'lastname',
@@ -21,21 +26,33 @@ class Player extends Model
         'main_position_id',
     ];
 
+    /**
+     * @return HasMany<Rating, $this>
+     */
     public function ratings(): HasMany
     {
-        return $this->hasMany('App\Models\Rating');
+        return $this->hasMany(Rating::class);
     }
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function user(): BelongsTo
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo(User::class);
     }
 
+    /**
+     * @return BelongsTo<Position, $this>
+     */
     public function mainPosition(): BelongsTo
     {
         return $this->belongsTo(Position::class, 'main_position_id');
     }
 
+    /**
+     * @return BelongsToMany<Position, $this>
+     */
     public function subPositions(): BelongsToMany
     {
         return $this->belongsToMany(Position::class, 'player_position');

@@ -10,8 +10,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Exercise extends Model
 {
-    use HasFactory, SoftDeletes;
+    /** @use HasFactory<\Database\Factories\ExerciseFactory> */
+    use HasFactory;
 
+    use SoftDeletes;
+
+    /**
+     * @var list<string>
+     */
     protected $fillable = [
         'name',
         'focus',
@@ -28,18 +34,27 @@ class Exercise extends Model
         'user_id',
     ];
 
+    /**
+     * @return BelongsToMany<Practice, $this>
+     */
     public function practices(): BelongsToMany
     {
-        return $this->belongsToMany('App\Roles\Practice');
+        return $this->belongsToMany(Practice::class);
     }
 
+    /**
+     * @return BelongsToMany<Category, $this>
+     */
     public function categories(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Category');
+        return $this->belongsToMany(Category::class);
     }
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function user(): BelongsTo
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo(User::class);
     }
 }

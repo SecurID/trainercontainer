@@ -26,6 +26,8 @@ class PlayerController extends Controller
 
     public function show(Player $player): Response
     {
+        $this->authorize('view', $player);
+
         $player->load(['mainPosition', 'subPositions', 'ratings.practice', 'ratings.game']);
 
         $ratings = $player->ratings

@@ -4,8 +4,8 @@ namespace App\Livewire;
 
 use App\Models\Game;
 use App\Models\Player;
-use App\Models\Rating;
 use App\Models\User;
+use App\Services\RatingService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -31,19 +31,16 @@ class GameRatingsTable extends Component
     /** @var array<string, string> */
     protected $listeners = ['refreshComponent' => '$refresh'];
 
-    public function mount(Game $game): void
+    public function mount(Game $game, RatingService $ratingService): void
     {
         $this->game = $game;
         /** @var User $user */
         $user = Auth::user();
-        $this->players = $user->players()->get()->sortBy('lastname');
-        foreach ($this->players as $player) {
-            $rating = Rating::query()->where('game_id', $this->game->id)
-                ->where('player_id', $player->id)
-                ->first();
-            $this->ratings[$player->id] = $rating?->rating;
-            $this->attendances[$player->id] = $rating?->attended === false;
-        }
+        $this->players = $user->players()->orderBy('lastname')->get();
+
+        $data = $ratingService->loadRatingsForPlayers($this->players, null, $this->game->id);
+        $this->ratings = $data['ratings'];
+        $this->attendances = $data['attendances'];
     }
 
     public function updatedRatings(mixed $value, int $playerId): void
@@ -62,34 +59,20 @@ class GameRatingsTable extends Component
         }
     }
 
-    public function saveRatings(): void
+    public function saveRatings(RatingService $ratingService): void
     {
         if ($this->players === null) {
             return;
         }
 
-        foreach ($this->players as $player) {
-            $ratingValue = $this->ratings[$player->id] ?? null;
-            $attended = $this->attendances[$player->id] ?? false;
-            // Correct types for Boolean and Integer
-            if ($attended === true) {
-                $attended = false; // Not attended
-                $ratingValue = null; // Clear rating when not attended
-            } else {
-                $attended = true; // Attended
-            }
-            Rating::updateOrCreate(
-                [
-                    'game_id' => $this->game->id,
-                    'player_id' => $player->id,
-                    'user_id' => Auth::id(),
-                ],
-                [
-                    'rating' => $ratingValue,
-                    'attended' => $attended,
-                ]
-            );
-        }
+        $ratingService->saveRatings(
+            $this->players,
+            $this->ratings,
+            $this->attendances,
+            null,
+            $this->game->id
+        );
+
         $this->success = true;
     }
 

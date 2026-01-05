@@ -4,11 +4,14 @@ namespace App\Livewire;
 
 use App\Models\Practice;
 use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class EditPractice extends Component
 {
+    use AuthorizesRequests;
+
     public Practice $practice;
 
     public string $topic = '';
@@ -25,6 +28,8 @@ class EditPractice extends Component
 
     public function mount(Practice $practice): void
     {
+        $this->authorize('update', $practice);
+
         $this->practice = $practice;
         $this->topic = $practice->topic ?? '';
         /** @var \Carbon\Carbon $practiceDate */

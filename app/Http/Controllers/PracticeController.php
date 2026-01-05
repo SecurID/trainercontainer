@@ -73,9 +73,11 @@ class PracticeController extends Controller
 
     public function show(Practice $practice): Response
     {
+        $this->authorize('view', $practice);
+
         /** @var User $user */
         $user = Auth::user();
-        $players = $user->players()->get()->sortBy('lastname');
+        $players = $user->players()->orderBy('lastname')->get();
 
         return response()->view('practices/practice-single', [
             'practice' => $practice,
@@ -86,6 +88,8 @@ class PracticeController extends Controller
 
     public function schedule(Practice $practice): View
     {
+        $this->authorize('view', $practice);
+
         return view('practices.practice-schedule', [
             'practice' => $practice,
             'schedules' => $practice->schedules()->get(),
@@ -94,6 +98,8 @@ class PracticeController extends Controller
 
     public function destroy(Practice $practice): RedirectResponse
     {
+        $this->authorize('delete', $practice);
+
         $practice->schedules()->delete();
         $practice->delete();
 
@@ -102,6 +108,8 @@ class PracticeController extends Controller
 
     public function print(Practice $practice): PdfBuilder
     {
+        $this->authorize('view', $practice);
+
         /** @var \Carbon\Carbon $date */
         $date = $practice->date;
 

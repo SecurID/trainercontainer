@@ -78,7 +78,7 @@ class GameController extends Controller
 
         /** @var User $user */
         $user = Auth::user();
-        $players = $user->players()->get()->sortBy('lastname');
+        $players = $user->players()->orderBy('lastname')->get();
 
         return response()->view('games/game-single', [
             'game' => $game,

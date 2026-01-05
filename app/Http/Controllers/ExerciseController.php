@@ -96,7 +96,7 @@ class ExerciseController extends Controller
             'drawing' => 'nullable|file|mimes:jpg,jpeg,png,gif',
         ]);
 
-        $exercise->update($validatedData);
+        $exercise->update(collect($validatedData)->except('categories')->toArray());
 
         if ($request->hasFile('drawing')) {
             $file = $request->file('drawing');

@@ -8,7 +8,9 @@ use Livewire\Component;
 
 class CreateGame extends Component
 {
-    public $opponent;
+    public $opponent_id;
+
+    public $opponent_formation;
 
     public $date;
 
@@ -25,13 +27,17 @@ class CreateGame extends Component
 
     public function render()
     {
-        return view('livewire.create-game');
+        $opponents = Auth::user()->opponents()->orderBy('name')->get();
+        $formations = Game::FORMATIONS;
+
+        return view('livewire.create-game', compact('opponents', 'formations'));
     }
 
     public function save()
     {
         $this->validate([
-            'opponent' => 'required|string|max:255',
+            'opponent_id' => 'required|exists:opponents,id',
+            'opponent_formation' => 'nullable|string|in:'.implode(',', Game::FORMATIONS),
             'date' => 'required|date',
             'time' => 'nullable|string',
             'location' => 'nullable|string|max:255',
@@ -39,7 +45,8 @@ class CreateGame extends Component
         ]);
 
         $game = new Game([
-            'opponent' => $this->opponent,
+            'opponent_id' => $this->opponent_id,
+            'opponent_formation' => $this->opponent_formation,
             'date' => $this->date,
             'time' => $this->time,
             'location' => $this->location,

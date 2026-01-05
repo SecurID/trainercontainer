@@ -2,10 +2,35 @@
     <form wire:submit="save">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-                <x-label for="opponent" value="{{ __('Opponent') }}" />
-                <x-input id="opponent" class="block mt-1 w-full" type="text" wire:model="opponent" 
-                        placeholder="{{ __('Enter opponent name') }}" required />
-                @error('opponent')
+                <x-label for="opponent_id" value="{{ __('Opponent') }}" />
+                <select id="opponent_id" wire:model="opponent_id"
+                        class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                        required>
+                    <option value="">{{ __('Select opponent') }}</option>
+                    @foreach($opponents as $opponent)
+                        <option value="{{ $opponent->id }}">{{ $opponent->name }}</option>
+                    @endforeach
+                </select>
+                @if(count($opponents) === 0)
+                    <p class="text-sm text-gray-600 mt-1">
+                        {{ __('No opponents found.') }} <a href="{{ route('opponents.create') }}" class="text-primary-600 hover:text-primary-800">{{ __('Create one first') }}</a>
+                    </p>
+                @endif
+                @error('opponent_id')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div>
+                <x-label for="opponent_formation" value="{{ __('Opponent Formation') }}" />
+                <select id="opponent_formation" wire:model="opponent_formation"
+                        class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                    <option value="">{{ __('Select formation') }}</option>
+                    @foreach($formations as $formation)
+                        <option value="{{ $formation }}">{{ $formation }}</option>
+                    @endforeach
+                </select>
+                @error('opponent_formation')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
             </div>

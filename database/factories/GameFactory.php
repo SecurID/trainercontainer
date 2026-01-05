@@ -17,7 +17,8 @@ class GameFactory extends Factory
     public function definition(): array
     {
         return [
-            'opponent' => $this->faker->company(),
+            'opponent_id' => \App\Models\Opponent::factory(),
+            'opponent_formation' => $this->faker->optional()->randomElement(\App\Models\Game::FORMATIONS),
             'date' => $this->faker->dateTimeBetween('now', '+1 month'),
             'time' => $this->faker->time('H:i'),
             'location' => $this->faker->city(),

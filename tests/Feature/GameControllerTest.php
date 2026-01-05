@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Game;
+use App\Models\Opponent;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -42,8 +43,11 @@ class GameControllerTest extends TestCase
 
     public function test_store_creates_new_game()
     {
+        $opponent = Opponent::factory()->create(['user_id' => $this->user->id]);
+
         $gameData = [
-            'opponent' => 'Test Opponent',
+            'opponent_id' => $opponent->id,
+            'opponent_formation' => '4-4-2',
             'date' => '2024-01-01',
             'time' => '15:00',
             'location' => 'Test Stadium',
@@ -56,7 +60,8 @@ class GameControllerTest extends TestCase
         $response->assertSessionHas('success-message');
 
         $this->assertDatabaseHas('games', [
-            'opponent' => 'Test Opponent',
+            'opponent_id' => $opponent->id,
+            'opponent_formation' => '4-4-2',
             'user_id' => $this->user->id,
         ]);
     }
@@ -86,9 +91,11 @@ class GameControllerTest extends TestCase
     public function test_update_modifies_game()
     {
         $game = Game::factory()->create(['user_id' => $this->user->id]);
+        $newOpponent = Opponent::factory()->create(['user_id' => $this->user->id]);
 
         $updateData = [
-            'opponent' => 'Updated Opponent',
+            'opponent_id' => $newOpponent->id,
+            'opponent_formation' => '3-5-2',
             'date' => '2024-02-01',
             'time' => '16:00',
             'location' => 'Updated Stadium',
@@ -102,7 +109,8 @@ class GameControllerTest extends TestCase
 
         $this->assertDatabaseHas('games', [
             'id' => $game->id,
-            'opponent' => 'Updated Opponent',
+            'opponent_id' => $newOpponent->id,
+            'opponent_formation' => '3-5-2',
             'user_id' => $this->user->id,
         ]);
     }
@@ -129,5 +137,48 @@ class GameControllerTest extends TestCase
         $response = $this->actingAs($this->user)->get(route('games.show', $otherUserGame));
 
         $response->assertStatus(403);
+    }
+
+    public function test_store_rejects_invalid_formation()
+    {
+        $opponent = Opponent::factory()->create(['user_id' => $this->user->id]);
+
+        $gameData = [
+            'opponent_id' => $opponent->id,
+            'opponent_formation' => '9-9-9', // Invalid formation
+            'date' => '2024-01-01',
+            'time' => '15:00',
+            'location' => 'Test Stadium',
+            'notes' => 'Test notes',
+        ];
+
+        $response = $this->actingAs($this->user)->post(route('games.store'), $gameData);
+
+        $response->assertSessionHasErrors('opponent_formation');
+    }
+
+    public function test_store_accepts_null_formation()
+    {
+        $opponent = Opponent::factory()->create(['user_id' => $this->user->id]);
+
+        $gameData = [
+            'opponent_id' => $opponent->id,
+            'opponent_formation' => null,
+            'date' => '2024-01-01',
+            'time' => '15:00',
+            'location' => 'Test Stadium',
+            'notes' => 'Test notes',
+        ];
+
+        $response = $this->actingAs($this->user)->post(route('games.store'), $gameData);
+
+        $response->assertRedirect(route('games.index'));
+        $response->assertSessionHas('success-message');
+
+        $this->assertDatabaseHas('games', [
+            'opponent_id' => $opponent->id,
+            'opponent_formation' => null,
+            'user_id' => $this->user->id,
+        ]);
     }
 }

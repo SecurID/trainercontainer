@@ -17,10 +17,34 @@
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <x-label for="opponent" value="{{ __('Opponent') }}" />
-                            <x-input id="opponent" class="block mt-1 w-full" type="text" name="opponent" 
-                                    value="{{ old('opponent', $game->opponent) }}" required />
-                            @error('opponent')
+                            <x-label for="opponent_id" value="{{ __('Opponent') }}" />
+                            <select id="opponent_id" name="opponent_id"
+                                    class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                    required>
+                                <option value="">{{ __('Select opponent') }}</option>
+                                @foreach($opponents as $opponent)
+                                    <option value="{{ $opponent->id }}" {{ old('opponent_id', $game->opponent_id) == $opponent->id ? 'selected' : '' }}>
+                                        {{ $opponent->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('opponent_id')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <x-label for="opponent_formation" value="{{ __('Opponent Formation') }}" />
+                            <select id="opponent_formation" name="opponent_formation"
+                                    class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                <option value="">{{ __('Select formation') }}</option>
+                                @foreach($formations as $formation)
+                                    <option value="{{ $formation }}" {{ old('opponent_formation', $game->opponent_formation) == $formation ? 'selected' : '' }}>
+                                        {{ $formation }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('opponent_formation')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>

@@ -1,0 +1,157 @@
+<?php
+
+use App\Livewire\CreatePractice;
+use App\Models\Exercise;
+use App\Models\Practice;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
+
+uses(RefreshDatabase::class);
+
+beforeEach(function () {
+    $this->user = User::factory()->create();
+    $this->actingAs($this->user);
+    $this->exercise = Exercise::factory()->withoutImage()->for($this->user)->create();
+});
+
+it('renders create practice component', function () {
+    Livewire::test(CreatePractice::class)
+        ->assertStatus(200);
+});
+
+it('initializes with current date and one row', function () {
+    Livewire::test(CreatePractice::class)
+        ->assertSet('date', date('d.m.Y'))
+        ->assertCount('rows', 1);
+});
+
+it('can add a row', function () {
+    Livewire::test(CreatePractice::class)
+        ->assertCount('rows', 1)
+        ->call('addRow')
+        ->assertCount('rows', 2);
+});
+
+it('can remove a row', function () {
+    Livewire::test(CreatePractice::class)
+        ->call('addRow')
+        ->assertCount('rows', 2)
+        ->call('removeRow', 0)
+        ->assertCount('rows', 1);
+});
+
+it('can set active row', function () {
+    Livewire::test(CreatePractice::class)
+        ->assertSet('activeRowIndex', null)
+        ->call('setActiveRow', 0)
+        ->assertSet('activeRowIndex', 0);
+});
+
+it('searches for exercises', function () {
+    Livewire::test(CreatePractice::class)
+        ->set('searchTerm', substr($this->exercise->name, 0, 3))
+        ->call('search')
+        ->assertSet('searchResults', function ($results) {
+            return count($results) > 0;
+        });
+});
+
+it('does not search with short term', function () {
+    Livewire::test(CreatePractice::class)
+        ->set('searchTerm', 'a')
+        ->call('search')
+        ->assertSet('searchResults', []);
+});
+
+it('can select an exercise', function () {
+    Livewire::test(CreatePractice::class)
+        ->call('setActiveRow', 0)
+        ->call('selectExercise', $this->exercise->id, $this->exercise->name)
+        ->assertSet('rows.0.exercise', $this->exercise->name)
+        ->assertSet('rows.0.exerciseId', $this->exercise->id)
+        ->assertSet('searchTerm', '')
+        ->assertSet('activeRowIndex', null);
+});
+
+it('updates search term and searches', function () {
+    Livewire::test(CreatePractice::class)
+        ->call('updateSearchTerm', substr($this->exercise->name, 0, 3))
+        ->assertSet('searchTerm', substr($this->exercise->name, 0, 3));
+});
+
+it('creates a practice with valid data', function () {
+    $component = Livewire::test(CreatePractice::class)
+        ->set('topic', 'Test Training')
+        ->set('rows.0.exerciseId', $this->exercise->id)
+        ->set('rows.0.exercise', $this->exercise->name)
+        ->set('rows.0.coaches', 'Coach A')
+        ->set('rows.0.time', '15')
+        ->set('rows.0.playerCount', 10)
+        ->set('rows.0.goalkeeperCount', 1)
+        ->call('save')
+        ->assertRedirect(route('practices.index'));
+
+    expect(Practice::where('topic', 'Test Training')->exists())->toBeTrue();
+});
+
+it('requires topic', function () {
+    Livewire::test(CreatePractice::class)
+        ->set('topic', '')
+        ->set('rows.0.exerciseId', $this->exercise->id)
+        ->set('rows.0.coaches', 'Coach A')
+        ->set('rows.0.time', '15')
+        ->set('rows.0.playerCount', 10)
+        ->set('rows.0.goalkeeperCount', 1)
+        ->call('save')
+        ->assertHasErrors(['topic']);
+});
+
+it('requires exercise id in rows', function () {
+    Livewire::test(CreatePractice::class)
+        ->set('topic', 'Test Training')
+        ->set('rows.0.exerciseId', '')
+        ->set('rows.0.coaches', 'Coach A')
+        ->set('rows.0.time', '15')
+        ->set('rows.0.playerCount', 10)
+        ->set('rows.0.goalkeeperCount', 1)
+        ->call('save')
+        ->assertHasErrors(['rows.0.exerciseId']);
+});
+
+it('associates practice with authenticated user', function () {
+    Livewire::test(CreatePractice::class)
+        ->set('topic', 'User Practice')
+        ->set('rows.0.exerciseId', $this->exercise->id)
+        ->set('rows.0.exercise', $this->exercise->name)
+        ->set('rows.0.coaches', 'Coach A')
+        ->set('rows.0.time', '15')
+        ->set('rows.0.playerCount', 10)
+        ->set('rows.0.goalkeeperCount', 1)
+        ->call('save');
+
+    $practice = Practice::where('topic', 'User Practice')->first();
+    expect($practice->user_id)->toBe($this->user->id);
+});
+
+it('creates schedules for each row', function () {
+    Livewire::test(CreatePractice::class)
+        ->set('topic', 'Multi Schedule Practice')
+        ->set('rows.0.exerciseId', $this->exercise->id)
+        ->set('rows.0.exercise', $this->exercise->name)
+        ->set('rows.0.coaches', 'Coach A')
+        ->set('rows.0.time', '15')
+        ->set('rows.0.playerCount', 10)
+        ->set('rows.0.goalkeeperCount', 1)
+        ->call('addRow')
+        ->set('rows.1.exerciseId', $this->exercise->id)
+        ->set('rows.1.exercise', $this->exercise->name)
+        ->set('rows.1.coaches', 'Coach B')
+        ->set('rows.1.time', '20')
+        ->set('rows.1.playerCount', 8)
+        ->set('rows.1.goalkeeperCount', 2)
+        ->call('save');
+
+    $practice = Practice::where('topic', 'Multi Schedule Practice')->first();
+    expect($practice->schedules->count())->toBe(2);
+});

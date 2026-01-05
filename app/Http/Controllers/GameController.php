@@ -25,7 +25,10 @@ class GameController extends Controller
      */
     public function create()
     {
-        return response()->view('games/create-game');
+        $opponents = Auth::user()->opponents()->orderBy('name')->get();
+        $formations = Game::FORMATIONS;
+
+        return response()->view('games/create-game', ['opponents' => $opponents, 'formations' => $formations]);
     }
 
     /**
@@ -34,7 +37,8 @@ class GameController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'opponent' => 'required|string|max:255',
+            'opponent_id' => 'required|exists:opponents,id',
+            'opponent_formation' => 'nullable|string|in:'.implode(',', Game::FORMATIONS),
             'date' => 'required|date',
             'time' => 'nullable|string',
             'location' => 'nullable|string|max:255',
@@ -42,7 +46,8 @@ class GameController extends Controller
         ]);
 
         $game = new Game([
-            'opponent' => $data['opponent'],
+            'opponent_id' => $data['opponent_id'],
+            'opponent_formation' => $data['opponent_formation'] ?? null,
             'date' => $data['date'],
             'time' => $data['time'],
             'location' => $data['location'],
@@ -76,7 +81,10 @@ class GameController extends Controller
     {
         $this->authorize('update', $game);
 
-        return response()->view('games/edit-game', ['game' => $game]);
+        $opponents = Auth::user()->opponents()->orderBy('name')->get();
+        $formations = Game::FORMATIONS;
+
+        return response()->view('games/edit-game', ['game' => $game, 'opponents' => $opponents, 'formations' => $formations]);
     }
 
     /**
@@ -87,7 +95,8 @@ class GameController extends Controller
         $this->authorize('update', $game);
 
         $data = $request->validate([
-            'opponent' => 'required|string|max:255',
+            'opponent_id' => 'required|exists:opponents,id',
+            'opponent_formation' => 'nullable|string|in:'.implode(',', Game::FORMATIONS),
             'date' => 'required|date',
             'time' => 'nullable|string',
             'location' => 'nullable|string|max:255',

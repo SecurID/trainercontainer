@@ -1,14 +1,14 @@
 {
     "mcpServers": {
         "laravel-boost": {
-            "command": "/Users/yannickkupferschmidt/Library/Application Support/Herd/bin/php84",
+            "command": "php",
             "args": [
-                "/Users/yannickkupferschmidt/Developer/trainercontainer/artisan",
+                "artisan",
                 "boost:mcp"
             ]
         },
         "herd": {
-            "command": "/Users/yannickkupferschmidt/Library/Application Support/Herd/bin/php84",
+            "command": "php",
             "args": [
                 "/Applications/Herd.app/Contents/Resources/herd-mcp.phar"
             ],

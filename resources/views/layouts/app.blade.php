@@ -57,6 +57,9 @@
                                 <x-nav-link href="{{ route('games.index') }}" :active="request()->routeIs(['games.*'])">
                                     {{ __('Games') }}
                                 </x-nav-link>
+                                <x-nav-link href="{{ route('opponents.index') }}" :active="request()->routeIs(['opponents.*'])">
+                                    {{ __('Opponents') }}
+                                </x-nav-link>
                             </div>
                         </div>
 
@@ -66,7 +69,7 @@
                             <div class="mr-3">
                                 <livewire:language-switcher />
                             </div>
-                            
+
                             <x-dropdown align="right" width="48">
                                 <x-slot name="trigger">
                                     <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-primary-300 transition duration-150 ease-in-out">
@@ -109,7 +112,7 @@
                         <!-- Hamburger -->
                         <div class="-mr-2 flex items-center sm:hidden">
                             <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-text-tertiary hover:text-text-secondary hover:bg-bg-secondary focus:outline-none focus:bg-bg-secondary focus:text-text-secondary transition duration-150 ease-in-out">
-                                <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                <svg class="h-6 w-6" stroke="currentColor" viewBox="0 0 24 24">
                                     <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                                     <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
@@ -136,13 +139,16 @@
                         <x-responsive-nav-link href="{{ route('games.index') }}" :active="request()->routeIs(['games.*'])">
                             {{ __('Games') }}
                         </x-responsive-nav-link>
+                        <x-responsive-nav-link href="{{ route('opponents.index') }}" :active="request()->routeIs(['opponents.*'])">
+                            {{ __('Opponents') }}
+                        </x-responsive-nav-link>
                     </div>
 
                     <!-- Responsive Settings Options -->
                     <div class="pt-4 pb-1 border-t border-border-light">
                         <!-- Mobile Language Switcher -->
                         <livewire:language-switcher />
-                        
+
                         <div class="flex items-center px-4">
                             <div class="shrink-0">
                                 <img class="h-10 w-10 rounded-full" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />

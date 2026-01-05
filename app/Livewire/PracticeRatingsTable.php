@@ -46,19 +46,29 @@ class PracticeRatingsTable extends Component
         }
     }
 
-    public function updatedRatings(mixed $value, int $playerId): void
+    public function updatedRatings(mixed $value, int|string|null $playerId = null): void
     {
+        // When entire array is set, $playerId is null - skip individual logic
+        if ($playerId === null) {
+            return;
+        }
+
         // If a rating is selected, mark as attended
         if ($value) {
-            $this->attendances[$playerId] = false;
+            $this->attendances[(int) $playerId] = false;
         }
     }
 
-    public function updatedAttendances(mixed $value, int $playerId): void
+    public function updatedAttendances(mixed $value, int|string|null $playerId = null): void
     {
+        // When entire array is set, $playerId is null - skip individual logic
+        if ($playerId === null) {
+            return;
+        }
+
         // If marked as not attended, clear the rating
         if ($value) {
-            $this->ratings[$playerId] = null;
+            $this->ratings[(int) $playerId] = null;
         }
     }
 

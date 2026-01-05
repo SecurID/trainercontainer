@@ -14,7 +14,7 @@ class PlayerPracticeRating extends Component
 
     public Practice $practice;
 
-    public ?int $value = null;
+    public string|int|null $value = null;
 
     public ?int $ratingId = null;
 

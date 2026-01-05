@@ -47,10 +47,7 @@ class LanguageSwitcher extends Component
         App::setLocale($locale);
 
         // Redirect to refresh the page with new locale
-        /** @var string $referer */
-        $referer = request()->header('Referer', '/');
-
-        return redirect()->to($referer);
+        return redirect()->to(url()->previous('/'));
     }
 
     public function render(): View

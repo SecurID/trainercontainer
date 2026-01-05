@@ -14,7 +14,7 @@ class ExerciseController extends Controller
 {
     public function index(): Response
     {
-        $exercises = Exercise::all();
+        $exercises = Exercise::query()->with('categories')->get();
         $categories = Category::all();
 
         return response()->view('exercises/exercises', ['exercises' => $exercises, 'categories' => $categories]);

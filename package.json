@@ -17,7 +17,7 @@
     "dependencies": {
         "axios": "^1.13.2",
         "fabric": "^5.5.2",
-        "flowbite": "^2.3.0",
+        "flowbite": "^4.0.1",
         "puppeteer": "^23.0.0",
         "trix": "^2.1.15",
         "vue": "^3.5.17"

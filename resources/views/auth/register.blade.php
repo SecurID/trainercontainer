@@ -9,53 +9,53 @@
         <form method="POST" action="{{ route('register') }}">
             @csrf
 
-            <div>
-                <x-label value="{{__('Name')}}" />
-                <x-input class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            </div>
+            <flux:field class="mb-4">
+                <flux:label>{{ __('Name') }}</flux:label>
+                <flux:input type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+            </flux:field>
 
-            <div class="mt-4">
-                <x-label value="{{__('Email')}}" />
-                <x-input class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
-            </div>
+            <flux:field class="mb-4">
+                <flux:label>{{ __('Email') }}</flux:label>
+                <flux:input type="email" name="email" :value="old('email')" required />
+            </flux:field>
 
-            <div class="mt-4">
-                <x-label value="{{__('Password')}}" />
-                <x-input class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            </div>
+            <flux:field class="mb-4">
+                <flux:label>{{ __('Password') }}</flux:label>
+                <flux:input type="password" name="password" required autocomplete="new-password" />
+            </flux:field>
 
-            <div class="mt-4">
-                <x-label value="{{__('Confirm Password')}}" />
-                <x-input class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
-            </div>
+            <flux:field class="mb-4">
+                <flux:label>{{ __('Confirm Password') }}</flux:label>
+                <flux:input type="password" name="password_confirmation" required autocomplete="new-password" />
+            </flux:field>
 
-            <div class="mt-4">
-                <x-label value="{{__('Team Age')}}" />
-                <select class="block mt-1 form-input rounded-md shadow-sm w-full text-gray-500" name="team_age" required>
-                    <option value="u7">{{ __('U7') }}</option>
-                    <option value="u8">{{ __('U8') }}</option>
-                    <option value="u9">{{ __('U9') }}</option>
-                    <option value="u10">{{ __('U10') }}</option>
-                    <option value="u11">{{ __('U11') }}</option>
-                    <option value="u12">{{ __('U12') }}</option>
-                    <option value="u13">{{ __('U13') }}</option>
-                    <option value="u14">{{ __('U14') }}</option>
-                    <option value="u15">{{ __('U15') }}</option>
-                    <option value="u16">{{ __('U16') }}</option>
-                    <option value="u17">{{ __('U17') }}</option>
-                    <option value="u19">{{ __('U19') }}</option>
-                    <option value="adults">{{ __('Adults') }}</option>
-                </select>
-            </div>
+            <flux:field class="mb-4">
+                <flux:label>{{ __('Team Age') }}</flux:label>
+                <flux:select name="team_age" required>
+                    <flux:select.option value="u7">{{ __('U7') }}</flux:select.option>
+                    <flux:select.option value="u8">{{ __('U8') }}</flux:select.option>
+                    <flux:select.option value="u9">{{ __('U9') }}</flux:select.option>
+                    <flux:select.option value="u10">{{ __('U10') }}</flux:select.option>
+                    <flux:select.option value="u11">{{ __('U11') }}</flux:select.option>
+                    <flux:select.option value="u12">{{ __('U12') }}</flux:select.option>
+                    <flux:select.option value="u13">{{ __('U13') }}</flux:select.option>
+                    <flux:select.option value="u14">{{ __('U14') }}</flux:select.option>
+                    <flux:select.option value="u15">{{ __('U15') }}</flux:select.option>
+                    <flux:select.option value="u16">{{ __('U16') }}</flux:select.option>
+                    <flux:select.option value="u17">{{ __('U17') }}</flux:select.option>
+                    <flux:select.option value="u19">{{ __('U19') }}</flux:select.option>
+                    <flux:select.option value="adults">{{ __('Adults') }}</flux:select.option>
+                </flux:select>
+            </flux:field>
 
-            <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
+            <div class="flex items-center justify-end gap-4">
+                <flux:link href="{{ route('login') }}" variant="subtle">
                     {{ __('Already registered?') }}
-                </a>
+                </flux:link>
 
-                <x-button class="ml-4">
+                <flux:button type="submit" variant="primary">
                     {{ __('Register') }}
-                </x-button>
+                </flux:button>
             </div>
         </form>
     </x-authentication-card>

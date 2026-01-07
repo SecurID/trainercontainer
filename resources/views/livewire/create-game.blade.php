@@ -1,86 +1,62 @@
 <div>
     <form wire:submit="save">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-                <x-label for="opponent_id" value="{{ __('Opponent') }}" />
-                <select id="opponent_id" wire:model="opponent_id"
-                        class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
-                        required>
-                    <option value="">{{ __('Select opponent') }}</option>
+            <flux:field>
+                <flux:label>{{ __('Opponent') }}</flux:label>
+                <flux:select wire:model="opponent_id" placeholder="{{ __('Select opponent') }}">
                     @foreach($opponents as $opponent)
-                        <option value="{{ $opponent->id }}">{{ $opponent->name }}</option>
+                        <flux:select.option value="{{ $opponent->id }}">{{ $opponent->name }}</flux:select.option>
                     @endforeach
-                </select>
+                </flux:select>
                 @if(count($opponents) === 0)
-                    <p class="text-sm text-gray-600 mt-1">
-                        {{ __('No opponents found.') }} <a href="{{ route('opponents.create') }}" class="text-primary-600 hover:text-primary-800">{{ __('Create one first') }}</a>
-                    </p>
+                    <flux:description>
+                        {{ __('No opponents found.') }} <a href="{{ route('opponents.create') }}" class="text-zinc-600 hover:text-zinc-800 underline">{{ __('Create one first') }}</a>
+                    </flux:description>
                 @endif
-                @error('opponent_id')
-                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                @enderror
-            </div>
+                <flux:error name="opponent_id" />
+            </flux:field>
 
-            <div>
-                <x-label for="opponent_formation" value="{{ __('Opponent Formation') }}" />
-                <select id="opponent_formation" wire:model="opponent_formation"
-                        class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
-                    <option value="">{{ __('Select formation') }}</option>
+            <flux:field>
+                <flux:label>{{ __('Opponent Formation') }}</flux:label>
+                <flux:select wire:model="opponent_formation" placeholder="{{ __('Select formation') }}">
                     @foreach($formations as $formation)
-                        <option value="{{ $formation }}">{{ $formation }}</option>
+                        <flux:select.option value="{{ $formation }}">{{ $formation }}</flux:select.option>
                     @endforeach
-                </select>
-                @error('opponent_formation')
-                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                @enderror
-            </div>
+                </flux:select>
+                <flux:error name="opponent_formation" />
+            </flux:field>
 
-            <div>
-                <x-label for="date" value="{{ __('Date') }}" />
-                <x-input id="date" class="block mt-1 w-full" type="date" wire:model="date" required />
-                @error('date')
-                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                @enderror
-            </div>
+            <flux:field>
+                <flux:label>{{ __('Date') }}</flux:label>
+                <flux:input type="date" wire:model="date" required />
+                <flux:error name="date" />
+            </flux:field>
 
-            <div>
-                <x-label for="time" value="{{ __('Time') }}" />
-                <x-input id="time" class="block mt-1 w-full" type="time" wire:model="time" />
-                @error('time')
-                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                @enderror
-            </div>
+            <flux:field>
+                <flux:label>{{ __('Time') }}</flux:label>
+                <flux:input type="time" wire:model="time" />
+                <flux:error name="time" />
+            </flux:field>
 
-            <div>
-                <x-label for="location" value="{{ __('Location') }}" />
-                <x-input id="location" class="block mt-1 w-full" type="text" wire:model="location" 
-                        placeholder="{{ __('Enter game location') }}" />
-                @error('location')
-                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                @enderror
-            </div>
+            <flux:field>
+                <flux:label>{{ __('Location') }}</flux:label>
+                <flux:input wire:model="location" placeholder="{{ __('Enter game location') }}" />
+                <flux:error name="location" />
+            </flux:field>
         </div>
 
         <div class="mt-6">
-            <x-label for="notes" value="{{ __('Notes') }}" />
-            <textarea id="notes" wire:model="notes" rows="4" 
-                    placeholder="{{ __('Additional notes about the game') }}"
-                    class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"></textarea>
-            @error('notes')
-                <span class="text-red-500 text-sm">{{ $message }}</span>
-            @enderror
+            <flux:field>
+                <flux:label>{{ __('Notes') }}</flux:label>
+                <flux:textarea wire:model="notes" rows="4" placeholder="{{ __('Additional notes about the game') }}" />
+                <flux:error name="notes" />
+            </flux:field>
         </div>
 
         <div class="flex items-center justify-end mt-6">
-            <x-button class="ml-4">
+            <flux:button type="submit" variant="primary">
                 {{ __('Create Game') }}
-            </x-button>
+            </flux:button>
         </div>
-
-        @if (session()->has('success-message'))
-            <div class="mt-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
-                {{ session('success-message') }}
-            </div>
-        @endif
     </form>
 </div>

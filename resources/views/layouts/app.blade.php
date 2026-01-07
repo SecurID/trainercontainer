@@ -17,179 +17,111 @@
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         @livewireStyles
         @stack('styles')
-        @fluxAppearance
-
-        <!-- Scripts -->
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=inter:400,500,600&display=swap" rel="stylesheet" />
     </head>
-    <body class="font-sans antialiased">
-        <x-flash-success></x-flash-success>
-        <x-flash-error></x-flash-error>
-        <div class="min-h-screen bg-bg-secondary">
-            <nav x-data="{ open: false }" class="bg-bg-primary border-b border-border-light">
-                <!-- Primary Navigation Menu -->
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex justify-between h-16">
-                        <div class="flex">
-                            <!-- Logo -->
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0">
-                                    <div class="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center">
-                                        <span class="text-white text-xl font-bold">t</span>
-                                    </div>
-                                </div>
-                                <span class="ml-3 text-xl font-bold text-gray-900">trainercontainer</span>
-                            </div>
+    <body class="min-h-screen bg-white dark:bg-zinc-800 antialiased">
+            <flux:header class="bg-white container border-b border-zinc-200">
+                <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
 
-                            <!-- Navigation Links -->
-                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                                    {{ __('Dashboard') }}
-                                </x-nav-link>
-                                <x-nav-link href="{{ route('practices.index') }}" :active="request()->routeIs(['practices.*'])">
-                                    {{ __('Practices') }}
-                                </x-nav-link>
-                                <x-nav-link href="{{ route('exercises.index') }}" :active="request()->routeIs(['exercises.*'])">
-                                    {{ __('Exercises') }}
-                                </x-nav-link>
-                                <x-nav-link href="{{ route('players.index') }}" :active="request()->routeIs(['players.*'])">
-                                    {{ __('Players') }}
-                                </x-nav-link>
-                                <x-nav-link href="{{ route('games.index') }}" :active="request()->routeIs(['games.*'])">
-                                    {{ __('Games') }}
-                                </x-nav-link>
-                                <x-nav-link href="{{ route('opponents.index') }}" :active="request()->routeIs(['opponents.*'])">
-                                    {{ __('Opponents') }}
-                                </x-nav-link>
-                            </div>
-                        </div>
-
-                        <!-- Settings Dropdown -->
-                        <div class="hidden sm:flex sm:items-center sm:ml-6">
-                            <!-- Language Switcher -->
-                            <div class="mr-3">
-                                <livewire:language-switcher />
-                            </div>
-
-                            <x-dropdown align="right" width="48">
-                                <x-slot name="trigger">
-                                    <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-primary-300 transition duration-150 ease-in-out">
-                                        <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
-                                    </button>
-                                </x-slot>
-
-                                <x-slot name="content">
-                                    <!-- Account Management -->
-                                    <div class="block px-4 py-2 text-xs text-text-tertiary">
-                                        {{ __('Manage Account') }}
-                                    </div>
-
-                                    <x-dropdown-link href="/user/profile">
-                                        {{ __('Profile') }}
-                                    </x-dropdown-link>
-
-                                    @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                                        <x-dropdown-link href="/user/api-tokens">
-                                            {{ __('API Tokens') }}
-                                        </x-dropdown-link>
-                                    @endif
-
-                                    <div class="border-t border-border-light"></div>
-
-                                    <!-- Authentication -->
-                                    <form method="POST" action="{{ route('logout') }}">
-                                        @csrf
-
-                                        <x-dropdown-link href="{{ route('logout') }}"
-                                                            onclick="event.preventDefault();
-                                                                     this.closest('form').submit();">
-                                            {{ __('Logout') }}
-                                        </x-dropdown-link>
-                                    </form>
-                                </x-slot>
-                            </x-dropdown>
-                        </div>
-
-                        <!-- Hamburger -->
-                        <div class="-mr-2 flex items-center sm:hidden">
-                            <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-text-tertiary hover:text-text-secondary hover:bg-bg-secondary focus:outline-none focus:bg-bg-secondary focus:text-text-secondary transition duration-150 ease-in-out">
-                                <svg class="h-6 w-6" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                                    <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </button>
-                        </div>
+                <div class="flex items-center max-lg:hidden">
+                    <div class="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center">
+                        <span class="text-white text-xl font-bold">t</span>
                     </div>
+                    <span class="ml-3 text-xl font-bold text-zinc-900">trainercontainer</span>
                 </div>
 
-                <!-- Responsive Navigation Menu -->
-                <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-                    <div class="pt-2 pb-3 space-y-1">
-                        <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                            {{ __('Dashboard') }}
-                        </x-responsive-nav-link>
-                        <x-responsive-nav-link href="{{ route('practices.index') }}" :active="request()->routeIs(['practices.*'])">
-                            {{ __('Practices') }}
-                        </x-responsive-nav-link>
-                        <x-responsive-nav-link href="{{ route('exercises.index') }}" :active="request()->routeIs(['exercises.*'])">
-                            {{ __('Exercises') }}
-                        </x-responsive-nav-link>
-                        <x-responsive-nav-link href="{{ route('players.index') }}" :active="request()->routeIs(['players.*'])">
-                            {{ __('Players') }}
-                        </x-responsive-nav-link>
-                        <x-responsive-nav-link href="{{ route('games.index') }}" :active="request()->routeIs(['games.*'])">
-                            {{ __('Games') }}
-                        </x-responsive-nav-link>
-                        <x-responsive-nav-link href="{{ route('opponents.index') }}" :active="request()->routeIs(['opponents.*'])">
-                            {{ __('Opponents') }}
-                        </x-responsive-nav-link>
-                    </div>
+                <flux:navbar class="ml-6 max-lg:hidden">
+                    <flux:navbar.item href="{{ route('dashboard') }}" :current="request()->routeIs('dashboard')">
+                        {{ __('Dashboard') }}
+                    </flux:navbar.item>
+                    <flux:navbar.item href="{{ route('practices.index') }}" :current="request()->routeIs('practices.*')">
+                        {{ __('Practices') }}
+                    </flux:navbar.item>
+                    <flux:navbar.item href="{{ route('exercises.index') }}" :current="request()->routeIs('exercises.*')">
+                        {{ __('Exercises') }}
+                    </flux:navbar.item>
+                    <flux:navbar.item href="{{ route('players.index') }}" :current="request()->routeIs('players.*')">
+                        {{ __('Players') }}
+                    </flux:navbar.item>
+                    <flux:navbar.item href="{{ route('games.index') }}" :current="request()->routeIs('games.*')">
+                        {{ __('Games') }}
+                    </flux:navbar.item>
+                    <flux:navbar.item href="{{ route('opponents.index') }}" :current="request()->routeIs('opponents.*')">
+                        {{ __('Opponents') }}
+                    </flux:navbar.item>
+                </flux:navbar>
 
-                    <!-- Responsive Settings Options -->
-                    <div class="pt-4 pb-1 border-t border-border-light">
-                        <!-- Mobile Language Switcher -->
-                        <livewire:language-switcher />
+                <flux:spacer />
 
-                        <div class="flex items-center px-4">
-                            <div class="shrink-0">
-                                <img class="h-10 w-10 rounded-full" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
-                            </div>
+                <livewire:language-switcher />
 
-                            <div class="ml-3">
-                                <div class="font-medium text-base text-text-primary">{{ Auth::user()->name }}</div>
-                                <div class="font-medium text-sm text-text-secondary">{{ Auth::user()->email }}</div>
-                            </div>
-                        </div>
+                <flux:dropdown position="top" align="end">
+                    <flux:button variant="ghost" class="p-0">
+                        <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                    </flux:button>
 
-                        <div class="mt-3 space-y-1">
-                            <!-- Account Management -->
-                            <x-responsive-nav-link href="/user/profile" :active="request()->routeIs('profile.show')">
-                                {{ __('Profile') }}
-                            </x-responsive-nav-link>
+                    <flux:menu>
+                        <flux:menu.heading>{{ __('Manage Account') }}</flux:menu.heading>
 
-                            @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                                <x-responsive-nav-link href="/user/api-tokens" :active="request()->routeIs('api-tokens.index')">
-                                    {{ __('API Tokens') }}
-                                </x-responsive-nav-link>
-                            @endif
+                        <flux:menu.item href="/user/profile" icon="user">
+                            {{ __('Profile') }}
+                        </flux:menu.item>
 
-                            <!-- Authentication -->
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
+                        @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
+                            <flux:menu.item href="/user/api-tokens" icon="key">
+                                {{ __('API Tokens') }}
+                            </flux:menu.item>
+                        @endif
 
-                                <x-responsive-nav-link href="{{ route('logout') }}"
-                                                onclick="event.preventDefault();
-                                                         this.closest('form').submit();">
-                                    {{ __('Logout') }}
-                                </x-responsive-nav-link>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </nav>
+                        <flux:menu.separator />
+
+                        <form method="POST" action="{{ route('logout') }}" x-data>
+                            @csrf
+                            <flux:menu.item as="button" type="submit" icon="arrow-right-start-on-rectangle">
+                                {{ __('Logout') }}
+                            </flux:menu.item>
+                        </form>
+                    </flux:menu>
+                </flux:dropdown>
+            </flux:header>
+
+            <!-- Mobile Sidebar -->
+            <flux:sidebar stashable sticky class="lg:hidden bg-white border-r border-zinc-200">
+                <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
+
+                <flux:navlist variant="outline">
+                    <flux:navlist.item href="{{ route('dashboard') }}" :current="request()->routeIs('dashboard')" icon="home">
+                        {{ __('Dashboard') }}
+                    </flux:navlist.item>
+                    <flux:navlist.item href="{{ route('practices.index') }}" :current="request()->routeIs('practices.*')" icon="calendar">
+                        {{ __('Practices') }}
+                    </flux:navlist.item>
+                    <flux:navlist.item href="{{ route('exercises.index') }}" :current="request()->routeIs('exercises.*')" icon="clipboard-document-list">
+                        {{ __('Exercises') }}
+                    </flux:navlist.item>
+                    <flux:navlist.item href="{{ route('players.index') }}" :current="request()->routeIs('players.*')" icon="users">
+                        {{ __('Players') }}
+                    </flux:navlist.item>
+                    <flux:navlist.item href="{{ route('games.index') }}" :current="request()->routeIs('games.*')" icon="trophy">
+                        {{ __('Games') }}
+                    </flux:navlist.item>
+                    <flux:navlist.item href="{{ route('opponents.index') }}" :current="request()->routeIs('opponents.*')" icon="user-group">
+                        {{ __('Opponents') }}
+                    </flux:navlist.item>
+                </flux:navlist>
+
+                <flux:spacer />
+
+                <flux:navlist variant="outline">
+                    <flux:navlist.item href="/user/profile" icon="cog-6-tooth">
+                        {{ __('Profile') }}
+                    </flux:navlist.item>
+                </flux:navlist>
+            </flux:sidebar>
 
             <!-- Page Heading -->
-            <header class="bg-bg-primary shadow">
+            <header class="bg-white shadow">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     {{ $header }}
                 </div>
@@ -199,7 +131,6 @@
             <main>
                 {{ $slot }}
             </main>
-        </div>
         <script
             src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
@@ -218,5 +149,6 @@
             gtag('config', 'G-0XLX9M5RC6');
         </script>
         @fluxScripts
+        <flux:toast />
     </body>
 </html>

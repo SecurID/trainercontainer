@@ -1,15 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between">
-            <h2 class="text-xl font-semibold leading-tight text-gray-800">
+        <div class="flex justify-between items-center">
+            <flux:heading size="xl">
                 {{ __('Exercises') }}
-            </h2>
+            </flux:heading>
             <div>
-                <a href="/exercises/create">
-                    <x-button>
-                        {{ __('Create Exercise') }}
-                    </x-button>
-                </a>
+                <flux:button href="/exercises/create" variant="primary">
+                    {{ __('Create Exercise') }}
+                </flux:button>
             </div>
         </div>
     </x-slot>

@@ -11,18 +11,15 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
 
         <!-- Styles -->
-        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         @vite(['resources/css/app.css','resources/js/app.js'])
         @livewireStyles
-
-        <!-- Scripts -->
-        <!--<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.2.1/dist/alpine.js" defer></script>-->
     </head>
     <body>
-        <div class="font-sans text-text-primary antialiased">
+        <div class="font-sans text-zinc-900 antialiased">
             {{ $slot }}
         </div>
         @livewireScripts
+        @fluxScripts
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-0XLX9M5RC6"></script>
         <script>

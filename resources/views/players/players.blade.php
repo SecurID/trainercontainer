@@ -1,20 +1,16 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between">
-            <h2 class="text-xl font-semibold text-gray-800 leading-tight">
+        <div class="flex justify-between items-center">
+            <flux:heading size="xl">
                 {{ __('Players') }}
-            </h2>
-            <div class="flex space-x-2">
-                <a href="{{ route('players.position-analysis') }}">
-                    <x-secondary-button class="px-4 py-2 bg-green-500 text-white font-bold rounded hover:bg-green-700">
-                        {{ __('Position Analysis') }}
-                    </x-secondary-button>
-                </a>
-                <a href="/players/create">
-                    <x-button>
-                        {{ __('Create Player') }}
-                    </x-button>
-                </a>
+            </flux:heading>
+            <div class="flex gap-2">
+                <flux:button href="{{ route('players.position-analysis') }}" variant="subtle">
+                    {{ __('Position Analysis') }}
+                </flux:button>
+                <flux:button href="/players/create" variant="primary">
+                    {{ __('Create Player') }}
+                </flux:button>
             </div>
         </div>
     </x-slot>

@@ -4,18 +4,14 @@
             <div class="flex items-center gap-3">
                 <x-back-button></x-back-button>
                 <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
-                    <h2 class="text-xl font-semibold text-gray-800 leading-tight">
+                    <flux:heading size="xl">
                         {{ $player->prename }} {{ $player->lastname }}
-                    </h2>
-                    <button
-                        type="button"
-                        data-modal-target="edit-player-name-modal"
-                        data-modal-toggle="edit-player-name-modal"
-                        class="inline-flex items-center gap-2 rounded-md border border-primary-200 bg-white px-3 py-1.5 text-sm font-medium text-primary-700 shadow-sm transition hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-200 focus:ring-offset-2"
-                    >
-                        <x-heroicon-o-pencil class="h-4 w-4" />
-                        {{ __('Edit Name') }}
-                    </button>
+                    </flux:heading>
+                    <flux:modal.trigger name="edit-player-name">
+                        <flux:button variant="subtle" size="sm" icon="pencil">
+                            {{ __('Edit Name') }}
+                        </flux:button>
+                    </flux:modal.trigger>
                 </div>
             </div>
             <livewire:delete-player :player="$player" />
@@ -28,57 +24,49 @@
                 <div class="flex flex-wrap">
                     <div class="w-full md:w-1/2 lg:w-1/3 p-4">
                         <div class="flex items-center justify-between mb-4">
-                            <div class="font-bold">{{__('Positions')}}</div>
-                            <button
-                                type="button"
-                                data-modal-target="edit-player-positions-modal"
-                                data-modal-toggle="edit-player-positions-modal"
-                                class="inline-flex items-center gap-2 rounded-md border border-primary-200 bg-white px-3 py-1.5 text-sm font-medium text-primary-700 shadow-sm transition hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-200 focus:ring-offset-2"
-                            >
-                                <x-heroicon-o-clipboard-document-list class="h-4 w-4" />
-                                {{__('Edit Positions')}}
-                            </button>
+                            <flux:heading>{{ __('Positions') }}</flux:heading>
+                            <flux:modal.trigger name="edit-player-positions">
+                                <flux:button variant="subtle" size="sm" icon="clipboard-document-list">
+                                    {{ __('Edit Positions') }}
+                                </flux:button>
+                            </flux:modal.trigger>
                         </div>
-                        <livewire:edit-player-positions :player="$player"></livewire:edit-player-positions>
+                        <livewire:edit-player-positions :player="$player" />
                         <div class="mb-4">
-                            <p class="text-sm text-gray-600">{{__('Main Position')}}:</p>
-                            <p class="font-semibold">
+                            <flux:text size="sm" class="text-zinc-600">{{ __('Main Position') }}:</flux:text>
+                            <flux:text class="font-semibold">
                                 @if($player->mainPosition)
                                     {{ $player->mainPosition->name }} ({{ $player->mainPosition->abbreviation }})
                                 @else
-                                    <span class="text-gray-400">{{__('Not set')}}</span>
+                                    <span class="text-zinc-400">{{ __('Not set') }}</span>
                                 @endif
-                            </p>
+                            </flux:text>
                         </div>
                         <div class="mb-4">
-                            <p class="text-sm text-gray-600">{{__('Sub Positions')}}:</p>
+                            <flux:text size="sm" class="text-zinc-600">{{ __('Sub Positions') }}:</flux:text>
                             @if($player->subPositions->count() > 0)
                                 <div class="flex flex-wrap gap-2 mt-1">
                                     @foreach($player->subPositions as $position)
-                                        <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+                                        <flux:badge color="blue" size="sm">
                                             {{ $position->abbreviation }}
-                                        </span>
+                                        </flux:badge>
                                     @endforeach
                                 </div>
                             @else
-                                <p class="text-gray-400">{{__('None set')}}</p>
+                                <flux:text class="text-zinc-400">{{ __('None set') }}</flux:text>
                             @endif
                         </div>
 
                         <div class="flex items-center justify-between">
-                            <div class="font-bold">{{__('Notes')}}</div>
-                            <button
-                                type="button"
-                                data-modal-target="edit-player-modal"
-                                data-modal-toggle="edit-player-modal"
-                                class="inline-flex items-center gap-2 rounded-md border border-primary-200 bg-white px-3 py-1.5 text-sm font-medium text-primary-700 shadow-sm transition hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-200 focus:ring-offset-2"
-                            >
-                                <x-heroicon-o-document-text class="h-4 w-4" />
-                                {{__('Edit Notes')}}
-                            </button>
+                            <flux:heading>{{ __('Notes') }}</flux:heading>
+                            <flux:modal.trigger name="edit-player-notes">
+                                <flux:button variant="subtle" size="sm" icon="document-text">
+                                    {{ __('Edit Notes') }}
+                                </flux:button>
+                            </flux:modal.trigger>
                         </div>
-                        <livewire:edit-player-notes :player="$player"></livewire:edit-player-notes>
-                        <p class="mt-2">{{ $player->notes }}</p>
+                        <livewire:edit-player-notes :player="$player" />
+                        <flux:text class="mt-2">{{ $player->notes }}</flux:text>
                     </div>
                     <div class="w-full md:w-1/2 lg:w-2/3 p-4">
                         <canvas id="myChart"></canvas>

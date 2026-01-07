@@ -4,9 +4,9 @@
             <x-authentication-card-logo />
         </x-slot>
 
-        <div class="mb-4 text-sm text-gray-600">
+        <flux:text class="mb-4">
             {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
-        </div>
+        </flux:text>
 
         @if (session('status') == 'verification-link-sent')
             <div class="mb-4 font-medium text-sm text-green-600">
@@ -18,19 +18,17 @@
             <form method="POST" action="/email/verification-notification">
                 @csrf
 
-                <div>
-                    <x-button type="submit">
-                        {{ __('Resend Verification Email') }}
-                    </x-button>
-                </div>
+                <flux:button type="submit" variant="primary">
+                    {{ __('Resend Verification Email') }}
+                </flux:button>
             </form>
 
             <form method="POST" action="/logout">
                 @csrf
 
-                <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900">
+                <flux:button type="submit" variant="subtle">
                     {{ __('Logout') }}
-                </button>
+                </flux:button>
             </form>
         </div>
     </x-authentication-card>

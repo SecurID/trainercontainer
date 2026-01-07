@@ -5,13 +5,13 @@
         </x-slot>
 
         <div x-data="{ recovery: false }">
-            <div class="mb-4 text-sm text-gray-600" x-show="! recovery">
+            <flux:text class="mb-4" x-show="! recovery">
                 {{ __('Please confirm access to your account by entering the authentication code provided by your authenticator application.') }}
-            </div>
+            </flux:text>
 
-            <div class="mb-4 text-sm text-gray-600" x-show="recovery">
+            <flux:text class="mb-4" x-show="recovery">
                 {{ __('Please confirm access to your account by entering one of your emergency recovery codes.') }}
-            </div>
+            </flux:text>
 
             <x-validation-errors class="mb-4" />
 
@@ -19,37 +19,41 @@
                 @csrf
 
                 <div class="mt-4" x-show="! recovery">
-                    <x-label value="Code" />
-                    <x-input class="block mt-1 w-full" type="text" name="code" autofocus x-ref="code" autocomplete="one-time-code" />
+                    <flux:field>
+                        <flux:label>{{ __('Code') }}</flux:label>
+                        <flux:input type="text" name="code" autofocus x-ref="code" autocomplete="one-time-code" />
+                    </flux:field>
                 </div>
 
                 <div class="mt-4" x-show="recovery">
-                    <x-label value="Recovery Code" />
-                    <x-input class="block mt-1 w-full" type="text" name="recovery_code" x-ref="recovery_code" autocomplete="one-time-code" />
+                    <flux:field>
+                        <flux:label>{{ __('Recovery Code') }}</flux:label>
+                        <flux:input type="text" name="recovery_code" x-ref="recovery_code" autocomplete="one-time-code" />
+                    </flux:field>
                 </div>
 
-                <div class="flex items-center justify-end mt-4">
-                    <button type="button" class="text-sm text-gray-600 hover:text-gray-900 underline cursor-pointer"
-                                    x-show="! recovery"
-                                    x-on:click="
-                                        recovery = true;
-                                        $nextTick(() => { $refs.recovery_code.focus() })
-                                    ">
+                <div class="flex items-center justify-end mt-4 gap-4">
+                    <flux:button
+                        variant="subtle"
+                        type="button"
+                        x-show="! recovery"
+                        x-on:click="recovery = true; $nextTick(() => { $refs.recovery_code.focus() })"
+                    >
                         {{ __('Use a recovery code') }}
-                    </button>
+                    </flux:button>
 
-                    <button type="button" class="text-sm text-gray-600 hover:text-gray-900 underline cursor-pointer"
-                                    x-show="recovery"
-                                    x-on:click="
-                                        recovery = false;
-                                        $nextTick(() => { $refs.code.focus() })
-                                    ">
+                    <flux:button
+                        variant="subtle"
+                        type="button"
+                        x-show="recovery"
+                        x-on:click="recovery = false; $nextTick(() => { $refs.code.focus() })"
+                    >
                         {{ __('Use an authentication code') }}
-                    </button>
+                    </flux:button>
 
-                    <x-button class="ml-4">
+                    <flux:button type="submit" variant="primary">
                         {{ __('Login') }}
-                    </x-button>
+                    </flux:button>
                 </div>
             </form>
         </div>

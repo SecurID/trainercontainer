@@ -1,65 +1,44 @@
 <form wire:submit="save">
-    <div class="flex flex-wrap -mx-2">
-        <div class="w-full md:w-1/2 px-2 mb-4">
-            <input
-                type="text"
-                class="border-border-default focus:border-primary-500 focus:ring-0 rounded-md shadow-sm w-full"
-                placeholder="{{ __('Pre name') }}"
-                name="prename"
-                wire:model="prename"
-            >
-        </div>
-        <div class="w-full md:w-1/2 px-2 mb-4">
-            <input
-                type="text"
-                class="border-border-default focus:border-primary-500 focus:ring-0 rounded-md shadow-sm w-full"
-                placeholder="{{ __('Last name') }}"
-                name="lastname"
-                wire:model="lastname"
-            >
-        </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <flux:field>
+            <flux:label>{{ __('Pre name') }}</flux:label>
+            <flux:input wire:model="prename" placeholder="{{ __('Pre name') }}" />
+            <flux:error name="prename" />
+        </flux:field>
+
+        <flux:field>
+            <flux:label>{{ __('Last name') }}</flux:label>
+            <flux:input wire:model="lastname" placeholder="{{ __('Last name') }}" />
+            <flux:error name="lastname" />
+        </flux:field>
     </div>
-    
-    <div class="flex flex-wrap -mx-2">
-        <div class="w-full md:w-1/2 px-2 mb-4">
-            <label for="main_position" class="block text-sm font-medium text-text-primary mb-2">
-                {{ __('Main Position') }}
-            </label>
-            <select
-                id="main_position"
-                wire:model="main_position_id"
-                class="border-border-default focus:border-primary-500 focus:ring-0 rounded-md shadow-sm w-full text-text-secondary"
-            >
-                <option value="">{{ __('Select main position') }}</option>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <flux:field>
+            <flux:label>{{ __('Main Position') }}</flux:label>
+            <flux:select wire:model="main_position_id" placeholder="{{ __('Select main position') }}">
                 @foreach($positions as $position)
-                    <option value="{{ $position->id }}">{{ $position->name }} ({{ $position->abbreviation }})</option>
+                    <flux:select.option value="{{ $position->id }}">{{ $position->name }} ({{ $position->abbreviation }})</flux:select.option>
                 @endforeach
-            </select>
-        </div>
-        
-        <div class="w-full md:w-1/2 px-2 mb-4">
-            <label for="sub_positions" class="block text-sm font-medium text-text-primary mb-2">
-                {{ __('Sub Positions') }}
-            </label>
-            <select
-                id="sub_positions"
-                wire:model="sub_position_ids"
-                multiple
-                class="border-border-default focus:border-primary-500 focus:ring-0 rounded-md shadow-sm w-full text-text-secondary"
-            >
+            </flux:select>
+            <flux:error name="main_position_id" />
+        </flux:field>
+
+        <flux:field>
+            <flux:label>{{ __('Sub Positions') }}</flux:label>
+            <flux:select wire:model="sub_position_ids" multiple placeholder="{{ __('Select sub positions') }}">
                 @foreach($positions as $position)
-                    <option value="{{ $position->id }}">{{ $position->name }} ({{ $position->abbreviation }})</option>
+                    <flux:select.option value="{{ $position->id }}">{{ $position->name }} ({{ $position->abbreviation }})</flux:select.option>
                 @endforeach
-            </select>
-            <p class="text-xs text-text-tertiary mt-1">{{ __('Hold Ctrl/Cmd to select multiple positions') }}</p>
-        </div>
+            </flux:select>
+            <flux:description>{{ __('Hold Ctrl/Cmd to select multiple positions') }}</flux:description>
+            <flux:error name="sub_position_ids" />
+        </flux:field>
     </div>
-    
+
     <div class="flex justify-end">
-        <button type="submit"  class="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-text-inverse font-bold rounded">
+        <flux:button type="submit" variant="primary">
             {{ __('Create Player') }}
-        </button>
+        </flux:button>
     </div>
 </form>
-
-

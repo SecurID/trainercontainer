@@ -11,25 +11,25 @@
 
             <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
-            <div class="block">
-                <x-label value="Email" />
-                <x-input class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus />
-            </div>
+            <flux:field class="mb-4">
+                <flux:label>{{ __('Email') }}</flux:label>
+                <flux:input type="email" name="email" :value="old('email', $request->email)" required autofocus />
+            </flux:field>
 
-            <div class="mt-4">
-                <x-label value="Password" />
-                <x-input class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            </div>
+            <flux:field class="mb-4">
+                <flux:label>{{ __('Password') }}</flux:label>
+                <flux:input type="password" name="password" required autocomplete="new-password" />
+            </flux:field>
 
-            <div class="mt-4">
-                <x-label value="Confirm Password" />
-                <x-input class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
-            </div>
+            <flux:field class="mb-4">
+                <flux:label>{{ __('Confirm Password') }}</flux:label>
+                <flux:input type="password" name="password_confirmation" required autocomplete="new-password" />
+            </flux:field>
 
-            <div class="flex items-center justify-end mt-4">
-                <x-button>
+            <div class="flex items-center justify-end">
+                <flux:button type="submit" variant="primary">
                     {{ __('Reset Password') }}
-                </x-button>
+                </flux:button>
             </div>
         </form>
     </x-authentication-card>

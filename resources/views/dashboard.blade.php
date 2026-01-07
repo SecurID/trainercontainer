@@ -2,52 +2,60 @@
     <x-slot name="header">
         <div class="flex flex-wrap">
             <div class="w-full">
-                <h2 class="font-semibold text-xl text-text-primary leading-tight">
+                <flux:heading size="xl">
                     {{ __('Dashboard') }}
-                </h2>
+                </flux:heading>
             </div>
         </div>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-10">
-            <div class="bg-bg-primary overflow-hidden shadow-xl sm:rounded-lg p-4">
-                <p class="font-semibold text-xl text-gray-800 leading-tight mb-4">{{ __('Next Practice')}}</p>
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
+                <flux:heading size="lg" class="mb-4">{{ __('Next Practice') }}</flux:heading>
                 @if(!$nextPractice)
-                    <p class="text-text-secondary">{{ __('No upcoming practices scheduled.') }}</p>
+                    <flux:text class="text-zinc-600">{{ __('No upcoming practices scheduled.') }}</flux:text>
                 @else
-                <a href="{{ route('practices.show', $nextPractice) }}">{{ $nextPractice->date->format('d.m.Y') }} - {{ $nextPractice->topic }}</a>
+                    <flux:link href="{{ route('practices.show', $nextPractice) }}">
+                        {{ $nextPractice->date->format('d.m.Y') }} - {{ $nextPractice->topic }}
+                    </flux:link>
                 @endif
             </div>
 
-            <div class="bg-bg-primary overflow-hidden shadow-xl sm:rounded-lg p-4">
-                <p class="font-semibold text-xl text-gray-800 leading-tight mb-4">{{ __('Common actions')}}</p>
-                <div class="grid lg:grid-cols-4 grid-cols-1 lg:space-x-2 lg:space-y-0">
-                    <a href="{{ route('players.create') }}"><x-button class="mb-2">{{__('Create Player')}}</x-button></a>
-                    <a href="{{ route('exercises.create') }}"><x-button class="mb-2">{{__('Create Exercise')}}</x-button></a>
-                    <a href="{{ route('practices.create') }}"><x-button class="mb-2">{{__('Create Practice')}}</x-button></a>
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
+                <flux:heading size="lg" class="mb-4">{{ __('Common actions') }}</flux:heading>
+                <div class="flex flex-wrap gap-2">
+                    <flux:button href="{{ route('players.create') }}" variant="primary">
+                        {{ __('Create Player') }}
+                    </flux:button>
+                    <flux:button href="{{ route('exercises.create') }}" variant="primary">
+                        {{ __('Create Exercise') }}
+                    </flux:button>
+                    <flux:button href="{{ route('practices.create') }}" variant="primary">
+                        {{ __('Create Practice') }}
+                    </flux:button>
                 </div>
             </div>
 
             @if(!$player OR !$exercise OR !$practice)
-            <div class="bg-bg-primary overflow-hidden shadow-xl sm:rounded-lg p-4">
-                <p class="font-semibold text-xl text-gray-800 leading-tight mb-4">{{ __('Onboarding Guide')}}</p>
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
+                <flux:heading size="lg" class="mb-4">{{ __('Onboarding Guide') }}</flux:heading>
 
-                <ul class="space-y-1 text-gray-500 list-inside text-lg dark:text-gray-400">
+                <ul class="space-y-1 text-zinc-500 list-inside text-lg">
                     <li class="flex items-center">
-                        <svg @class(['text-text-tertiary' => ! $player, 'text-success-green' => $player, 'w-3.5', 'h-3.5', 'me-2', 'flex-shrink-0']) aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <svg @class(['text-zinc-400' => ! $player, 'text-green-500' => $player, 'w-3.5', 'h-3.5', 'me-2', 'flex-shrink-0']) aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                         </svg>
                         {{ __('Create your first player') }}
                     </li>
                     <li class="flex items-center">
-                        <svg @class(['text-text-tertiary' => ! $exercise, 'text-success-green' => $exercise, 'w-3.5', 'h-3.5', 'me-2', 'flex-shrink-0']) aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <svg @class(['text-zinc-400' => ! $exercise, 'text-green-500' => $exercise, 'w-3.5', 'h-3.5', 'me-2', 'flex-shrink-0']) aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                         </svg>
                         {{ __('Create your first exercise') }}
                     </li>
                     <li class="flex items-center">
-                        <svg @class(['text-text-tertiary' => ! $practice, 'text-success-green' => $practice, 'w-3.5', 'h-3.5', 'me-2', 'flex-shrink-0']) aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <svg @class(['text-zinc-400' => ! $practice, 'text-green-500' => $practice, 'w-3.5', 'h-3.5', 'me-2', 'flex-shrink-0']) aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                         </svg>
                         {{ __('Create your first practice') }}

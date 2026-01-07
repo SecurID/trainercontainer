@@ -7,7 +7,7 @@
         <x-validation-errors class="mb-4" />
 
         @if (session('status'))
-            <div class="mb-4 font-medium text-sm text-success-green">
+            <div class="mb-4 font-medium text-sm text-green-600">
                 {{ session('status') }}
             </div>
         @endif
@@ -15,41 +15,37 @@
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
-            <div>
-                <x-label value="Email" />
-                <x-input class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+            <flux:field class="mb-4">
+                <flux:label>{{ __('Email') }}</flux:label>
+                <flux:input type="email" name="email" :value="old('email')" required autofocus />
+            </flux:field>
+
+            <flux:field class="mb-4">
+                <flux:label>{{ __('Password') }}</flux:label>
+                <flux:input type="password" name="password" required autocomplete="current-password" />
+            </flux:field>
+
+            <div class="block mb-4">
+                <flux:checkbox name="remember" label="{{ __('Remember me') }}" />
             </div>
 
-            <div class="mt-4">
-                <x-label value="Password" />
-                <x-input class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
-            </div>
-
-            <div class="block mt-4">
-                <label class="flex items-center">
-                    <input type="checkbox" class="text-primary-500 border-border-default rounded focus:ring-primary-300" name="remember">
-                    <span class="ml-2 text-sm text-text-secondary">{{ __('Remember me') }}</span>
-                </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
+            <div class="flex items-center justify-end gap-4">
                 @if (Route::has('password.request'))
-                    <a class="underline text-sm text-text-secondary hover:text-text-primary" href="{{ route('password.request') }}">
+                    <flux:link href="{{ route('password.request') }}" variant="subtle">
                         {{ __('Forgot your password?') }}
-                    </a>
+                    </flux:link>
                 @endif
 
-                <x-button class="ml-4">
+                <flux:button type="submit" variant="primary">
                     {{ __('Login') }}
-                </x-button>
+                </flux:button>
             </div>
         </form>
+
         <div class="flex items-center justify-end mt-4">
-            <a href="{{ route('register') }}">
-                <x-secondary-button class="ml-4">
-                    {{ __('No Account yet? Create one!') }}
-                </x-secondary-button>
-            </a>
+            <flux:button href="{{ route('register') }}" variant="subtle">
+                {{ __('No Account yet? Create one!') }}
+            </flux:button>
         </div>
     </x-authentication-card>
 </x-guest-layout>

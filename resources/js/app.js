@@ -1,5 +1,4 @@
 import './bootstrap.js';
-import 'flowbite';
 import 'trix/dist/trix.css';
 import 'trix';
 import { createApp } from 'vue';

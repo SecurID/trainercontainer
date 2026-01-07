@@ -1,78 +1,69 @@
-
-<div class="p-6 bg-bg-primary overflow-hidden sm:rounded-lg">
+<div class="p-6 bg-white overflow-hidden sm:rounded-lg">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <div>
-            <x-label for="topic" value="{{ __('Topic') }}" />
-            <x-input
-                type="text"
-                id="topic"
+        <flux:field>
+            <flux:label>{{ __('Topic') }}</flux:label>
+            <flux:input
                 wire:model.live.blur="topic"
-                name="topic"
-                class="mt-1 block w-full"
                 placeholder="{{ __('Practice topic') }}"
             />
-        </div>
+            <flux:error name="topic" />
+        </flux:field>
 
-        <div>
-            <x-label for="date" value="{{ __('Date') }}" />
-            <x-input
+        <flux:field>
+            <flux:label>{{ __('Date') }}</flux:label>
+            <flux:input
                 type="date"
-                id="date"
                 wire:model.live="date"
-                name="date"
-                class="mt-1 block w-full"
             />
-        </div>
+            <flux:error name="date" />
+        </flux:field>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <div>
-            <x-label for="playerCount" value="{{ __('Player count') }}" />
-            <x-input
+        <flux:field>
+            <flux:label>{{ __('Player count') }}</flux:label>
+            <flux:input
                 type="number"
-                id="playerCount"
                 wire:model.live.blur="playerCount"
-                name="playerCount"
-                class="mt-1 block w-full"
                 min="0"
             />
-        </div>
+            <flux:error name="playerCount" />
+        </flux:field>
 
-        <div>
-            <x-label for="goalkeeperCount" value="{{ __('Goalkeeper count') }}" />
-            <x-input
+        <flux:field>
+            <flux:label>{{ __('Goalkeeper count') }}</flux:label>
+            <flux:input
                 type="number"
-                id="goalkeeperCount"
                 wire:model.live.blur="goalkeeperCount"
-                name="goalkeeperCount"
-                class="mt-1 block w-full"
                 min="0"
             />
-        </div>
+            <flux:error name="goalkeeperCount" />
+        </flux:field>
     </div>
 
     <div class="mb-6">
-        <x-label for="notes" value="{{ __('Notes') }}" />
-        <div class="mt-1" wire:ignore>
-            <trix-editor 
-                wire:trix-blur="setNotesContent($event.target.value)"
-                placeholder="{{ __('Practice notes and observations...') }}"
-                class="trix-content"
-                x-data="{
-                    init() {
-                        // Set initial content when the editor loads
-                        this.$el.addEventListener('trix-initialize', () => {
-                            this.$el.value = @js($notes ?? '');
-                        });
-                    }
-                }"
-            ></trix-editor>
-        </div>
+        <flux:field>
+            <flux:label>{{ __('Notes') }}</flux:label>
+            <div class="mt-1" wire:ignore>
+                <trix-editor
+                    wire:trix-blur="setNotesContent($event.target.value)"
+                    placeholder="{{ __('Practice notes and observations...') }}"
+                    class="trix-content"
+                    x-data="{
+                        init() {
+                            this.$el.addEventListener('trix-initialize', () => {
+                                this.$el.value = @js($notes ?? '');
+                            });
+                        }
+                    }"
+                ></trix-editor>
+            </div>
+        </flux:field>
     </div>
 
     @if($successMessage)
         <div class="mb-4">
-            <div class="px-4 py-3 bg-success-green text-text-inverse rounded-md text-sm font-medium flex items-center animate-pulse"
+            <div class="px-4 py-3 bg-green-600 text-white rounded-md text-sm font-medium flex items-center animate-pulse"
                  x-data="{ show: true }"
                  x-show="show"
                  x-init="setTimeout(() => { show = false; $wire.clearSuccessMessage(); }, 2000)">
@@ -84,4 +75,3 @@
         </div>
     @endif
 </div>
-

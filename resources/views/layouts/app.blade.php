@@ -17,6 +17,7 @@
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         @livewireStyles
         @stack('styles')
+        @fluxAppearance
 
         <!-- Scripts -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -216,5 +217,6 @@
             gtag('js', new Date());
             gtag('config', 'G-0XLX9M5RC6');
         </script>
+        @fluxScripts
     </body>
 </html>

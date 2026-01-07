@@ -7,6 +7,7 @@ use App\Models\Practice;
 use App\Models\User;
 use DateTime;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -21,16 +22,13 @@ class CreatePractice extends Component
     /** @var array<int, array<string, mixed>> */
     public array $rows = [];
 
-    public string $searchTerm = '';
-
-    /** @var array<int, array<string, mixed>> */
-    public array $searchResults = [];
-
-    public ?int $activeRowIndex = null;
+    /** @var Collection<int, Exercise> */
+    public Collection $exercises;
 
     public function mount(): void
     {
         $this->date = date('d.m.Y');
+        $this->exercises = Exercise::query()->orderBy('name')->get();
         $this->addRow();
     }
 
@@ -42,7 +40,6 @@ class CreatePractice extends Component
     public function addRow(): void
     {
         $this->rows[] = [
-            'exercise' => '',
             'exerciseId' => '',
             'coaches' => '',
             'playerCount' => '',
@@ -55,42 +52,6 @@ class CreatePractice extends Component
     {
         unset($this->rows[$index]);
         $this->rows = array_values($this->rows);
-    }
-
-    public function setActiveRow(int $index): void
-    {
-        $this->activeRowIndex = $index;
-    }
-
-    public function search(): void
-    {
-        if (strlen($this->searchTerm) >= 2) {
-            /** @var array<int, array<string, mixed>> $results */
-            $results = Exercise::query()->where('name', 'like', '%'.$this->searchTerm.'%')
-                ->limit(4)
-                ->get()
-                ->toArray();
-            $this->searchResults = $results;
-        } else {
-            $this->searchResults = [];
-        }
-    }
-
-    public function selectExercise(int $exerciseId, string $exerciseName): void
-    {
-        if ($this->activeRowIndex !== null) {
-            $this->rows[$this->activeRowIndex]['exercise'] = $exerciseName;
-            $this->rows[$this->activeRowIndex]['exerciseId'] = $exerciseId;
-            $this->searchTerm = '';
-            $this->searchResults = [];
-            $this->activeRowIndex = null;
-        }
-    }
-
-    public function updateSearchTerm(string $value): void
-    {
-        $this->searchTerm = $value;
-        $this->search();
     }
 
     public function save(): RedirectResponse|Redirector

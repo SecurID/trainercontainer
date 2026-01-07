@@ -19,7 +19,8 @@
                 <div>
                     <flux:heading size="lg" class="py-4 text-center">{{ __('Schedule') }}</flux:heading>
 
-                    <div class="overflow-x-auto">
+                    <!-- Desktop Table View -->
+                    <div class="hidden md:block overflow-x-auto">
                         <table class="w-full table-auto">
                             <thead>
                                 <tr class="text-center text-white bg-zinc-800">
@@ -36,29 +37,18 @@
                                 @foreach($rows as $index => $row)
                                     <tr wire:key="row-{{ $index }}" class="border-b border-zinc-200 hover:bg-zinc-50">
                                         <td class="px-4 py-3 text-center text-sm font-medium">{{ $index + 1 }}</td>
-                                        <td class="px-4 py-3 relative">
-                                            <div class="relative">
-                                                <flux:input
-                                                    wire:model="rows.{{ $index }}.exercise"
-                                                    wire:keyup="updateSearchTerm($event.target.value)"
-                                                    wire:click="setActiveRow({{ $index }})"
-                                                    placeholder="{{ __('Search exercise...') }}"
-                                                />
-
-                                                @if($activeRowIndex === $index && !empty($searchResults))
-                                                    <div class="absolute z-10 w-full mt-1 bg-white rounded-md shadow-lg border border-zinc-200">
-                                                        <ul class="py-1 overflow-auto text-base leading-6 rounded-md max-h-60 focus:outline-none sm:text-sm sm:leading-5">
-                                                            @foreach($searchResults as $result)
-                                                                <li wire:click="selectExercise('{{ $result['id'] }}', '{{ $result['name'] }}')"
-                                                                    class="px-4 py-2 cursor-pointer hover:bg-zinc-100">
-                                                                    {{ $result['name'] }}
-                                                                </li>
-                                                            @endforeach
-                                                        </ul>
-                                                    </div>
-                                                @endif
-                                            </div>
-                                            <input type="hidden" wire:model="rows.{{ $index }}.exerciseId">
+                                        <td class="px-4 py-3">
+                                            <flux:select
+                                                wire:model="rows.{{ $index }}.exerciseId"
+                                                searchable
+                                                placeholder="{{ __('Search exercise...') }}"
+                                            >
+                                                @foreach($exercises as $exercise)
+                                                    <flux:select.option value="{{ $exercise->id }}">
+                                                        {{ $exercise->name }}
+                                                    </flux:select.option>
+                                                @endforeach
+                                            </flux:select>
                                         </td>
                                         <td class="px-4 py-3">
                                             <flux:input wire:model="rows.{{ $index }}.coaches" />
@@ -85,6 +75,61 @@
                                 @endforeach
                             </tbody>
                         </table>
+                    </div>
+
+                    <!-- Mobile Card View -->
+                    <div class="md:hidden space-y-4">
+                        @foreach($rows as $index => $row)
+                            <div wire:key="mobile-row-{{ $index }}" class="bg-zinc-50 rounded-lg p-4 space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <flux:badge>{{ __('#') }}{{ $index + 1 }}</flux:badge>
+                                    <flux:button
+                                        type="button"
+                                        wire:click="removeRow({{ $index }})"
+                                        variant="danger"
+                                        size="sm"
+                                        icon="x-mark"
+                                    />
+                                </div>
+
+                                <flux:field>
+                                    <flux:label>{{ __('Exercise') }}</flux:label>
+                                    <flux:select
+                                        wire:model="rows.{{ $index }}.exerciseId"
+                                        searchable
+                                        placeholder="{{ __('Search exercise...') }}"
+                                    >
+                                        @foreach($exercises as $exercise)
+                                            <flux:select.option value="{{ $exercise->id }}">
+                                                {{ $exercise->name }}
+                                            </flux:select.option>
+                                        @endforeach
+                                    </flux:select>
+                                </flux:field>
+
+                                <flux:field>
+                                    <flux:label>{{ __('Coaches') }}</flux:label>
+                                    <flux:input wire:model="rows.{{ $index }}.coaches" />
+                                </flux:field>
+
+                                <div class="grid grid-cols-2 gap-3">
+                                    <flux:field>
+                                        <flux:label>{{ __('Player count') }}</flux:label>
+                                        <flux:input type="number" wire:model="rows.{{ $index }}.playerCount" />
+                                    </flux:field>
+
+                                    <flux:field>
+                                        <flux:label>{{ __('Goalkeeper count') }}</flux:label>
+                                        <flux:input type="number" wire:model="rows.{{ $index }}.goalkeeperCount" />
+                                    </flux:field>
+                                </div>
+
+                                <flux:field>
+                                    <flux:label>{{ __('Time') }}</flux:label>
+                                    <flux:input wire:model="rows.{{ $index }}.time" />
+                                </flux:field>
+                            </div>
+                        @endforeach
                     </div>
 
                     <div class="flex justify-between mt-4">

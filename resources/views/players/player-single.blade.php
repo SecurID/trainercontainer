@@ -69,74 +69,46 @@
                         <flux:text class="mt-2">{{ $player->notes }}</flux:text>
                     </div>
                     <div class="w-full md:w-1/2 lg:w-2/3 p-4">
-                        <canvas id="myChart"></canvas>
+                        <flux:heading class="mb-4">{{ __('Performance Over Time') }}</flux:heading>
+                        @php
+                            $chartData = collect($labels)->zip($ratings_array)->map(fn($item) => [
+                                'date' => $item[0],
+                                'rating' => $item[1],
+                            ])->toArray();
+                        @endphp
+                        @if(count($chartData) > 0)
+                            <div x-data="{ chartData: @js($chartData) }">
+                                <flux:chart x-model="chartData" class="aspect-[3/1]">
+                                    <flux:chart.svg>
+                                        <flux:chart.line field="rating" class="text-teal-500" />
+                                        <flux:chart.point field="rating" class="text-teal-600" />
+                                        <flux:chart.axis axis="x" field="date" />
+                                        <flux:chart.axis axis="y" :max="5" :min="1" />
+                                    </flux:chart.svg>
+
+                                    <flux:chart.tooltip>
+                                        <flux:chart.tooltip.heading field="date" />
+                                        <flux:chart.tooltip.value field="rating" label="{{ __('Rating') }}" />
+                                    </flux:chart.tooltip>
+                                </flux:chart>
+                            </div>
+
+                            <div class="mt-4 flex flex-wrap gap-3 text-sm text-zinc-600">
+                                <span><span class="inline-block w-3 h-3 rounded-full bg-red-400 mr-1"></span>1 = {{ __('very bad') }} (--)</span>
+                                <span><span class="inline-block w-3 h-3 rounded-full bg-orange-400 mr-1"></span>2 = {{ __('bad') }} (-)</span>
+                                <span><span class="inline-block w-3 h-3 rounded-full bg-yellow-400 mr-1"></span>3 = {{ __('normal') }} (o)</span>
+                                <span><span class="inline-block w-3 h-3 rounded-full bg-lime-400 mr-1"></span>4 = {{ __('good') }} (+)</span>
+                                <span><span class="inline-block w-3 h-3 rounded-full bg-green-400 mr-1"></span>5 = {{ __('very good') }} (++)</span>
+                            </div>
+                        @else
+                            <div class="flex items-center justify-center h-48 bg-zinc-50 rounded-lg">
+                                <flux:text class="text-zinc-400">{{ __('No ratings available yet') }}</flux:text>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    @push('scripts')
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-        <script>
-            var ctx = document.getElementById('myChart').getContext('2d');
-            var chart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: @json($labels),
-                    datasets: [{
-                        label: 'Rating',
-                        data: @json($ratings_array),
-                        lineTension: 0,
-                        fill: false,
-                        borderColor: 'orange',
-                        backgroundColor: 'transparent',
-                        borderDash: [5, 5],
-                        pointBorderColor: 'orange',
-                        pointBackgroundColor: 'rgba(255,150,0,0.5)',
-                        pointRadius: 5,
-                        pointHoverRadius: 10,
-                        pointHitRadius: 30,
-                        pointBorderWidth: 2,
-                        pointStyle: 'rectRounded'
-                    }]
-                },
-                options: {
-                    scales: {
-                        xAxes: [{
-                            ticks: {
-                                display: false,
-                                autoSkip: false,
-                                maxRotation: 90,
-                                minRotation: 90,
-                            }
-                        }],
-                        yAxes: [{
-                            ticks: {
-                                stepSize: 1,
-                                min: 0,
-                                max: 5,
-                                callback: function(label, index, labels) {
-                                    switch (label) {
-                                        case 0:
-                                            return 'NA';
-                                        case 1:
-                                            return 'very bad (--)';
-                                        case 2:
-                                            return 'bad (-)';
-                                        case 3:
-                                            return 'normal (o)';
-                                        case 4:
-                                            return 'good (+)';
-                                        case 5:
-                                            return 'very good (++)';
-                                    }
-                                }
-                            }
-                        }]
-                    }
-                }
-            });
-        </script>
-    @endpush
     <livewire:edit-player-name :player="$player" />
 </x-app-layout>

@@ -14,13 +14,14 @@
             </flux:field>
         </div>
 
-        <div class="grid grid-cols-1 mb-4 w-full">
-            <x-multiselect
-                wire:model="categories"
-                :options="$categoriesList->map(fn($c) => ['id' => $c->id, 'name' => __($c->name)])->values()"
-                :placeholder="__('Choose Categories')"
-            />
-        </div>
+        <flux:field class="mb-4">
+            <flux:label>{{ __('Categories') }}</flux:label>
+            <flux:select wire:model="categories" multiple searchable placeholder="{{ __('Choose Categories') }}">
+                @foreach($categoriesList as $category)
+                    <flux:select.option value="{{ $category->id }}">{{ __($category->name) }}</flux:select.option>
+                @endforeach
+            </flux:select>
+        </flux:field>
 
         <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-4">
             <flux:field class="lg:col-span-3">

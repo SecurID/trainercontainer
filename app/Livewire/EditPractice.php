@@ -5,7 +5,6 @@ namespace App\Livewire;
 use App\Models\Practice;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class EditPractice extends Component
@@ -66,31 +65,6 @@ class EditPractice extends Component
 
     public function updatedNotes(): void
     {
-        $this->practice->update(['notes' => $this->notes]);
-        $this->showSuccessMessage();
-    }
-
-    public function setNotesContent(?string $content): void
-    {
-        Log::info('setNotesContent called', [
-            'practice_id' => $this->practice->id,
-            'content_received' => $content,
-            'content_length' => strlen($content ?? ''),
-        ]);
-
-        $this->notes = $content ?? '';
-        $this->practice->update(['notes' => $this->notes]);
-        $this->showSuccessMessage();
-    }
-
-    public function saveNotes(): void
-    {
-        Log::info('SaveNotes called', [
-            'practice_id' => $this->practice->id,
-            'notes_content' => $this->notes,
-            'notes_length' => strlen($this->notes),
-        ]);
-
         $this->practice->update(['notes' => $this->notes]);
         $this->showSuccessMessage();
     }

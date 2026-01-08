@@ -27,8 +27,22 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
                 <livewire:edit-practice :practice="$practice"/>
-                <livewire:practice-schedule-builder :practice="$practice"/>
-                <livewire:practice-ratings-table :practice="$practice"/>
+
+                <flux:accordion transition class="mt-6">
+                    <flux:accordion.item expanded>
+                        <flux:accordion.heading>{{ __('Training Schedule') }}</flux:accordion.heading>
+                        <flux:accordion.content>
+                            <livewire:practice-schedule-builder :practice="$practice"/>
+                        </flux:accordion.content>
+                    </flux:accordion.item>
+
+                    <flux:accordion.item>
+                        <flux:accordion.heading>{{ __('Player Ratings') }}</flux:accordion.heading>
+                        <flux:accordion.content>
+                            <livewire:practice-ratings-table :practice="$practice"/>
+                        </flux:accordion.content>
+                    </flux:accordion.item>
+                </flux:accordion>
             </div>
         </div>
     </div>

@@ -1,27 +1,9 @@
 <div>
-    <div class="flex items-center justify-between">
-        <button wire:click="toggleCollapse"
-                class="flex w-full justify-between space-x-2 px-4 py-2 bg-zinc-100 hover:bg-zinc-200 rounded-lg transition-colors duration-200">
-            <flux:heading size="lg">{{ __('Training Schedule') }}</flux:heading>
-            <div class="flex items-center space-x-2">
-                <span class="text-sm font-medium">
-                    {{ $isCollapsed ? __('Show') : __('Hide') }}
-                </span>
-                <svg class="w-4 h-4 transform transition-transform duration-200 {{ $isCollapsed ? 'rotate-180' : '' }}"
-                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-            </div>
-        </button>
-    </div>
-
-    <div class="mt-4 transition-all duration-300 ease-in-out {{ $isCollapsed ? 'max-h-0 overflow-hidden opacity-0' : 'max-h-none opacity-100' }}">
-
-        @if($successMessage)
-            <div class="mb-4 p-3 bg-green-100 text-green-800 rounded-lg text-sm font-medium animate-pulse">
-                {{ $successMessage }}
-            </div>
-        @endif
+    @if($successMessage)
+        <div class="mb-4 p-3 bg-green-100 text-green-800 rounded-lg text-sm font-medium animate-pulse">
+            {{ $successMessage }}
+        </div>
+    @endif
 
         <!-- Desktop Table View -->
         <div class="hidden lg:block">
@@ -45,17 +27,19 @@
                                     {{ $index + 1 }}
                                 </td>
                                 <td class="px-4 py-3">
-                                    <flux:select
-                                        wire:model.live="scheduleRows.{{ $index }}.exercise_id"
-                                        searchable
+                                    <flux:autocomplete
+                                        wire:model.live="exerciseSearchTerms.{{ $index }}"
                                         placeholder="{{ __('Search exercise...') }}"
                                     >
-                                        @foreach($exercises as $exercise)
-                                            <flux:select.option value="{{ $exercise->id }}">
+                                        @foreach($this->getFilteredExercises($index) as $exercise)
+                                            <flux:autocomplete.item
+                                                wire:key="exercise-{{ $index }}-{{ $exercise->id }}"
+                                                wire:click="selectExercise({{ $index }}, {{ $exercise->id }})"
+                                            >
                                                 {{ $exercise->name }}
-                                            </flux:select.option>
+                                            </flux:autocomplete.item>
                                         @endforeach
-                                    </flux:select>
+                                    </flux:autocomplete>
                                 </td>
                                 <td class="px-4 py-3">
                                     <flux:input
@@ -116,17 +100,19 @@
 
                     <flux:field>
                         <flux:label>{{ __('Exercise') }}</flux:label>
-                        <flux:select
-                            wire:model.live="scheduleRows.{{ $index }}.exercise_id"
-                            searchable
+                        <flux:autocomplete
+                            wire:model.live="exerciseSearchTerms.{{ $index }}"
                             placeholder="{{ __('Search exercise...') }}"
                         >
-                            @foreach($exercises as $exercise)
-                                <flux:select.option value="{{ $exercise->id }}">
+                            @foreach($this->getFilteredExercises($index) as $exercise)
+                                <flux:autocomplete.item
+                                    wire:key="mobile-exercise-{{ $index }}-{{ $exercise->id }}"
+                                    wire:click="selectExercise({{ $index }}, {{ $exercise->id }})"
+                                >
                                     {{ $exercise->name }}
-                                </flux:select.option>
+                                </flux:autocomplete.item>
                             @endforeach
-                        </flux:select>
+                        </flux:autocomplete>
                     </flux:field>
 
                     <div class="grid grid-cols-2 gap-3">
@@ -170,11 +156,10 @@
             @endforeach
         </div>
 
-        <div class="mt-6">
-            <flux:button wire:click="addRow" icon="plus">
-                {{ __('Add exercise') }}
-            </flux:button>
-        </div>
+    <div class="mt-6">
+        <flux:button wire:click="addRow" icon="plus">
+            {{ __('Add exercise') }}
+        </flux:button>
     </div>
 </div>
 

@@ -26,8 +26,6 @@ class PracticeRatingsTable extends Component
 
     public bool $success = false;
 
-    public bool $isCollapsed = true;
-
     /** @var array<string, string> */
     protected $listeners = ['refreshComponent' => '$refresh'];
 
@@ -84,11 +82,6 @@ class PracticeRatingsTable extends Component
         );
 
         $this->success = true;
-    }
-
-    public function toggleCollapse(): void
-    {
-        $this->isCollapsed = ! $this->isCollapsed;
     }
 
     public function render(): View

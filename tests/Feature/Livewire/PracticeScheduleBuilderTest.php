@@ -22,27 +22,6 @@ it('renders practice schedule builder component', function () {
         ->assertStatus(200);
 });
 
-it('starts collapsed by default', function () {
-    $this->actingAs($this->user);
-
-    $component = Livewire::test(PracticeScheduleBuilder::class, ['practice' => $this->practice]);
-
-    expect($component->get('isCollapsed'))->toBeTrue();
-});
-
-it('can toggle collapse state', function () {
-    $this->actingAs($this->user);
-
-    $component = Livewire::test(PracticeScheduleBuilder::class, ['practice' => $this->practice])
-        ->call('toggleCollapse');
-
-    expect($component->get('isCollapsed'))->toBeFalse();
-
-    $component->call('toggleCollapse');
-
-    expect($component->get('isCollapsed'))->toBeTrue();
-});
-
 it('initializes with one empty row when no schedules exist', function () {
     $this->actingAs($this->user);
 
@@ -64,8 +43,17 @@ it('loads existing schedules on mount', function () {
     $component = Livewire::test(PracticeScheduleBuilder::class, ['practice' => $this->practice]);
 
     expect($component->get('scheduleRows'))->toHaveCount(1);
-    expect($component->get('scheduleRows.0.exercise_id'))->toBe($exercise->id);
+    expect($component->get('scheduleRows.0.exercise_id'))->toBe((string) $exercise->id);
     expect($component->get('scheduleRows.0.playerCount'))->toBe(10);
+});
+
+it('loads all exercises on mount', function () {
+    $this->actingAs($this->user);
+    Exercise::factory()->count(3)->create(['user_id' => $this->user->id]);
+
+    $component = Livewire::test(PracticeScheduleBuilder::class, ['practice' => $this->practice]);
+
+    expect($component->get('exercises'))->toHaveCount(3);
 });
 
 it('can add a new row', function () {
@@ -101,129 +89,12 @@ it('deletes schedule when removing persisted row', function () {
     expect(Schedule::find($schedule->id))->toBeNull();
 });
 
-it('searches exercises by name', function () {
-    $this->actingAs($this->user);
-    $exercise = Exercise::factory()->create([
-        'user_id' => $this->user->id,
-        'name' => 'Passing Drill',
-    ]);
-    Exercise::factory()->create([
-        'user_id' => $this->user->id,
-        'name' => 'Shooting Exercise',
-    ]);
-
-    $component = Livewire::test(PracticeScheduleBuilder::class, ['practice' => $this->practice])
-        ->call('updateExerciseSearch', 0, 'Passing');
-
-    expect($component->get('availableExercises.0'))->toHaveCount(1);
-    expect($component->get('showExerciseDropdowns.0'))->toBeTrue();
-});
-
-it('searches exercises by focus', function () {
-    $this->actingAs($this->user);
-    Exercise::factory()->create([
-        'user_id' => $this->user->id,
-        'name' => 'Test Exercise',
-        'focus' => 'Dribbling',
-    ]);
-
-    $component = Livewire::test(PracticeScheduleBuilder::class, ['practice' => $this->practice])
-        ->call('updateExerciseSearch', 0, 'Dribbling');
-
-    expect($component->get('availableExercises.0'))->toHaveCount(1);
-});
-
-it('hides dropdown when search term is empty', function () {
-    $this->actingAs($this->user);
-
-    $component = Livewire::test(PracticeScheduleBuilder::class, ['practice' => $this->practice])
-        ->call('updateExerciseSearch', 0, '');
-
-    expect($component->get('showExerciseDropdowns.0'))->toBeFalse();
-});
-
-it('can select an exercise', function () {
-    $this->actingAs($this->user);
-    $exercise = Exercise::factory()->create([
-        'user_id' => $this->user->id,
-        'name' => 'Selected Exercise',
-        'playerCount' => 12,
-        'duration' => '20',
-    ]);
-
-    $component = Livewire::test(PracticeScheduleBuilder::class, ['practice' => $this->practice])
-        ->call('selectExercise', 0, $exercise->id);
-
-    expect($component->get('scheduleRows.0.exercise_id'))->toBe($exercise->id);
-    expect($component->get('scheduleRows.0.exercise_name'))->toBe('Selected Exercise');
-    expect($component->get('exerciseSearchTerms.0'))->toBe('Selected Exercise');
-});
-
-it('pre-fills player count from exercise', function () {
-    $this->actingAs($this->user);
-    $exercise = Exercise::factory()->create([
-        'user_id' => $this->user->id,
-        'playerCount' => 8,
-    ]);
-
-    $component = Livewire::test(PracticeScheduleBuilder::class, ['practice' => $this->practice])
-        ->call('selectExercise', 0, $exercise->id);
-
-    expect($component->get('scheduleRows.0.playerCount'))->toBe(8);
-});
-
-it('pre-fills time from exercise duration', function () {
-    $this->actingAs($this->user);
-    $exercise = Exercise::factory()->create([
-        'user_id' => $this->user->id,
-        'duration' => '25',
-    ]);
-
-    $component = Livewire::test(PracticeScheduleBuilder::class, ['practice' => $this->practice])
-        ->call('selectExercise', 0, $exercise->id);
-
-    // Duration could be string or int depending on database
-    expect((string) $component->get('scheduleRows.0.time'))->toBe('25');
-});
-
-it('hides dropdown after selecting exercise', function () {
-    $this->actingAs($this->user);
-    $exercise = Exercise::factory()->create(['user_id' => $this->user->id]);
-
-    $component = Livewire::test(PracticeScheduleBuilder::class, ['practice' => $this->practice])
-        ->set('showExerciseDropdowns.0', true)
-        ->call('selectExercise', 0, $exercise->id);
-
-    expect($component->get('showExerciseDropdowns.0'))->toBeFalse();
-});
-
-it('can hide exercise dropdown', function () {
-    $this->actingAs($this->user);
-
-    $component = Livewire::test(PracticeScheduleBuilder::class, ['practice' => $this->practice])
-        ->set('showExerciseDropdowns.0', true)
-        ->call('hideExerciseDropdown', 0);
-
-    expect($component->get('showExerciseDropdowns.0'))->toBeFalse();
-});
-
-it('shows exercises when dropdown focused', function () {
-    $this->actingAs($this->user);
-    Exercise::factory()->count(3)->create(['user_id' => $this->user->id]);
-
-    $component = Livewire::test(PracticeScheduleBuilder::class, ['practice' => $this->practice])
-        ->call('showExerciseDropdown', 0);
-
-    expect($component->get('availableExercises.0'))->toHaveCount(3);
-    expect($component->get('showExerciseDropdowns.0'))->toBeTrue();
-});
-
 it('saves new schedule row', function () {
     $this->actingAs($this->user);
     $exercise = Exercise::factory()->create(['user_id' => $this->user->id]);
 
     Livewire::test(PracticeScheduleBuilder::class, ['practice' => $this->practice])
-        ->set('scheduleRows.0.exercise_id', $exercise->id)
+        ->set('scheduleRows.0.exercise_id', (string) $exercise->id)
         ->set('scheduleRows.0.playerCount', 10)
         ->set('scheduleRows.0.time', '15')
         ->call('saveScheduleRow', 0);
@@ -271,7 +142,7 @@ it('shows error when player count is missing', function () {
     $exercise = Exercise::factory()->create(['user_id' => $this->user->id]);
 
     $component = Livewire::test(PracticeScheduleBuilder::class, ['practice' => $this->practice])
-        ->set('scheduleRows.0.exercise_id', $exercise->id)
+        ->set('scheduleRows.0.exercise_id', (string) $exercise->id)
         ->set('scheduleRows.0.time', '15')
         ->call('saveScheduleRow', 0);
 
@@ -283,7 +154,7 @@ it('shows error when time is missing', function () {
     $exercise = Exercise::factory()->create(['user_id' => $this->user->id]);
 
     $component = Livewire::test(PracticeScheduleBuilder::class, ['practice' => $this->practice])
-        ->set('scheduleRows.0.exercise_id', $exercise->id)
+        ->set('scheduleRows.0.exercise_id', (string) $exercise->id)
         ->set('scheduleRows.0.playerCount', 10)
         ->call('saveScheduleRow', 0);
 
@@ -295,12 +166,11 @@ it('shows success message after save', function () {
     $exercise = Exercise::factory()->create(['user_id' => $this->user->id]);
 
     $component = Livewire::test(PracticeScheduleBuilder::class, ['practice' => $this->practice])
-        ->set('scheduleRows.0.exercise_id', $exercise->id)
+        ->set('scheduleRows.0.exercise_id', (string) $exercise->id)
         ->set('scheduleRows.0.playerCount', 10)
         ->set('scheduleRows.0.time', '15')
         ->call('saveScheduleRow', 0);
 
-    // Auto-save triggers on set, so it might be "Neu gespeichert!" or "Aktualisiert!"
     expect(in_array($component->get('successMessage'), ['Neu gespeichert!', 'Aktualisiert!']))->toBeTrue();
 });
 
@@ -309,7 +179,7 @@ it('dispatches success message event', function () {
     $exercise = Exercise::factory()->create(['user_id' => $this->user->id]);
 
     Livewire::test(PracticeScheduleBuilder::class, ['practice' => $this->practice])
-        ->set('scheduleRows.0.exercise_id', $exercise->id)
+        ->set('scheduleRows.0.exercise_id', (string) $exercise->id)
         ->set('scheduleRows.0.playerCount', 10)
         ->set('scheduleRows.0.time', '15')
         ->call('saveScheduleRow', 0)
@@ -321,7 +191,7 @@ it('auto-saves on schedule row field update', function () {
     $exercise = Exercise::factory()->create(['user_id' => $this->user->id]);
 
     Livewire::test(PracticeScheduleBuilder::class, ['practice' => $this->practice])
-        ->set('scheduleRows.0.exercise_id', $exercise->id)
+        ->set('scheduleRows.0.exercise_id', (string) $exercise->id)
         ->set('scheduleRows.0.playerCount', 10)
         ->set('scheduleRows.0.time', '20');
 
@@ -352,13 +222,24 @@ it('reindexes arrays after removing row', function () {
     expect(array_keys($rows))->toBe([0, 1]);
 });
 
-it('handles non-existent exercise gracefully', function () {
+it('selects exercise and auto-fills defaults', function () {
     $this->actingAs($this->user);
+    $exercise = Exercise::factory()->create([
+        'user_id' => $this->user->id,
+        'name' => 'Test Exercise',
+        'playerCount' => 12,
+        'goalkeeperCount' => 2,
+        'duration' => '20',
+    ]);
 
     $component = Livewire::test(PracticeScheduleBuilder::class, ['practice' => $this->practice])
-        ->call('selectExercise', 0, 99999);
+        ->call('selectExercise', 0, $exercise->id);
 
-    expect($component->get('scheduleRows.0.exercise_id'))->toBeNull();
+    expect($component->get('scheduleRows.0.exercise_id'))->toBe((string) $exercise->id);
+    expect($component->get('exerciseSearchTerms.0'))->toBe('Test Exercise');
+    expect($component->get('scheduleRows.0.playerCount'))->toBe(12);
+    expect($component->get('scheduleRows.0.goalkeeperCount'))->toBe(2);
+    expect((string) $component->get('scheduleRows.0.time'))->toBe('20');
 });
 
 it('loads exercise name in search term on mount', function () {
@@ -376,3 +257,23 @@ it('loads exercise name in search term on mount', function () {
 
     expect($component->get('exerciseSearchTerms.0'))->toBe('Existing Exercise');
 });
+
+it('filters exercises by search term', function () {
+    $this->actingAs($this->user);
+    Exercise::factory()->create([
+        'user_id' => $this->user->id,
+        'name' => 'Passing Drill',
+    ]);
+    Exercise::factory()->create([
+        'user_id' => $this->user->id,
+        'name' => 'Shooting Exercise',
+    ]);
+
+    $component = Livewire::test(PracticeScheduleBuilder::class, ['practice' => $this->practice])
+        ->set('exerciseSearchTerms.0', 'Passing');
+
+    $filtered = $component->instance()->getFilteredExercises(0);
+    expect($filtered)->toHaveCount(1);
+    expect($filtered->first()->name)->toBe('Passing Drill');
+});
+

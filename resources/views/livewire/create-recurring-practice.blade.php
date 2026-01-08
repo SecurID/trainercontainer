@@ -5,13 +5,13 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <flux:field>
                         <flux:label>Startdatum</flux:label>
-                        <flux:input type="date" wire:model="start_date" />
+                        <flux:date-picker wire:model="start_date" />
                         <flux:error name="start_date" />
                     </flux:field>
 
                     <flux:field>
                         <flux:label>Enddatum</flux:label>
-                        <flux:input type="date" wire:model="end_date" />
+                        <flux:date-picker wire:model="end_date" />
                         <flux:error name="end_date" />
                     </flux:field>
                 </div>
@@ -33,7 +33,7 @@
 
                     <flux:field>
                         <flux:label>Uhrzeit</flux:label>
-                        <flux:input type="time" wire:model="time" />
+                        <flux:time-picker wire:model="time" />
                         <flux:error name="time" />
                     </flux:field>
                 </div>

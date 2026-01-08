@@ -5,7 +5,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <flux:field>
                         <flux:label>{{ __('Datum') }}</flux:label>
-                        <flux:input type="date" wire:model="date" />
+                        <flux:date-picker wire:model="date" />
                         <flux:error name="date" />
                     </flux:field>
 
@@ -38,17 +38,19 @@
                                     <tr wire:key="row-{{ $index }}" class="border-b border-zinc-200 hover:bg-zinc-50">
                                         <td class="px-4 py-3 text-center text-sm font-medium">{{ $index + 1 }}</td>
                                         <td class="px-4 py-3">
-                                            <flux:select
-                                                wire:model="rows.{{ $index }}.exerciseId"
-                                                searchable
+                                            <flux:autocomplete
+                                                wire:model.live="exerciseSearchTerms.{{ $index }}"
                                                 placeholder="{{ __('Search exercise...') }}"
                                             >
-                                                @foreach($exercises as $exercise)
-                                                    <flux:select.option value="{{ $exercise->id }}">
+                                                @foreach($this->getFilteredExercises($index) as $exercise)
+                                                    <flux:autocomplete.item
+                                                        wire:key="exercise-{{ $index }}-{{ $exercise->id }}"
+                                                        wire:click="selectExercise({{ $index }}, {{ $exercise->id }})"
+                                                    >
                                                         {{ $exercise->name }}
-                                                    </flux:select.option>
+                                                    </flux:autocomplete.item>
                                                 @endforeach
-                                            </flux:select>
+                                            </flux:autocomplete>
                                         </td>
                                         <td class="px-4 py-3">
                                             <flux:input wire:model="rows.{{ $index }}.coaches" />
@@ -94,17 +96,19 @@
 
                                 <flux:field>
                                     <flux:label>{{ __('Exercise') }}</flux:label>
-                                    <flux:select
-                                        wire:model="rows.{{ $index }}.exerciseId"
-                                        searchable
+                                    <flux:autocomplete
+                                        wire:model.live="exerciseSearchTerms.{{ $index }}"
                                         placeholder="{{ __('Search exercise...') }}"
                                     >
-                                        @foreach($exercises as $exercise)
-                                            <flux:select.option value="{{ $exercise->id }}">
+                                        @foreach($this->getFilteredExercises($index) as $exercise)
+                                            <flux:autocomplete.item
+                                                wire:key="mobile-exercise-{{ $index }}-{{ $exercise->id }}"
+                                                wire:click="selectExercise({{ $index }}, {{ $exercise->id }})"
+                                            >
                                                 {{ $exercise->name }}
-                                            </flux:select.option>
+                                            </flux:autocomplete.item>
                                         @endforeach
-                                    </flux:select>
+                                    </flux:autocomplete>
                                 </flux:field>
 
                                 <flux:field>

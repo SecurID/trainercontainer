@@ -11,10 +11,7 @@
 
         <flux:field>
             <flux:label>{{ __('Date') }}</flux:label>
-            <flux:input
-                type="date"
-                wire:model.live="date"
-            />
+            <flux:date-picker wire:model.live="date" />
             <flux:error name="date" />
         </flux:field>
     </div>
@@ -42,23 +39,11 @@
     </div>
 
     <div class="mb-6">
-        <flux:field>
-            <flux:label>{{ __('Notes') }}</flux:label>
-            <div class="mt-1" wire:ignore>
-                <trix-editor
-                    wire:trix-blur="setNotesContent($event.target.value)"
-                    placeholder="{{ __('Practice notes and observations...') }}"
-                    class="trix-content"
-                    x-data="{
-                        init() {
-                            this.$el.addEventListener('trix-initialize', () => {
-                                this.$el.value = @js($notes ?? '');
-                            });
-                        }
-                    }"
-                ></trix-editor>
-            </div>
-        </flux:field>
+        <flux:editor
+            wire:model.live.debounce.500ms="notes"
+            label="{{ __('Notes') }}"
+            placeholder="{{ __('Practice notes and observations...') }}"
+        />
     </div>
 
     @if($successMessage)

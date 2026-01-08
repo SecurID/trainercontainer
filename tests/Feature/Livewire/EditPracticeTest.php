@@ -80,26 +80,6 @@ it('updates notes on change', function () {
     expect($this->practice->notes)->toBe('Updated notes content');
 });
 
-it('can set notes content via method', function () {
-    Livewire::test(EditPractice::class, ['practice' => $this->practice])
-        ->call('setNotesContent', 'Content from method')
-        ->assertSet('notes', 'Content from method')
-        ->assertSet('successMessage', 'Gespeichert!');
-
-    $this->practice->refresh();
-    expect($this->practice->notes)->toBe('Content from method');
-});
-
-it('can save notes via method', function () {
-    Livewire::test(EditPractice::class, ['practice' => $this->practice])
-        ->set('notes', 'Notes to save')
-        ->call('saveNotes')
-        ->assertSet('successMessage', 'Gespeichert!');
-
-    $this->practice->refresh();
-    expect($this->practice->notes)->toBe('Notes to save');
-});
-
 it('can clear success message', function () {
     Livewire::test(EditPractice::class, ['practice' => $this->practice])
         ->set('topic', 'New Topic')

@@ -41,45 +41,6 @@ it('can remove a row', function () {
         ->assertCount('rows', 1);
 });
 
-it('can set active row', function () {
-    Livewire::test(CreatePractice::class)
-        ->assertSet('activeRowIndex', null)
-        ->call('setActiveRow', 0)
-        ->assertSet('activeRowIndex', 0);
-});
-
-it('searches for exercises', function () {
-    Livewire::test(CreatePractice::class)
-        ->set('searchTerm', substr($this->exercise->name, 0, 3))
-        ->call('search')
-        ->assertSet('searchResults', function ($results) {
-            return count($results) > 0;
-        });
-});
-
-it('does not search with short term', function () {
-    Livewire::test(CreatePractice::class)
-        ->set('searchTerm', 'a')
-        ->call('search')
-        ->assertSet('searchResults', []);
-});
-
-it('can select an exercise', function () {
-    Livewire::test(CreatePractice::class)
-        ->call('setActiveRow', 0)
-        ->call('selectExercise', $this->exercise->id, $this->exercise->name)
-        ->assertSet('rows.0.exercise', $this->exercise->name)
-        ->assertSet('rows.0.exerciseId', $this->exercise->id)
-        ->assertSet('searchTerm', '')
-        ->assertSet('activeRowIndex', null);
-});
-
-it('updates search term and searches', function () {
-    Livewire::test(CreatePractice::class)
-        ->call('updateSearchTerm', substr($this->exercise->name, 0, 3))
-        ->assertSet('searchTerm', substr($this->exercise->name, 0, 3));
-});
-
 it('creates a practice with valid data', function () {
     $component = Livewire::test(CreatePractice::class)
         ->set('topic', 'Test Training')

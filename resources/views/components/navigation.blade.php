@@ -1,4 +1,4 @@
-<flux:header class="bg-white border-b border-zinc-200">
+<flux:header container class="bg-white border-b border-zinc-200">
     <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
 
     <a href="{{ route('dashboard') }}" class="flex items-center max-lg:hidden">

@@ -1,6 +1,5 @@
 <flux:dropdown position="bottom" align="end">
     <flux:button variant="ghost" icon-trailing="chevron-down" size="sm">
-        <flux:icon.globe class="size-4" />
         <span class="max-sm:sr-only">{{ $availableLocales[$currentLocale] }}</span>
     </flux:button>
 

@@ -22,6 +22,9 @@ class CreatePractice extends Component
     /** @var array<int, array<string, mixed>> */
     public array $rows = [];
 
+    /** @var array<int, string> */
+    public array $exerciseSearchTerms = [];
+
     /** @var Collection<int, Exercise> */
     public Collection $exercises;
 
@@ -39,19 +42,62 @@ class CreatePractice extends Component
 
     public function addRow(): void
     {
-        $this->rows[] = [
+        $newIndex = count($this->rows);
+        $this->rows[$newIndex] = [
             'exerciseId' => '',
             'coaches' => '',
             'playerCount' => '',
             'goalkeeperCount' => '',
             'time' => '',
         ];
+        $this->exerciseSearchTerms[$newIndex] = '';
     }
 
     public function removeRow(int $index): void
     {
         unset($this->rows[$index]);
+        unset($this->exerciseSearchTerms[$index]);
         $this->rows = array_values($this->rows);
+        $this->exerciseSearchTerms = array_values($this->exerciseSearchTerms);
+    }
+
+    public function selectExercise(int $rowIndex, int $exerciseId): void
+    {
+        $exercise = Exercise::query()->find($exerciseId);
+
+        if (! $exercise instanceof Exercise) {
+            return;
+        }
+
+        $this->rows[$rowIndex]['exerciseId'] = (string) $exerciseId;
+        $this->exerciseSearchTerms[$rowIndex] = $exercise->name;
+
+        // Auto-fill exercise defaults if fields are empty
+        if ($exercise->playerCount && empty($this->rows[$rowIndex]['playerCount'])) {
+            $this->rows[$rowIndex]['playerCount'] = $exercise->playerCount;
+        }
+        if ($exercise->goalkeeperCount !== null && empty($this->rows[$rowIndex]['goalkeeperCount'])) {
+            $this->rows[$rowIndex]['goalkeeperCount'] = $exercise->goalkeeperCount;
+        }
+        if ($exercise->duration !== null && empty($this->rows[$rowIndex]['time'])) {
+            $this->rows[$rowIndex]['time'] = $exercise->duration;
+        }
+    }
+
+    /**
+     * @return Collection<int, Exercise>
+     */
+    public function getFilteredExercises(int $rowIndex): Collection
+    {
+        $searchTerm = $this->exerciseSearchTerms[$rowIndex] ?? '';
+
+        if (strlen($searchTerm) < 1) {
+            return $this->exercises;
+        }
+
+        return $this->exercises->filter(function (Exercise $exercise) use ($searchTerm) {
+            return str_contains(strtolower($exercise->name), strtolower($searchTerm));
+        });
     }
 
     public function save(): RedirectResponse|Redirector

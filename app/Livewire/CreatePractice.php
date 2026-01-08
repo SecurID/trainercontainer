@@ -7,6 +7,7 @@ use App\Models\Practice;
 use App\Models\User;
 use DateTime;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -21,16 +22,16 @@ class CreatePractice extends Component
     /** @var array<int, array<string, mixed>> */
     public array $rows = [];
 
-    public string $searchTerm = '';
+    /** @var array<int, string> */
+    public array $exerciseSearchTerms = [];
 
-    /** @var array<int, array<string, mixed>> */
-    public array $searchResults = [];
-
-    public ?int $activeRowIndex = null;
+    /** @var Collection<int, Exercise> */
+    public Collection $exercises;
 
     public function mount(): void
     {
         $this->date = date('d.m.Y');
+        $this->exercises = Exercise::query()->orderBy('name')->get();
         $this->addRow();
     }
 
@@ -41,56 +42,62 @@ class CreatePractice extends Component
 
     public function addRow(): void
     {
-        $this->rows[] = [
-            'exercise' => '',
+        $newIndex = count($this->rows);
+        $this->rows[$newIndex] = [
             'exerciseId' => '',
             'coaches' => '',
             'playerCount' => '',
             'goalkeeperCount' => '',
             'time' => '',
         ];
+        $this->exerciseSearchTerms[$newIndex] = '';
     }
 
     public function removeRow(int $index): void
     {
         unset($this->rows[$index]);
+        unset($this->exerciseSearchTerms[$index]);
         $this->rows = array_values($this->rows);
+        $this->exerciseSearchTerms = array_values($this->exerciseSearchTerms);
     }
 
-    public function setActiveRow(int $index): void
+    public function selectExercise(int $rowIndex, int $exerciseId): void
     {
-        $this->activeRowIndex = $index;
-    }
+        $exercise = Exercise::query()->find($exerciseId);
 
-    public function search(): void
-    {
-        if (strlen($this->searchTerm) >= 2) {
-            /** @var array<int, array<string, mixed>> $results */
-            $results = Exercise::query()->where('name', 'like', '%'.$this->searchTerm.'%')
-                ->limit(4)
-                ->get()
-                ->toArray();
-            $this->searchResults = $results;
-        } else {
-            $this->searchResults = [];
+        if (! $exercise instanceof Exercise) {
+            return;
+        }
+
+        $this->rows[$rowIndex]['exerciseId'] = (string) $exerciseId;
+        $this->exerciseSearchTerms[$rowIndex] = $exercise->name;
+
+        // Auto-fill exercise defaults if fields are empty
+        if ($exercise->playerCount && empty($this->rows[$rowIndex]['playerCount'])) {
+            $this->rows[$rowIndex]['playerCount'] = $exercise->playerCount;
+        }
+        if ($exercise->goalkeeperCount !== null && empty($this->rows[$rowIndex]['goalkeeperCount'])) {
+            $this->rows[$rowIndex]['goalkeeperCount'] = $exercise->goalkeeperCount;
+        }
+        if ($exercise->duration !== null && empty($this->rows[$rowIndex]['time'])) {
+            $this->rows[$rowIndex]['time'] = $exercise->duration;
         }
     }
 
-    public function selectExercise(int $exerciseId, string $exerciseName): void
+    /**
+     * @return Collection<int, Exercise>
+     */
+    public function getFilteredExercises(int $rowIndex): Collection
     {
-        if ($this->activeRowIndex !== null) {
-            $this->rows[$this->activeRowIndex]['exercise'] = $exerciseName;
-            $this->rows[$this->activeRowIndex]['exerciseId'] = $exerciseId;
-            $this->searchTerm = '';
-            $this->searchResults = [];
-            $this->activeRowIndex = null;
-        }
-    }
+        $searchTerm = $this->exerciseSearchTerms[$rowIndex] ?? '';
 
-    public function updateSearchTerm(string $value): void
-    {
-        $this->searchTerm = $value;
-        $this->search();
+        if (strlen($searchTerm) < 1) {
+            return $this->exercises;
+        }
+
+        return $this->exercises->filter(function (Exercise $exercise) use ($searchTerm) {
+            return str_contains(strtolower($exercise->name), strtolower($searchTerm));
+        });
     }
 
     public function save(): RedirectResponse|Redirector

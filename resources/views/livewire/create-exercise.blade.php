@@ -14,13 +14,14 @@
             </flux:field>
         </div>
 
-        <div class="grid grid-cols-1 mb-4 w-full">
-            <x-multiselect
-                wire:model="categories"
-                :options="$categoriesList->map(fn($c) => ['id' => $c->id, 'name' => __($c->name)])->values()"
-                :placeholder="__('Choose Categories')"
-            />
-        </div>
+        <flux:field class="mb-4">
+            <flux:label>{{ __('Categories') }}</flux:label>
+            <flux:pillbox wire:model="categories" multiple searchable placeholder="{{ __('Choose Categories...') }}">
+                @foreach($categoriesList as $category)
+                    <flux:pillbox.option value="{{ $category->id }}">{{ __($category->name) }}</flux:pillbox.option>
+                @endforeach
+            </flux:pillbox>
+        </flux:field>
 
         <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-4">
             <flux:field class="lg:col-span-3">
@@ -29,23 +30,23 @@
                 <flux:error name="material" />
             </flux:field>
 
-            <div class="flex items-end gap-1 lg:col-span-1">
-                <flux:field class="flex-1">
-                    <flux:label>{{ __('Duration') }}</flux:label>
+            <flux:field class="lg:col-span-1">
+                <flux:label>{{ __('Duration') }}</flux:label>
+                <flux:input.group>
                     <flux:input wire:model.defer="duration" placeholder="{{ __('Duration') }}" />
-                    <flux:error name="duration" />
-                </flux:field>
-                <span class="text-zinc-500 pb-2">{{ __('minutes') }}</span>
-            </div>
+                    <flux:input.group.suffix>{{ __('min') }}</flux:input.group.suffix>
+                </flux:input.group>
+                <flux:error name="duration" />
+            </flux:field>
 
-            <div class="flex items-end gap-1 lg:col-span-1">
-                <flux:field class="flex-1">
-                    <flux:label>{{ __('Intensity') }}</flux:label>
+            <flux:field class="lg:col-span-1">
+                <flux:label>{{ __('Intensity') }}</flux:label>
+                <flux:input.group>
                     <flux:input wire:model.defer="intensity" placeholder="{{ __('Intensity') }}" />
-                    <flux:error name="intensity" />
-                </flux:field>
-                <span class="text-zinc-500 pb-2">%</span>
-            </div>
+                    <flux:input.group.suffix>%</flux:input.group.suffix>
+                </flux:input.group>
+                <flux:error name="intensity" />
+            </flux:field>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-4">

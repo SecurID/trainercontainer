@@ -54,20 +54,6 @@ it('loads existing ratings on mount', function () {
     expect($component->get('ratings')[$this->player->id])->toBe(8);
 });
 
-it('starts collapsed by default', function () {
-    Livewire::test(PracticeRatingsTable::class, ['practice' => $this->practice])
-        ->assertSet('isCollapsed', true);
-});
-
-it('can toggle collapse state', function () {
-    Livewire::test(PracticeRatingsTable::class, ['practice' => $this->practice])
-        ->assertSet('isCollapsed', true)
-        ->call('toggleCollapse')
-        ->assertSet('isCollapsed', false)
-        ->call('toggleCollapse')
-        ->assertSet('isCollapsed', true);
-});
-
 it('clears rating when marking as not attended', function () {
     Livewire::test(PracticeRatingsTable::class, ['practice' => $this->practice])
         ->set('ratings', [$this->player->id => 7])

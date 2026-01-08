@@ -1,24 +1,6 @@
 <div>
-    <div class="mt-4 flex items-center justify-between">
-        <button wire:click="toggleCollapse"
-                class="flex w-full justify-between space-x-2 px-4 py-2 bg-bg-secondary hover:bg-bg-tertiary rounded-lg transition-colors duration-200">
-            <h2 class="text-xl font-bold text-text-primary">Spieler:innenbewertungen</h2>
-            <div class="flex items-center space-x-2">
-                <span class="text-sm font-medium">
-                    {{ $isCollapsed ? 'Anzeigen' : 'Ausblenden' }}
-                </span>
-                <svg class="w-4 h-4 transform transition-transform duration-200 {{ $isCollapsed ? 'rotate-180' : '' }}"
-                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-            </div>
-        </button>
-    </div>
-
-    <!-- Collapsible Content -->
-    <div class="transition-all duration-300 ease-in-out {{ $isCollapsed ? 'max-h-0 overflow-hidden opacity-0' : 'max-h-none opacity-100' }}">
-        <!-- Unified Responsive Player Cards -->
-        <div class="mt-4 space-y-3">
+    <!-- Player Cards -->
+    <div class="space-y-3">
             @foreach($players as $index => $player)
                 <div class="bg-bg-primary border border-border-light rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
                     <!-- Player Header -->
@@ -66,28 +48,21 @@
             @endforeach
         </div>
 
-        <!-- Save Section -->
-        <div class="mt-6 space-y-4">
-            @if($success)
-                <div class="p-4 bg-primary-100 text-primary-800 rounded-lg text-center border border-primary-200">
-                    <div class="flex items-center justify-center space-x-2">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                        </svg>
-                        <span class="font-medium">Bewertungen wurden erfolgreich gespeichert!</span>
-                    </div>
-                </div>
-            @endif
-
-            <button wire:click="saveRatings"
-                    class="w-full px-6 py-4 bg-primary-500 text-text-inverse text-lg font-semibold rounded-lg hover:bg-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-300 transition-all duration-200 shadow-md hover:shadow-lg">
+    <!-- Save Section -->
+    <div class="mt-6 space-y-4">
+        @if($success)
+            <div class="p-4 bg-primary-100 text-primary-800 rounded-lg text-center border border-primary-200">
                 <div class="flex items-center justify-center space-x-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                     </svg>
-                    <span>Bewertungen speichern</span>
+                    <span class="font-medium">{{ __('Ratings saved successfully!') }}</span>
                 </div>
-            </button>
-        </div>
+            </div>
+        @endif
+
+        <flux:button wire:click="saveRatings" variant="primary" class="w-full" icon="check">
+            {{ __('Save Ratings') }}
+        </flux:button>
     </div>
 </div>

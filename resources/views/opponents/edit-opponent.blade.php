@@ -1,45 +1,35 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center">
+        <div class="flex items-center gap-3">
             <x-back-button></x-back-button>
-            <h2 class="ml-2 text-xl font-semibold leading-tight text-gray-800">
-                {{ __('Edit Opponent') }}
-            </h2>
+            <flux:heading size="xl">{{ __('Edit Opponent') }}</flux:heading>
         </div>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
+            <flux:card>
                 <form action="{{ route('opponents.update', $opponent->id) }}" method="POST">
                     @csrf
                     @method('PUT')
 
-                    <div>
-                        <x-label for="name" value="{{ __('Name') }}" />
-                        <x-input id="name" class="block mt-1 w-full" type="text" name="name"
-                                value="{{ old('name', $opponent->name) }}" required />
-                        @error('name')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
+                    <div class="space-y-6">
+                        <flux:field>
+                            <flux:label>{{ __('Name') }}</flux:label>
+                            <flux:input name="name" value="{{ old('name', $opponent->name) }}" placeholder="{{ __('Opponent name') }}" required />
+                            <flux:error name="name" />
+                        </flux:field>
 
-                    <div class="mt-6">
-                        <x-label for="notes" value="{{ __('Notes') }}" />
-                        <textarea id="notes" name="notes" rows="4"
-                                class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">{{ old('notes', $opponent->notes) }}</textarea>
-                        @error('notes')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
+                        <flux:editor name="notes" label="{{ __('Notes') }}" placeholder="{{ __('Notes about the opponent') }}" :value="old('notes', $opponent->notes)" />
                     </div>
 
                     <div class="flex items-center justify-end mt-6">
-                        <x-button class="ml-4">
+                        <flux:button type="submit" variant="primary">
                             {{ __('Update Opponent') }}
-                        </x-button>
+                        </flux:button>
                     </div>
                 </form>
-            </div>
+            </flux:card>
         </div>
     </div>
 </x-app-layout>

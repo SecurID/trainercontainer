@@ -7,7 +7,6 @@ use App\Models\Practice;
 use App\Models\Schedule;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class PracticeScheduleBuilder extends Component
@@ -17,16 +16,11 @@ class PracticeScheduleBuilder extends Component
     /** @var array<int, array<string, mixed>> */
     public array $scheduleRows = [];
 
-    /** @var array<int, Collection<int, Exercise>> */
-    public array $availableExercises = [];
-
     /** @var array<int, string> */
     public array $exerciseSearchTerms = [];
 
-    /** @var array<int, bool> */
-    public array $showExerciseDropdowns = [];
-
-    public bool $isCollapsed = true;
+    /** @var Collection<int, Exercise> */
+    public Collection $exercises;
 
     public string $successMessage = '';
 
@@ -42,6 +36,7 @@ class PracticeScheduleBuilder extends Component
     public function mount(Practice $practice): void
     {
         $this->practice = $practice;
+        $this->exercises = Exercise::query()->orderBy('name')->get();
         $this->loadExistingSchedules();
 
         if (empty($this->scheduleRows)) {
@@ -56,15 +51,13 @@ class PracticeScheduleBuilder extends Component
         foreach ($schedules as $index => $schedule) {
             $this->scheduleRows[$index] = [
                 'id' => $schedule->id,
-                'exercise_id' => $schedule->exercise_id,
-                'exercise_name' => $schedule->exercise?->name ?? '',
+                'exercise_id' => (string) $schedule->exercise_id,
                 'playerCount' => $schedule->playerCount,
                 'goalkeeperCount' => $schedule->goalkeeperCount,
                 'time' => $schedule->time,
                 'coaches' => $schedule->coaches,
             ];
             $this->exerciseSearchTerms[$index] = $schedule->exercise?->name ?? '';
-            $this->showExerciseDropdowns[$index] = false;
         }
     }
 
@@ -73,15 +66,13 @@ class PracticeScheduleBuilder extends Component
         $newIndex = count($this->scheduleRows);
         $this->scheduleRows[$newIndex] = [
             'id' => null,
-            'exercise_id' => null,
-            'exercise_name' => '',
+            'exercise_id' => '',
             'playerCount' => null,
             'goalkeeperCount' => 0,
             'time' => '',
             'coaches' => '',
         ];
         $this->exerciseSearchTerms[$newIndex] = '';
-        $this->showExerciseDropdowns[$newIndex] = false;
     }
 
     public function removeRow(int $index): void
@@ -95,56 +86,10 @@ class PracticeScheduleBuilder extends Component
 
         unset($this->scheduleRows[$index]);
         unset($this->exerciseSearchTerms[$index]);
-        unset($this->showExerciseDropdowns[$index]);
-        unset($this->availableExercises[$index]);
-
         $this->scheduleRows = array_values($this->scheduleRows);
         $this->exerciseSearchTerms = array_values($this->exerciseSearchTerms);
-        $this->showExerciseDropdowns = array_values($this->showExerciseDropdowns);
 
         $this->showSuccessMessage('Eintrag entfernt!');
-    }
-
-    public function updateExerciseSearch(int $rowIndex, string $searchTerm): void
-    {
-        $this->exerciseSearchTerms[$rowIndex] = $searchTerm;
-
-        if (strlen($searchTerm) >= 1) {
-            $this->availableExercises[$rowIndex] = Exercise::query()->where(function ($query) use ($searchTerm): void {
-                $query->where('name', 'like', "%{$searchTerm}%")
-                    ->orWhere('focus', 'like', "%{$searchTerm}%");
-            })
-                ->orderBy('name')
-                ->limit(10)
-                ->get();
-
-            $this->showExerciseDropdowns[$rowIndex] = $this->availableExercises[$rowIndex]->count() > 0;
-        } else {
-            $this->showExerciseDropdowns[$rowIndex] = false;
-            $this->availableExercises[$rowIndex] = new Collection;
-        }
-    }
-
-    public function updatedExerciseSearchTerms(string $value, string $key): void
-    {
-        $this->updateExerciseSearch((int) $key, $value);
-    }
-
-    public function showExerciseDropdown(int $rowIndex): void
-    {
-        // Show all exercises when input gets focus
-        $this->availableExercises[$rowIndex] = Exercise::query()->where('user_id', Auth::id())
-            ->orderBy('name')
-            ->limit(10)
-            ->get();
-
-        $this->showExerciseDropdowns[$rowIndex] = $this->availableExercises[$rowIndex]->count() > 0;
-    }
-
-    public function hideExerciseDropdown(int $rowIndex): void
-    {
-        // Use a delay to allow for clicking on dropdown items
-        $this->showExerciseDropdowns[$rowIndex] = false;
     }
 
     public function selectExercise(int $rowIndex, int $exerciseId): void
@@ -155,10 +100,10 @@ class PracticeScheduleBuilder extends Component
             return;
         }
 
-        $this->scheduleRows[$rowIndex]['exercise_id'] = $exerciseId;
-        $this->scheduleRows[$rowIndex]['exercise_name'] = $exercise->name;
-        $this->exerciseSearchTerms[$rowIndex] = $exercise->name ?? '';
+        $this->scheduleRows[$rowIndex]['exercise_id'] = (string) $exerciseId;
+        $this->exerciseSearchTerms[$rowIndex] = $exercise->name;
 
+        // Auto-fill exercise defaults if fields are empty
         if ($exercise->playerCount && ! $this->scheduleRows[$rowIndex]['playerCount']) {
             $this->scheduleRows[$rowIndex]['playerCount'] = $exercise->playerCount;
         }
@@ -169,7 +114,35 @@ class PracticeScheduleBuilder extends Component
             $this->scheduleRows[$rowIndex]['time'] = $exercise->duration;
         }
 
-        $this->showExerciseDropdowns[$rowIndex] = false;
+        $this->saveScheduleRow($rowIndex);
+    }
+
+    public function updatedScheduleRowsExerciseId(string $value, string $key): void
+    {
+        $rowIndex = (int) $key;
+        $exerciseId = (int) $value;
+
+        if ($exerciseId <= 0) {
+            return;
+        }
+
+        $exercise = Exercise::query()->find($exerciseId);
+
+        if (! $exercise instanceof Exercise) {
+            return;
+        }
+
+        // Auto-fill exercise defaults if fields are empty
+        if ($exercise->playerCount && ! $this->scheduleRows[$rowIndex]['playerCount']) {
+            $this->scheduleRows[$rowIndex]['playerCount'] = $exercise->playerCount;
+        }
+        if ($exercise->goalkeeperCount !== null && ! $this->scheduleRows[$rowIndex]['goalkeeperCount']) {
+            $this->scheduleRows[$rowIndex]['goalkeeperCount'] = $exercise->goalkeeperCount;
+        }
+        if ($exercise->duration !== null && ! $this->scheduleRows[$rowIndex]['time']) {
+            $this->scheduleRows[$rowIndex]['time'] = $exercise->duration;
+        }
+
         $this->saveScheduleRow($rowIndex);
     }
 
@@ -239,15 +212,26 @@ class PracticeScheduleBuilder extends Component
         }
     }
 
-    public function toggleCollapse(): void
-    {
-        $this->isCollapsed = ! $this->isCollapsed;
-    }
-
     private function showSuccessMessage(string $message): void
     {
         $this->successMessage = $message;
         $this->dispatch('success-message');
+    }
+
+    /**
+     * @return Collection<int, Exercise>
+     */
+    public function getFilteredExercises(int $rowIndex): Collection
+    {
+        $searchTerm = $this->exerciseSearchTerms[$rowIndex] ?? '';
+
+        if (strlen($searchTerm) < 1) {
+            return $this->exercises;
+        }
+
+        return $this->exercises->filter(function (Exercise $exercise) use ($searchTerm) {
+            return str_contains(strtolower($exercise->name), strtolower($searchTerm));
+        });
     }
 
     public function render(): View

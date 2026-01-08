@@ -26,12 +26,11 @@
 
         <flux:field>
             <flux:label>{{ __('Sub Positions') }}</flux:label>
-            <flux:select wire:model="sub_position_ids" multiple placeholder="{{ __('Select sub positions') }}">
+            <flux:pillbox wire:model="sub_position_ids" multiple searchable placeholder="{{ __('Select sub positions...') }}">
                 @foreach($positions as $position)
-                    <flux:select.option value="{{ $position->id }}">{{ $position->name }} ({{ $position->abbreviation }})</flux:select.option>
+                    <flux:pillbox.option value="{{ $position->id }}">{{ $position->name }} ({{ $position->abbreviation }})</flux:pillbox.option>
                 @endforeach
-            </flux:select>
-            <flux:description>{{ __('Hold Ctrl/Cmd to select multiple positions') }}</flux:description>
+            </flux:pillbox>
             <flux:error name="sub_position_ids" />
         </flux:field>
     </div>

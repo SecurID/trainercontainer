@@ -13,23 +13,33 @@ beforeEach(function () {
 });
 
 it('displays practices index', function () {
-    Practice::factory()->count(3)->create(['user_id' => $this->user->id]);
+    Practice::factory()->count(3)->create([
+        'user_id' => $this->user->id,
+        'date' => now()->addDays(1),
+    ]);
 
     $response = $this->actingAs($this->user)->get(route('practices.index'));
 
     $response->assertStatus(200);
     $response->assertViewIs('practices.practices');
-    $response->assertViewHas('practices', fn ($practices) => $practices->count() === 3);
+    $response->assertViewHas('upcomingPractices', fn ($practices) => $practices->count() === 3);
+    $response->assertViewHas('pastPractices');
 });
 
 it('only shows practices for authenticated user', function () {
     $otherUser = User::factory()->create();
-    Practice::factory()->count(2)->create(['user_id' => $this->user->id]);
-    Practice::factory()->count(3)->create(['user_id' => $otherUser->id]);
+    Practice::factory()->count(2)->create([
+        'user_id' => $this->user->id,
+        'date' => now()->addDays(1),
+    ]);
+    Practice::factory()->count(3)->create([
+        'user_id' => $otherUser->id,
+        'date' => now()->addDays(1),
+    ]);
 
     $response = $this->actingAs($this->user)->get(route('practices.index'));
 
-    $response->assertViewHas('practices', fn ($practices) => $practices->count() === 2);
+    $response->assertViewHas('upcomingPractices', fn ($practices) => $practices->count() === 2);
 });
 
 it('displays create practice form', function () {
@@ -183,14 +193,26 @@ it('denies delete for other users practice', function () {
     $response->assertStatus(403);
 });
 
-it('orders practices by date', function () {
-    Practice::factory()->create(['user_id' => $this->user->id, 'date' => '2025-03-01']);
-    Practice::factory()->create(['user_id' => $this->user->id, 'date' => '2025-01-01']);
-    Practice::factory()->create(['user_id' => $this->user->id, 'date' => '2025-02-01']);
+it('orders upcoming practices by date ascending', function () {
+    Practice::factory()->create(['user_id' => $this->user->id, 'date' => now()->addDays(30)]);
+    Practice::factory()->create(['user_id' => $this->user->id, 'date' => now()->addDays(10)]);
+    Practice::factory()->create(['user_id' => $this->user->id, 'date' => now()->addDays(20)]);
 
     $response = $this->actingAs($this->user)->get(route('practices.index'));
 
-    $practices = $response->viewData('practices');
-    expect($practices->first()->date->format('Y-m-d'))->toBe('2025-01-01');
-    expect($practices->last()->date->format('Y-m-d'))->toBe('2025-03-01');
+    $upcomingPractices = $response->viewData('upcomingPractices');
+    expect($upcomingPractices->first()->date->format('Y-m-d'))->toBe(now()->addDays(10)->format('Y-m-d'));
+    expect($upcomingPractices->last()->date->format('Y-m-d'))->toBe(now()->addDays(30)->format('Y-m-d'));
+});
+
+it('orders past practices by date descending', function () {
+    Practice::factory()->create(['user_id' => $this->user->id, 'date' => now()->subDays(30)]);
+    Practice::factory()->create(['user_id' => $this->user->id, 'date' => now()->subDays(10)]);
+    Practice::factory()->create(['user_id' => $this->user->id, 'date' => now()->subDays(20)]);
+
+    $response = $this->actingAs($this->user)->get(route('practices.index'));
+
+    $pastPractices = $response->viewData('pastPractices');
+    expect($pastPractices->first()->date->format('Y-m-d'))->toBe(now()->subDays(10)->format('Y-m-d'));
+    expect($pastPractices->last()->date->format('Y-m-d'))->toBe(now()->subDays(30)->format('Y-m-d'));
 });

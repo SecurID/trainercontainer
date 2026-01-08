@@ -1,14 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
+        <div class="lg:flex sm:space-y-2 justify-between items-center block">
             <flux:heading size="xl">
                 {{ __('Players') }}
             </flux:heading>
             <div class="flex gap-2">
-                <flux:button href="{{ route('players.position-analysis') }}" variant="subtle">
+                <flux:button href="{{ route('players.position-analysis') }}" variant="subtle" icon="chart-bar">
                     {{ __('Position Analysis') }}
                 </flux:button>
-                <flux:button href="/players/create" variant="primary">
+                <flux:button href="{{ route('players.create') }}" variant="primary" icon="user-plus">
                     {{ __('Create Player') }}
                 </flux:button>
             </div>
@@ -17,11 +17,9 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="p-4">
-                    <livewire:players-list />
-                </div>
-            </div>
+            <flux:card>
+                <livewire:players-list />
+            </flux:card>
         </div>
     </div>
 </x-app-layout>

@@ -1,67 +1,80 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex flex-wrap">
-            <div class="w-full">
-                <flux:heading size="xl">
-                    {{ __('Dashboard') }}
-                </flux:heading>
-            </div>
-        </div>
+        <flux:heading size="xl">
+            {{ __('Dashboard') }}
+        </flux:heading>
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-10">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            <!-- Next Practice -->
+            <flux:card>
                 <flux:heading size="lg" class="mb-4">{{ __('Next Practice') }}</flux:heading>
                 @if(!$nextPractice)
-                    <flux:text class="text-zinc-600">{{ __('No upcoming practices scheduled.') }}</flux:text>
+                    <flux:text class="text-zinc-500">{{ __('No upcoming practices scheduled.') }}</flux:text>
                 @else
-                    <flux:link href="{{ route('practices.show', $nextPractice) }}">
-                        {{ $nextPractice->date->format('d.m.Y') }} - {{ $nextPractice->topic }}
-                    </flux:link>
+                    <div class="flex items-center gap-3">
+                        <flux:icon.calendar class="size-5 text-zinc-400" />
+                        <flux:link href="{{ route('practices.show', $nextPractice) }}">
+                            {{ $nextPractice->date->format('d.m.Y') }} - {{ $nextPractice->topic }}
+                        </flux:link>
+                    </div>
                 @endif
-            </div>
+            </flux:card>
 
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
+            <!-- Common Actions -->
+            <flux:card>
                 <flux:heading size="lg" class="mb-4">{{ __('Common actions') }}</flux:heading>
                 <div class="flex flex-wrap gap-2">
-                    <flux:button href="{{ route('players.create') }}" variant="primary">
+                    <flux:button href="{{ route('players.create') }}" variant="primary" icon="user-plus">
                         {{ __('Create Player') }}
                     </flux:button>
-                    <flux:button href="{{ route('exercises.create') }}" variant="primary">
+                    <flux:button href="{{ route('exercises.create') }}" variant="primary" icon="clipboard-document-list">
                         {{ __('Create Exercise') }}
                     </flux:button>
-                    <flux:button href="{{ route('practices.create') }}" variant="primary">
+                    <flux:button href="{{ route('practices.create') }}" variant="primary" icon="calendar-days">
                         {{ __('Create Practice') }}
                     </flux:button>
                 </div>
-            </div>
+            </flux:card>
 
+            <!-- Onboarding Guide -->
             @if(!$player OR !$exercise OR !$practice)
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4">
-                <flux:heading size="lg" class="mb-4">{{ __('Onboarding Guide') }}</flux:heading>
+                <flux:card>
+                    <flux:heading size="lg" class="mb-4">{{ __('Onboarding Guide') }}</flux:heading>
 
-                <ul class="space-y-1 text-zinc-500 list-inside text-lg">
-                    <li class="flex items-center">
-                        <svg @class(['text-zinc-400' => ! $player, 'text-green-500' => $player, 'w-3.5', 'h-3.5', 'me-2', 'flex-shrink-0']) aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
-                        </svg>
-                        {{ __('Create your first player') }}
-                    </li>
-                    <li class="flex items-center">
-                        <svg @class(['text-zinc-400' => ! $exercise, 'text-green-500' => $exercise, 'w-3.5', 'h-3.5', 'me-2', 'flex-shrink-0']) aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
-                        </svg>
-                        {{ __('Create your first exercise') }}
-                    </li>
-                    <li class="flex items-center">
-                        <svg @class(['text-zinc-400' => ! $practice, 'text-green-500' => $practice, 'w-3.5', 'h-3.5', 'me-2', 'flex-shrink-0']) aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
-                        </svg>
-                        {{ __('Create your first practice') }}
-                    </li>
-                </ul>
-            </div>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3">
+                            @if($player)
+                                <flux:icon.check-circle variant="solid" class="size-5 text-green-500" />
+                                <flux:text class="text-zinc-600 dark:text-zinc-400">{{ __('Create your first player') }}</flux:text>
+                            @else
+                                <flux:icon.check-circle class="size-5 text-zinc-300 dark:text-zinc-600" />
+                                <flux:link href="{{ route('players.create') }}">{{ __('Create your first player') }}</flux:link>
+                            @endif
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            @if($exercise)
+                                <flux:icon.check-circle variant="solid" class="size-5 text-green-500" />
+                                <flux:text class="text-zinc-600 dark:text-zinc-400">{{ __('Create your first exercise') }}</flux:text>
+                            @else
+                                <flux:icon.check-circle class="size-5 text-zinc-300 dark:text-zinc-600" />
+                                <flux:link href="{{ route('exercises.create') }}">{{ __('Create your first exercise') }}</flux:link>
+                            @endif
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            @if($practice)
+                                <flux:icon.check-circle variant="solid" class="size-5 text-green-500" />
+                                <flux:text class="text-zinc-600 dark:text-zinc-400">{{ __('Create your first practice') }}</flux:text>
+                            @else
+                                <flux:icon.check-circle class="size-5 text-zinc-300 dark:text-zinc-600" />
+                                <flux:link href="{{ route('practices.create') }}">{{ __('Create your first practice') }}</flux:link>
+                            @endif
+                        </div>
+                    </div>
+                </flux:card>
             @endif
         </div>
     </div>

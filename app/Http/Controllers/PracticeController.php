@@ -21,11 +21,24 @@ class PracticeController extends Controller
     {
         /** @var User $user */
         $user = Auth::user();
-        $practices = Practice::query()->where('user_id', $user->id)
+        $today = now()->startOfDay();
+
+        $upcomingPractices = Practice::query()
+            ->where('user_id', $user->id)
+            ->where('date', '>=', $today)
             ->orderBy('date')
             ->get();
 
-        return response()->view('practices/practices', ['practices' => $practices]);
+        $pastPractices = Practice::query()
+            ->where('user_id', $user->id)
+            ->where('date', '<', $today)
+            ->orderBy('date', 'desc')
+            ->get();
+
+        return response()->view('practices/practices', [
+            'upcomingPractices' => $upcomingPractices,
+            'pastPractices' => $pastPractices,
+        ]);
     }
 
     public function create(): Response

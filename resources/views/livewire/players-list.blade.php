@@ -1,25 +1,48 @@
 <div>
     <div class="mb-4">
-        <input 
-            type="text" 
-            wire:model.live="search" 
-            placeholder="{{ __('Search players...') }}" 
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+        <flux:input
+            wire:model.live="search"
+            placeholder="{{ __('Search players...') }}"
+            icon="magnifying-glass"
         />
     </div>
 
-    <div>
-        @if(count($players) === 0)
-            @if(empty($search))
-                <p class="p-2">{{ __('No players found.') }} {{ __('Create one by clicking on "Create Player".') }}</p>
-            @else
-                <p class="p-2">{{ __('No players found matching your search.') }}</p>
-            @endif
+    @if(count($players) === 0)
+        @if(empty($search))
+            <flux:text class="text-zinc-500">{{ __('No players found.') }} {{ __('Create one by clicking on "Create Player".') }}</flux:text>
+        @else
+            <flux:text class="text-zinc-500">{{ __('No players found matching your search.') }}</flux:text>
         @endif
-        @foreach($players as $player)
-            <a href="{{ route('players.show', $player->id) }}" class="block px-4 py-2 mt-2 bg-gray-100 rounded hover:bg-gray-200">
-                {{ $player->lastname }}, {{ $player->prename }}
-            </a>
-        @endforeach
-    </div>
+    @else
+        <flux:table>
+            <flux:table.columns>
+                <flux:table.column>{{ __('Name') }}</flux:table.column>
+                <flux:table.column>{{ __('Position') }}</flux:table.column>
+                <flux:table.column></flux:table.column>
+            </flux:table.columns>
+            <flux:table.rows>
+                @foreach($players as $player)
+                    <flux:table.row :key="$player->id">
+                        <flux:table.cell>
+                            <flux:link href="{{ route('players.show', $player->id) }}">
+                                {{ $player->lastname }}, {{ $player->prename }}
+                            </flux:link>
+                        </flux:table.cell>
+                        <flux:table.cell>
+                            @if($player->mainPosition)
+                                <flux:badge color="zinc" size="sm">{{ $player->mainPosition->abbreviation }}</flux:badge>
+                            @else
+                                <flux:text class="text-zinc-400">-</flux:text>
+                            @endif
+                        </flux:table.cell>
+                        <flux:table.cell>
+                            <div class="flex justify-end">
+                                <flux:button href="{{ route('players.show', $player->id) }}" variant="ghost" size="sm" icon="eye" />
+                            </div>
+                        </flux:table.cell>
+                    </flux:table.row>
+                @endforeach
+            </flux:table.rows>
+        </flux:table>
+    @endif
 </div>

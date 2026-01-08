@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
+        <div class="lg:flex sm:space-y-2 justify-between items-center block">
             <flux:heading size="xl">
                 {{ __('Exercises') }}
             </flux:heading>
-            <div>
-                <flux:button href="/exercises/create" variant="primary">
+            <div class="flex gap-2">
+                <flux:button href="{{ route('exercises.create') }}" variant="primary" icon="plus">
                     {{ __('Create Exercise') }}
                 </flux:button>
             </div>
@@ -14,9 +14,9 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
-                <livewire:exercises-filter></livewire:exercises-filter>
-            </div>
+            <flux:card>
+                <livewire:exercises-filter />
+            </flux:card>
         </div>
     </div>
 </x-app-layout>

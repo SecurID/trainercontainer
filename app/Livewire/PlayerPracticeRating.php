@@ -44,7 +44,7 @@ class PlayerPracticeRating extends Component
             ]
         );
         $this->ratingId = $rating->id;
-        session()->flash('success', 'Bewertung gespeichert!');
+        session()->flash('success', __('messages.rating_saved'));
     }
 
     public function render(): View

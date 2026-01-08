@@ -52,7 +52,7 @@ class CreateRating extends Component
                 'date' => $practice?->date,
             ]);
         }
-        session()->flash('success', 'Bewertungen gespeichert!');
+        session()->flash('success', __('messages.ratings_saved'));
 
         return redirect()->route('players.index');
     }

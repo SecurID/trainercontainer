@@ -71,7 +71,7 @@ class EditPractice extends Component
 
     private function showSuccessMessage(): void
     {
-        $this->successMessage = 'Gespeichert!';
+        $this->successMessage = __('messages.saved');
     }
 
     public function clearSuccessMessage(): void

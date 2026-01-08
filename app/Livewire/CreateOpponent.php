@@ -26,7 +26,7 @@ class CreateOpponent extends Component
             'notes' => $this->notes,
         ]);
 
-        session()->flash('message', 'Opponent created successfully.');
+        session()->flash('message', __('messages.opponent_created'));
 
         $this->reset(['name', 'notes']);
     }

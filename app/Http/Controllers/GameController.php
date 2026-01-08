@@ -66,7 +66,7 @@ class GameController extends Controller
         ]);
         $game->save();
 
-        return redirect()->route('games.index')->with('success-message', 'Game created successfully!');
+        return redirect()->route('games.index')->with('success-message', __('messages.game_created'));
     }
 
     /**
@@ -120,7 +120,7 @@ class GameController extends Controller
 
         $game->update($data);
 
-        return redirect()->route('games.index')->with('success-message', 'Game updated successfully!');
+        return redirect()->route('games.index')->with('success-message', __('messages.game_updated'));
     }
 
     /**
@@ -132,6 +132,6 @@ class GameController extends Controller
 
         $game->delete();
 
-        return redirect()->route('games.index')->with('success-message', 'Game successfully deleted!');
+        return redirect()->route('games.index')->with('success-message', __('messages.game_deleted'));
     }
 }

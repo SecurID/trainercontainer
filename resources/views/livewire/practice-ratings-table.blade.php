@@ -19,14 +19,14 @@
                                        wire:model.live="attendances.{{ $player->id }}"
                                        value="1"
                                        class="w-4 h-4 text-error-red border-border-default rounded focus:ring-error-red">
-                                <span class="text-sm font-medium text-text-primary">Nicht anwesend</span>
+                                <span class="text-sm font-medium text-text-primary">{{ __('messages.not_attended') }}</span>
                             </label>
                         </div>
                     </div>
 
                     <!-- Rating Section -->
                     <div class="space-y-3">
-                        <div class="text-sm font-medium text-text-primary">Bewertung:</div>
+                        <div class="text-sm font-medium text-text-primary">{{ __('messages.rating') }}</div>
                         <div class="grid grid-cols-5 gap-2 sm:gap-3">
                             @for($i = 1; $i <= 5; $i++)
                                 <label class="cursor-pointer group">
@@ -56,13 +56,13 @@
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                     </svg>
-                    <span class="font-medium">{{ __('Ratings saved successfully!') }}</span>
+                    <span class="font-medium">{{ __('messages.ratings_saved_success') }}</span>
                 </div>
             </div>
         @endif
 
         <flux:button wire:click="saveRatings" variant="primary" class="w-full" icon="check">
-            {{ __('Save Ratings') }}
+            {{ __('messages.save_ratings') }}
         </flux:button>
     </div>
 </div>

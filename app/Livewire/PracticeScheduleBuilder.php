@@ -89,7 +89,7 @@ class PracticeScheduleBuilder extends Component
         $this->scheduleRows = array_values($this->scheduleRows);
         $this->exerciseSearchTerms = array_values($this->exerciseSearchTerms);
 
-        $this->showSuccessMessage('Eintrag entfernt!');
+        $this->showSuccessMessage(__('messages.entry_removed'));
     }
 
     public function selectExercise(int $rowIndex, int $exerciseId): void
@@ -160,7 +160,7 @@ class PracticeScheduleBuilder extends Component
     public function saveScheduleRow(int $rowIndex): void
     {
         if (! isset($this->scheduleRows[$rowIndex])) {
-            $this->showSuccessMessage('Fehler: Zeile nicht gefunden');
+            $this->showSuccessMessage(__('messages.error_row_not_found'));
 
             return;
         }
@@ -169,17 +169,17 @@ class PracticeScheduleBuilder extends Component
 
         // Check required fields
         if (empty($row['exercise_id'])) {
-            $this->showSuccessMessage('Fehler: Übung fehlt');
+            $this->showSuccessMessage(__('messages.error_exercise_missing'));
 
             return;
         }
         if (empty($row['playerCount'])) {
-            $this->showSuccessMessage('Fehler: Spieler:innenanzahl fehlt');
+            $this->showSuccessMessage(__('messages.error_player_count_missing'));
 
             return;
         }
         if (empty($row['time'])) {
-            $this->showSuccessMessage('Fehler: Zeit fehlt');
+            $this->showSuccessMessage(__('messages.error_time_missing'));
 
             return;
         }
@@ -198,17 +198,17 @@ class PracticeScheduleBuilder extends Component
                 $schedule = Schedule::query()->find($row['id']);
                 if ($schedule instanceof Schedule) {
                     $schedule->update($scheduleData);
-                    $this->showSuccessMessage('Aktualisiert!');
+                    $this->showSuccessMessage(__('messages.updated'));
                 } else {
-                    $this->showSuccessMessage('Fehler: Eintrag nicht gefunden');
+                    $this->showSuccessMessage(__('messages.error_entry_not_found'));
                 }
             } else {
                 $schedule = Schedule::create($scheduleData);
                 $this->scheduleRows[$rowIndex]['id'] = $schedule->id;
-                $this->showSuccessMessage('Neu gespeichert!');
+                $this->showSuccessMessage(__('messages.new_saved'));
             }
         } catch (\Exception $e) {
-            $this->showSuccessMessage('Fehler beim Speichern: '.$e->getMessage());
+            $this->showSuccessMessage(__('messages.error_saving', ['message' => $e->getMessage()]));
         }
     }
 

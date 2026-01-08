@@ -2,7 +2,7 @@
     <!-- Strongly Negative -->
     <label class="group relative cursor-pointer rating-option">
         <input type="radio" name="rating{{$player->id}}" class="hidden"
-               autocomplete="off" value="1" aria-label="Strongly negative"
+               autocomplete="off" value="1" aria-label="{{ __('messages.rating_strongly_negative') }}"
                wire:model.live="ratings.{{$player->id}}">
         <span
             class="inline-flex items-center px-3 py-1 rounded-full bg-red-600 text-white transition-opacity duration-150 {{ (isset($ratings[$player->id]) && $ratings[$player->id] == 1) ? '' : 'opacity-50' }}">
@@ -14,13 +14,13 @@
             </svg>
         </span>
         <span
-            class="absolute bottom-full mb-2 hidden w-auto p-2 text-xs text-white bg-black rounded-md shadow-lg">Strongly Negative</span>
+            class="absolute bottom-full mb-2 hidden w-auto p-2 text-xs text-white bg-black rounded-md shadow-lg">{{ __('messages.rating_strongly_negative') }}</span>
     </label>
 
     <!-- Negative -->
     <label class="group relative cursor-pointer rating-option">
         <input type="radio" name="rating{{$player->id}}" class="hidden"
-               autocomplete="off" value="2" aria-label="Negative"
+               autocomplete="off" value="2" aria-label="{{ __('messages.rating_negative') }}"
                wire:model.live="ratings.{{$player->id}}">
         <span
             class="inline-flex items-center px-3 py-1 rounded-full bg-red-400 text-white transition-opacity duration-150 {{ (isset($ratings[$player->id]) && $ratings[$player->id] == 2) ? '' : 'opacity-50' }}">
@@ -41,13 +41,13 @@
             </svg>
         </span>
         <span
-            class="absolute bottom-full mb-2 hidden w-auto p-2 text-xs text-white bg-black rounded-md shadow-lg">Negative</span>
+            class="absolute bottom-full mb-2 hidden w-auto p-2 text-xs text-white bg-black rounded-md shadow-lg">{{ __('messages.rating_negative') }}</span>
     </label>
 
     <!-- Neutral -->
     <label class="group relative cursor-pointer rating-option">
         <input type="radio" name="rating{{$player->id}}" class="hidden"
-               autocomplete="off" value="3" aria-label="Neutral"
+               autocomplete="off" value="3" aria-label="{{ __('messages.rating_neutral') }}"
                wire:model.live="ratings.{{$player->id}}">
         <span
             class="inline-flex items-center px-3 py-1 rounded-full bg-yellow-500 text-white transition-opacity duration-150 {{ (isset($ratings[$player->id]) && $ratings[$player->id] == 3) ? '' : 'opacity-50' }}">
@@ -69,13 +69,13 @@
 
         </span>
         <span
-            class="absolute bottom-full mb-2 hidden w-auto p-2 text-xs text-white bg-black rounded-md shadow-lg">Neutral</span>
+            class="absolute bottom-full mb-2 hidden w-auto p-2 text-xs text-white bg-black rounded-md shadow-lg">{{ __('messages.rating_neutral') }}</span>
     </label>
 
     <!-- Positive -->
     <label class="group relative cursor-pointer rating-option">
         <input type="radio" name="rating{{$player->id}}" class="hidden"
-               autocomplete="off" value="4" aria-label="Positive"
+               autocomplete="off" value="4" aria-label="{{ __('messages.rating_positive') }}"
                wire:model.live="ratings.{{$player->id}}">
         <span
             class="inline-flex items-center px-3 py-1 rounded-full bg-green-400 text-white transition-opacity duration-150 {{ (isset($ratings[$player->id]) && $ratings[$player->id] == 4) ? '' : 'opacity-50' }}">
@@ -96,13 +96,13 @@
             </svg>
         </span>
         <span
-            class="absolute bottom-full mb-2 hidden w-auto p-2 text-xs text-white bg-black rounded-md shadow-lg">Positive</span>
+            class="absolute bottom-full mb-2 hidden w-auto p-2 text-xs text-white bg-black rounded-md shadow-lg">{{ __('messages.rating_positive') }}</span>
     </label>
 
     <!-- Strongly Positive -->
     <label class="group relative cursor-pointer rating-option">
         <input type="radio" name="rating{{$player->id}}" class="hidden"
-               autocomplete="off" value="5" aria-label="Strongly positive"
+               autocomplete="off" value="5" aria-label="{{ __('messages.rating_strongly_positive') }}"
                wire:model.live="ratings.{{$player->id}}">
         <span
             class="inline-flex items-center px-3 py-1 rounded-full bg-green-600 text-white transition-opacity duration-150 {{ (isset($ratings[$player->id]) && $ratings[$player->id] == 5) ? '' : 'opacity-50' }}">
@@ -114,6 +114,6 @@
             </svg>
         </span>
         <span
-            class="absolute bottom-full mb-2 hidden w-auto p-2 text-xs text-white bg-black rounded-md shadow-lg">Strongly Positive</span>
+            class="absolute bottom-full mb-2 hidden w-auto p-2 text-xs text-white bg-black rounded-md shadow-lg">{{ __('messages.rating_strongly_positive') }}</span>
     </label>
 </div>

@@ -53,7 +53,7 @@ class OpponentController extends Controller
         ]);
         $opponent->save();
 
-        return redirect()->route('opponents.index')->with('success-message', 'Opponent created successfully!');
+        return redirect()->route('opponents.index')->with('success-message', __('messages.opponent_created'));
     }
 
     /**
@@ -96,7 +96,7 @@ class OpponentController extends Controller
 
         $opponent->update($data);
 
-        return redirect()->route('opponents.index')->with('success-message', 'Opponent updated successfully!');
+        return redirect()->route('opponents.index')->with('success-message', __('messages.opponent_updated'));
     }
 
     /**
@@ -108,6 +108,6 @@ class OpponentController extends Controller
 
         $opponent->delete();
 
-        return redirect()->route('opponents.index')->with('success-message', 'Opponent successfully deleted!');
+        return redirect()->route('opponents.index')->with('success-message', __('messages.opponent_deleted'));
     }
 }

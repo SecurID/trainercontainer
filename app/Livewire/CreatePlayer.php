@@ -40,7 +40,7 @@ class CreatePlayer extends Component
             $player->subPositions()->attach($this->sub_position_ids);
         }
 
-        session()->flash('message', 'Player created successfully.');
+        session()->flash('message', __('messages.player_created'));
 
         $this->reset(['prename', 'lastname', 'main_position_id', 'sub_position_ids']);
     }

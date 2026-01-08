@@ -80,7 +80,7 @@ class PracticeController extends Controller
         }
 
         return response()->json([
-            'message' => 'Practice created successfully',
+            'message' => __('messages.practice_created'),
         ]);
     }
 
@@ -116,7 +116,7 @@ class PracticeController extends Controller
         $practice->schedules()->delete();
         $practice->delete();
 
-        return redirect()->route('practices.index')->with('success-message', 'Practice successfully deleted!');
+        return redirect()->route('practices.index')->with('success-message', __('messages.practice_deleted'));
     }
 
     public function print(Practice $practice): PdfBuilder

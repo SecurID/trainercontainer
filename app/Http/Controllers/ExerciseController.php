@@ -113,6 +113,6 @@ class ExerciseController extends Controller
             $exercise->categories()->sync($validatedData['categories']);
         }
 
-        return redirect()->route('exercises.show', $exercise->id)->with('success', 'Exercise updated successfully.');
+        return redirect()->route('exercises.show', $exercise->id)->with('success', __('messages.exercise_updated'));
     }
 }

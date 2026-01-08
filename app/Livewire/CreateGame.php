@@ -63,7 +63,7 @@ class CreateGame extends Component
         ]);
         $game->save();
 
-        session()->flash('success-message', 'Spiel erfolgreich erstellt!');
+        session()->flash('success-message', __('messages.game_created'));
 
         return redirect()->route('games.index');
     }

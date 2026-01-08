@@ -53,7 +53,7 @@ class CreateRecurringPractice extends Component
             $user->practices()->create([
                 'date' => $date->format('Y-m-d'),
                 'time' => $this->time,
-                'topic' => 'Training',
+                'topic' => __('messages.training'),
             ]);
         }
         $this->success = true;

@@ -3,14 +3,14 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <flux:field>
                 <flux:label>{{ __('Opponent') }}</flux:label>
-                <flux:select wire:model="opponent_id" placeholder="{{ __('Select opponent') }}">
+                <flux:select wire:model="opponent_id" variant="listbox" placeholder="{{ __('Select opponent') }}">
                     @foreach($opponents as $opponent)
                         <flux:select.option value="{{ $opponent->id }}">{{ $opponent->name }}</flux:select.option>
                     @endforeach
                 </flux:select>
                 @if(count($opponents) === 0)
                     <flux:description>
-                        {{ __('No opponents found.') }} <a href="{{ route('opponents.create') }}" class="text-zinc-600 hover:text-zinc-800 underline">{{ __('Create one first') }}</a>
+                        {{ __('No opponents found.') }} <flux:link href="{{ route('opponents.create') }}">{{ __('Create one first') }}</flux:link>
                     </flux:description>
                 @endif
                 <flux:error name="opponent_id" />
@@ -18,7 +18,7 @@
 
             <flux:field>
                 <flux:label>{{ __('Opponent Formation') }}</flux:label>
-                <flux:select wire:model="opponent_formation" placeholder="{{ __('Select formation') }}">
+                <flux:select wire:model="opponent_formation" variant="listbox" placeholder="{{ __('Select formation') }}">
                     @foreach($formations as $formation)
                         <flux:select.option value="{{ $formation }}">{{ $formation }}</flux:select.option>
                     @endforeach
@@ -28,13 +28,13 @@
 
             <flux:field>
                 <flux:label>{{ __('Date') }}</flux:label>
-                <flux:input type="date" wire:model="date" required />
+                <flux:date-picker wire:model="date" />
                 <flux:error name="date" />
             </flux:field>
 
             <flux:field>
                 <flux:label>{{ __('Time') }}</flux:label>
-                <flux:input type="time" wire:model="time" />
+                <flux:time-picker wire:model="time" />
                 <flux:error name="time" />
             </flux:field>
 
@@ -46,11 +46,7 @@
         </div>
 
         <div class="mt-6">
-            <flux:field>
-                <flux:label>{{ __('Notes') }}</flux:label>
-                <flux:textarea wire:model="notes" rows="4" placeholder="{{ __('Additional notes about the game') }}" />
-                <flux:error name="notes" />
-            </flux:field>
+            <flux:editor wire:model="notes" label="{{ __('Notes') }}" placeholder="{{ __('Additional notes about the game') }}" />
         </div>
 
         <div class="flex items-center justify-end mt-6">

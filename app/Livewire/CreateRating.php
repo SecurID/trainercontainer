@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Player;
 use App\Models\Practice;
 use App\Models\Rating;
+use Flux\Flux;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
@@ -52,7 +53,7 @@ class CreateRating extends Component
                 'date' => $practice?->date,
             ]);
         }
-        session()->flash('success', __('messages.ratings_saved'));
+        Flux::toast(__('messages.ratings_saved'));
 
         return redirect()->route('players.index');
     }

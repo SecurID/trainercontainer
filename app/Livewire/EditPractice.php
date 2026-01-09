@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Practice;
+use Flux\Flux;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
@@ -16,8 +17,6 @@ class EditPractice extends Component
     public string $topic = '';
 
     public string $date = '';
-
-    public string $successMessage = '';
 
     public ?int $playerCount = null;
 
@@ -71,12 +70,7 @@ class EditPractice extends Component
 
     private function showSuccessMessage(): void
     {
-        $this->successMessage = __('messages.saved');
-    }
-
-    public function clearSuccessMessage(): void
-    {
-        $this->successMessage = '';
+        Flux::toast(__('messages.saved'));
     }
 
     public function render(): View

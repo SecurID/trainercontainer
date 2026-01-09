@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\User;
+use Flux\Flux;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
@@ -26,7 +27,7 @@ class CreateOpponent extends Component
             'notes' => $this->notes,
         ]);
 
-        session()->flash('message', __('messages.opponent_created'));
+        Flux::toast(__('messages.opponent_created'));
 
         $this->reset(['name', 'notes']);
     }

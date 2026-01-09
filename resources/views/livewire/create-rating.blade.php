@@ -47,10 +47,6 @@
                         </div>
                     </form>
                 @endif
-
-                @if (session()->has('success'))
-                    <div class="mt-4 text-green-600">{{ session('success') }}</div>
-                @endif
             </div>
         </div>
     </div>

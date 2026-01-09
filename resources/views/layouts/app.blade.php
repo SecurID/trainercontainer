@@ -33,5 +33,21 @@
         @stack('scripts')
         @fluxScripts
         <flux:toast />
+
+        @if(session('success-message') || session('success') || session('message'))
+            <script>
+                document.addEventListener('livewire:init', () => {
+                    @if(session('success-message'))
+                        $flux.toast('{{ session('success-message') }}')
+                    @endif
+                    @if(session('success'))
+                        $flux.toast('{{ session('success') }}')
+                    @endif
+                    @if(session('message'))
+                        $flux.toast('{{ session('message') }}')
+                    @endif
+                })
+            </script>
+        @endif
     </body>
 </html>

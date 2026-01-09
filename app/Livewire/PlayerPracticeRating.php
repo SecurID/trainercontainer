@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Player;
 use App\Models\Practice;
 use App\Models\Rating;
+use Flux\Flux;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
@@ -44,7 +45,7 @@ class PlayerPracticeRating extends Component
             ]
         );
         $this->ratingId = $rating->id;
-        session()->flash('success', __('messages.rating_saved'));
+        Flux::toast(__('messages.rating_saved'));
     }
 
     public function render(): View

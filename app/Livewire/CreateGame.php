@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Game;
 use App\Models\User;
+use Flux\Flux;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -63,7 +64,7 @@ class CreateGame extends Component
         ]);
         $game->save();
 
-        session()->flash('success-message', __('messages.game_created'));
+        Flux::toast(__('messages.game_created'));
 
         return redirect()->route('games.index');
     }

@@ -1,11 +1,5 @@
 <div>
-    @if($successMessage)
-        <div class="mb-4 p-3 bg-green-100 text-green-800 rounded-lg text-sm font-medium animate-pulse">
-            {{ $successMessage }}
-        </div>
-    @endif
-
-        <!-- Desktop Table View -->
+    <!-- Desktop Table View -->
         <div class="hidden lg:block">
             <div class="overflow-x-auto">
                 <table class="w-full table-auto border-collapse">
@@ -162,13 +156,3 @@
         </flux:button>
     </div>
 </div>
-
-<script>
-    document.addEventListener('livewire:init', () => {
-        Livewire.on('success-message', () => {
-            setTimeout(() => {
-                @this.set('successMessage', '');
-            }, 2000);
-        });
-    });
-</script>

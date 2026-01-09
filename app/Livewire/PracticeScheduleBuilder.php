@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Exercise;
 use App\Models\Practice;
 use App\Models\Schedule;
+use Flux\Flux;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
@@ -21,8 +22,6 @@ class PracticeScheduleBuilder extends Component
 
     /** @var Collection<int, Exercise> */
     public Collection $exercises;
-
-    public string $successMessage = '';
 
     /** @var array<string, string> */
     protected array $rules = [
@@ -214,8 +213,7 @@ class PracticeScheduleBuilder extends Component
 
     private function showSuccessMessage(string $message): void
     {
-        $this->successMessage = $message;
-        $this->dispatch('success-message');
+        Flux::toast($message);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Position;
 use App\Models\User;
+use Flux\Flux;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
@@ -40,7 +41,7 @@ class CreatePlayer extends Component
             $player->subPositions()->attach($this->sub_position_ids);
         }
 
-        session()->flash('message', __('messages.player_created'));
+        Flux::toast(__('messages.player_created'));
 
         $this->reset(['prename', 'lastname', 'main_position_id', 'sub_position_ids']);
     }

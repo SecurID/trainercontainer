@@ -15,7 +15,7 @@
     "dependencies": {
         "axios": "^1.13.2",
         "fabric": "^5.5.2",
-        "puppeteer": "^23.0.0",
+        "puppeteer": "^24.35.0",
         "trix": "^2.1.15",
         "vue": "^3.5.17"
     }

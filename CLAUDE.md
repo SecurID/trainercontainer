@@ -4,18 +4,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a **Laravel 12** application for sports trainers to manage players, practices, exercises, and ratings. It's designed as a training management system with features for player performance tracking and practice organization.
+This is a **Laravel 13** application for sports trainers to manage players, practices, exercises, and ratings. It's designed as a training management system with features for player performance tracking and practice organization.
 
 ## Technology Stack
 
-- **Backend**: Laravel 12 (PHP 8.4+)
-- **Frontend**: Livewire 3, TailwindCSS, Vue.js components
+- **Backend**: Laravel 13 (PHP 8.4+)
+- **Frontend**: Livewire 4, TailwindCSS 4, Vue.js 3 components
 - **Authentication**: Laravel Jetstream with Sanctum
 - **Database**: SQLite (default), MySQL support
-- **Testing**: Pest PHP
-- **Build**: Vite with Laravel plugin
-- **UI Framework**: FluxUI Pro 
-- **SoccerDraw**: There is a vue app installed which is a drawing tool for soccer exercises. Ignore it until changes to it are explicitly required
+- **Testing**: Pest PHP 4
+- **Build**: Vite 8 with Laravel plugin
+- **UI Framework**: FluxUI Pro 2
+- **SoccerDraw**: There is a vue app installed which is a drawing tool for soccer exercises. Ignore it until changes to it are explicitly required. NOTE: its `fabric` dependency is intentionally pinned to v5 — upgrading to fabric 6/7 requires rewriting all custom shape classes (they use the removed `fabric.util.createClass`/`callSuper` API).
 
 ## Core Architecture
 

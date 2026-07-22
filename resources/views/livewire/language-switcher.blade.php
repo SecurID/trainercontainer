@@ -1,11 +1,11 @@
 <flux:dropdown position="bottom" align="end">
     <flux:button variant="ghost" icon-trailing="chevron-down" size="sm">
-        <span class="max-sm:sr-only">{{ $availableLocales[$currentLocale] }}</span>
+        <span class="max-sm:sr-only">{{ $this->availableLocales[$currentLocale] ?? strtoupper($currentLocale) }}</span>
     </flux:button>
 
     <flux:menu>
         <flux:menu.heading>{{ __('Language') }}</flux:menu.heading>
-        @foreach($availableLocales as $locale => $language)
+        @foreach($this->availableLocales as $locale => $language)
             <flux:menu.item
                 wire:click="switchLanguage('{{ $locale }}')"
                 icon="{{ $currentLocale === $locale ? 'check' : '' }}"

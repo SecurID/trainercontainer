@@ -1,4 +1,4 @@
-It shou<?php
+<?php
 
 use App\Livewire\LanguageSwitcher;
 use App\Models\User;
@@ -73,4 +73,17 @@ it('highlights current language', function () {
     Livewire::test(LanguageSwitcher::class)
         ->assertSet('currentLocale', 'en')
         ->assertSee('EN');
+});
+
+it('renders without error when the active locale is not in the map', function () {
+    $this->actingAs($this->user);
+
+    // A regional or unknown locale (e.g. from an Accept-Language header or a
+    // stale user preference) must not crash the switcher's label lookup.
+    App::setLocale('de_DE');
+
+    Livewire::test(LanguageSwitcher::class)
+        ->assertSet('currentLocale', 'de_DE')
+        ->assertOk()
+        ->assertSee('DE_DE');
 });

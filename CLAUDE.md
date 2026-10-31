@@ -8,11 +8,11 @@ This is a **Laravel 13** application for sports trainers to manage players, prac
 
 ## Technology Stack
 
-- **Backend**: Laravel 13 (PHP 8.4+)
+- **Backend**: Laravel 13 (PHP 8.5+)
 - **Frontend**: Livewire 4, TailwindCSS 4, Vue.js 3 components
 - **Authentication**: Laravel Jetstream with Sanctum
 - **Database**: SQLite (default), MySQL support
-- **Testing**: Pest PHP 4
+- **Testing**: Pest PHP 5
 - **Build**: Vite 8 with Laravel plugin
 - **UI Framework**: FluxUI Pro 2
 - **SoccerDraw**: There is a vue app installed which is a drawing tool for soccer exercises. Ignore it until changes to it are explicitly required. NOTE: its `fabric` dependency is intentionally pinned to v5 — upgrading to fabric 6/7 requires rewriting all custom shape classes (they use the removed `fabric.util.createClass`/`callSuper` API).

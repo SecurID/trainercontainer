@@ -129,7 +129,7 @@ php artisan migrate:rollback
 
 ## Deployment Notes
 
-- Uses Sidecar with Browsershot for PDF generation (requires Puppeteer)
+- PDF generation uses spatie/laravel-pdf with its Browsershot driver, rendered locally (requires Node.js, Puppeteer and Chrome/Chromium on the server)
 - Environment variables configured for various services (mail, cache, queue)
 - Supports Docker deployment (Dockerfile present)
 

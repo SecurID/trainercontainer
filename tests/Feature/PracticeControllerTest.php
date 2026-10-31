@@ -5,6 +5,10 @@ use App\Models\Player;
 use App\Models\Practice;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\LaravelPdf\Enums\Format;
+use Spatie\LaravelPdf\Enums\Orientation;
+use Spatie\LaravelPdf\Facades\Pdf;
+use Spatie\LaravelPdf\PdfBuilder;
 
 uses(RefreshDatabase::class);
 
@@ -215,4 +219,30 @@ it('orders past practices by date descending', function () {
     $pastPractices = $response->viewData('pastPractices');
     expect($pastPractices->first()->date->format('Y-m-d'))->toBe(now()->subDays(10)->format('Y-m-d'));
     expect($pastPractices->last()->date->format('Y-m-d'))->toBe(now()->subDays(30)->format('Y-m-d'));
+});
+
+it('prints a practice as a landscape A4 pdf', function () {
+    Pdf::fake();
+    $practice = Practice::factory()->create(['user_id' => $this->user->id, 'date' => '2026-11-14']);
+
+    $response = $this->actingAs($this->user)->get(route('print', $practice));
+
+    $response->assertSuccessful();
+    Pdf::assertRespondedWithPdf(function (PdfBuilder $pdf) use ($practice): bool {
+        return $pdf->viewName === 'pdf/practice'
+            && $pdf->viewData['practice']->is($practice)
+            && $pdf->format === Format::A4->value
+            && $pdf->orientation === Orientation::Landscape->value
+            && $pdf->downloadName === 'practice-2026-11-14.pdf';
+    });
+});
+
+it('denies printing other users practice', function () {
+    Pdf::fake();
+    $otherUser = User::factory()->create();
+    $practice = Practice::factory()->create(['user_id' => $otherUser->id]);
+
+    $response = $this->actingAs($this->user)->get(route('print', $practice));
+
+    $response->assertForbidden();
 });

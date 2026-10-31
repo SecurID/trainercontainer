@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Practice;
 use App\Models\User;
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
@@ -123,13 +124,12 @@ class PracticeController extends Controller
     {
         $this->authorize('view', $practice);
 
-        /** @var \Carbon\Carbon $date */
+        /** @var Carbon $date */
         $date = $practice->date;
 
         return Pdf::view('pdf/practice', ['practice' => $practice, 'schedules' => $practice->schedules()->get()])
             ->format(Format::A4)
             ->landscape()
-            ->name('practice-'.$date->format('Y-m-d').'.pdf')
-            ->onLambda();
+            ->name('practice-'.$date->format('Y-m-d').'.pdf');
     }
 }
